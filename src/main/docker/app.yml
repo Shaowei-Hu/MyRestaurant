@@ -1,0 +1,19 @@
+version: '2'
+services:
+    myrestaurant-app:
+        image: myrestaurant
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://myrestaurant-mysql:3306/myrestaurant?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=myrestaurant-elasticsearch:9300
+        ports:
+            - 8080:8080
+    myrestaurant-mysql:
+        extends:
+            file: mysql.yml
+            service: myrestaurant-mysql
+    myrestaurant-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: myrestaurant-elasticsearch
