@@ -83,4 +83,11 @@
             </tbody>
         </table>
     </div>
+
+    	<div  *ngFor="let desk of desks ;trackBy: trackId">
+    	<button class="btn btn-primary" type="button" [routerLink]="['../desk', desk.id ]">
+			{{desk.name}} <span class="badge">{{desk.clientNumber}}</span>
+		</button>
+    	</div>
+
 </div>
