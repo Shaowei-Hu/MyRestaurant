@@ -1,0 +1,28 @@
+{
+    "myRestaurantApp": {
+        "desk" : {
+            "home": {
+                "title": "Desks",
+                "createLabel": "建立一筆新的 Desk",
+                "createOrEditLabel": "建立或編輯 Desk",
+                "search": "搜尋 Desk"
+            },
+            "created": "新的 Desk 建立成功，識別碼為 {{ param }}",
+            "updated": "識別碼為 {{ param }} 的 Desk 更新成功",
+            "deleted": "識別碼為 {{ param }} 的 Desk 刪除成功",
+            "delete": {
+                "question": "您確定要刪除 Desk {{ id }} 嗎?"
+            },
+            "detail": {
+                "title": "Desk"
+            },
+            "name": "Name",
+            "status": "Status",
+            "clientNumber": "Client Number",
+            "amount": "Amount",
+            "restaurant": "Restaurant",
+            "ordre": "Ordre",
+            "payment": "Payment"
+        }
+    }
+}

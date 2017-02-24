@@ -20,5 +20,23 @@
 
     <cache alias="com.shaowei.restaurant.domain.User.persistentTokens" uses-template="simple"/>
 
+    <cache alias="com.shaowei.restaurant.domain.Desk" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Desk.ordres" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Desk.payments" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Ordre" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Payment" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Payment.ordres" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Product" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Restaurant" uses-template="simple"/>
+
+    <cache alias="com.shaowei.restaurant.domain.Restaurant.desks" uses-template="simple"/>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </config>

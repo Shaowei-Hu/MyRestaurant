@@ -1,0 +1,35 @@
+
+<div *ngIf="payment">
+    <h2><span jhiTranslate="myRestaurantApp.payment.detail.title">Payment</span> {{payment.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row">
+        <dt><span jhiTranslate="myRestaurantApp.payment.type">Type</span></dt>
+        <dd>
+            <span>{{payment.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.payment.amount">Amount</span></dt>
+        <dd>
+            <span>{{payment.amount}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.payment.desk">Desk</span></dt>
+        <dd>
+            <div *ngIf="payment.desk">
+                <a [routerLink]="['/desk', payment.desk?.id]">{{payment.desk?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'payment/'+ payment.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

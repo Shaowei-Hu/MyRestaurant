@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "ordre",
+            "otherEntityName": "ordre",
+            "otherEntityRelationshipName": "payment"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "desk",
+            "otherEntityName": "desk",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "changelogDate": "20170224101812",
+    "entityTableName": "payment",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass"
+}

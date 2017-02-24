@@ -1,0 +1,90 @@
+<div>
+    <h2><span jhiTranslate="myRestaurantApp.ordre.home.title">Ordres</span>
+        <button class="btn btn-primary float-xs-right create-ordre" [routerLink]="['/', { outlets: { popup: ['ordre-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="myRestaurantApp.ordre.home.createLabel">
+            Create new Ordre
+            </span>
+        </button></h2>
+    <jhi-alert></jhi-alert>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right">
+                        <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'myRestaurantApp.ordre.home.search' | translate }}">
+                        <span  class="input-group-btn width-min">
+                            <button class="btn btn-info" (click)="search(currentSearch)">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" *ngIf="currentSearch">
+                            <button class="btn btn-info" (click)="clear()">
+                                <span class="fa fa-trash-o"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="ordres">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="myRestaurantApp.ordre.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="status"><span jhiTranslate="myRestaurantApp.ordre.status">Status</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="price"><span jhiTranslate="myRestaurantApp.ordre.price">Price</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="desk.id"><span jhiTranslate="myRestaurantApp.ordre.desk">Desk</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="payment.id"><span jhiTranslate="myRestaurantApp.ordre.payment">Payment</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let ordre of ordres ;trackBy: trackId">
+                <td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
+                <td>{{ordre.name}}</td>
+                <td>{{ordre.status}}</td>
+                <td>{{ordre.price}}</td>
+                <td>
+                    <div *ngIf="ordre.desk">
+                        <a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="ordre.payment">
+                        <a [routerLink]="['../payment', ordre.payment?.id ]" >{{ordre.payment?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-xs-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../ordre', ordre.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

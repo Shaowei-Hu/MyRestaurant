@@ -1,0 +1,46 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "restaurant",
+            "otherEntityName": "restaurant",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "ordre",
+            "otherEntityName": "ordre",
+            "otherEntityRelationshipName": "desk"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "otherEntityRelationshipName": "desk"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "clientNumber",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "changelogDate": "20170224101812",
+    "entityTableName": "desk",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceClass"
+}

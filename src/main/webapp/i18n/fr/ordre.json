@@ -1,0 +1,26 @@
+{
+    "myRestaurantApp": {
+        "ordre" : {
+            "home": {
+                "title": "Ordres",
+                "createLabel": "Créer un nouveau Ordre",
+                "createOrEditLabel": "Créer ou éditer un Ordre",
+                "search": "Recherche pour Ordre"
+            },
+            "created": "Un nouveau Ordre a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Ordre avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Ordre avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Ordre {{ id }} ?"
+            },
+            "detail": {
+                "title": "Ordre"
+            },
+            "name": "Name",
+            "status": "Status",
+            "price": "Price",
+            "desk": "Desk",
+            "payment": "Payment"
+        }
+    }
+}
