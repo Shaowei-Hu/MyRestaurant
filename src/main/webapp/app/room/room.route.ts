@@ -21,7 +21,7 @@ export const roomRoute: Routes = [
         pageTitle: 'myRestaurantApp.desk.home.title'
     }
   }, {
-    path: 'desk/:id',
+    path: 'desk/:id/edit',
     component: DeskDetailComponent,
     data: {
         authorities: ['ROLE_USER'],
@@ -32,7 +32,7 @@ export const roomRoute: Routes = [
 
 export const deskPopupRoute: Routes = [
   {
-    path: 'desk/:id/edit',
+    path: 'desk/:id',
     component: DeskPopupComponent,
     data: {
         authorities: ['ROLE_USER'],
