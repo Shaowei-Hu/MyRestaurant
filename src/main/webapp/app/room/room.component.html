@@ -1,11 +1,5 @@
 <div>
-    <h2><span jhiTranslate="myRestaurantApp.desk.home.title">Desks</span>
-        <button class="btn btn-primary float-xs-right create-desk" [routerLink]="['/', { outlets: { popup: ['desk-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="myRestaurantApp.desk.home.createLabel">
-            Create new Desk
-            </span>
-        </button></h2>
+    <h2><span jhiTranslate="myRestaurantApp.desk.home.title">Desks</span></h2>
     <jhi-alert></jhi-alert>
 
     <div class="container-fluid">
@@ -82,6 +76,17 @@
             </tr>
             </tbody>
         </table>
-    </div>
+        
+		<div *ngFor="let desk of desks ;trackBy: trackId" class="col-lg-2 col-sm-3">
+			<div class="desk"
+					[routerLink]="['/', { outlets: { popup: 'desk/'+ desk.id + '/edit'} }]"
+                    replaceUrl="true">
+				<h2>{{desk.name}}<small>({{desk.clientNumber}})</small></h2> 
+			</div>
+		</div>
+		<br/>
+	</div>
+
+
 
 </div>

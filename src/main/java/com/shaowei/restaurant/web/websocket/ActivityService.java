@@ -23,7 +23,7 @@ import java.util.Calendar;
 
 import static com.shaowei.restaurant.config.WebsocketConfiguration.IP_ADDRESS;
 
-@Controller
+//@Controller
 public class ActivityService implements ApplicationListener<SessionDisconnectEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(ActivityService.class);

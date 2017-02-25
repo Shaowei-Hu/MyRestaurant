@@ -212,3 +212,32 @@ ui bootstrap tweaks
 
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+.desk{
+	border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    margin-bottom: 8px;
+	flex: 1;
+    height: 80px; 
+    text-align: center;
+    box-shadow: 8px 8px 5px #888888;
+}
+
+.desk:hover{
+	cursor: pointer;
+	background-color: yellow;
+	box-shadow: 3px 3px 5px #888888;
+}
+
+.desk-occupied{
+	border-radius: 25px;
+    border: 2px solid pink;
+    background-color: pink;
+    padding: 20px;
+	flex: 1;
+    height: 80px; 
+    text-align: center;
+    box-shadow: 8px 8px 5px #888888;
+}
+
