@@ -34,7 +34,7 @@ export class DeskDetailComponent implements OnInit, OnDestroy {
         });
     }
     previousState() {
-        window.history.back();
+//        window.history.back();
     }
 
     ngOnDestroy() {
