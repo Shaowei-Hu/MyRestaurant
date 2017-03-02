@@ -15,7 +15,7 @@ import { PaginationConfig } from '../blocks/config/uib-pagination.config';
     templateUrl: './room.component.html'
 })
 export class RoomComponent implements OnInit, OnDestroy {
-desks: Desk[];
+    desks: Desk[];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
@@ -88,5 +88,15 @@ desks: Desk[];
 
     private onError (error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    getDeskStatus(flag: string) {
+      let cssClasses;
+      if (flag === 'occupied') {
+        cssClasses = 'panel panel-warning desk-occupied';
+      } else {
+        cssClasses = 'panel panel-primary desk';
+      }
+      return cssClasses;
     }
 }

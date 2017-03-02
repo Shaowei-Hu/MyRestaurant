@@ -26,7 +26,37 @@
     <br/>
     
     <div class="table-responsive" *ngIf="desks">
-        <table class="table table-striped">
+
+
+		<div *ngFor="let desk of desks ;trackBy: trackId"
+			class="col-lg-2 col-md-3 col-sm-6">
+	
+				<div [ngClass]="getDeskStatus(desk.status)">
+					<div class="panel-heading" [routerLink]="['../desk', desk.id ]">
+						<div class="row">
+							<div class="col-xs-3">
+								<i *ngIf="desk.clientNumber>=5" class="fa fa-users fa-5x"></i>
+								<i *ngIf="desk.clientNumber<5" class="fa fa-user fa-5x"></i>
+							</div>
+							<div class="col-xs-9 text-right">
+								<div class="huge">{{desk.name}}</div>
+								<div class="badge">{{desk.clientNumber}}</div>
+							</div>
+						</div>
+					</div>
+					<a [routerLink]="['/', { outlets: { popup: 'desk/'+ desk.id } }]">
+						<div class="panel-footer">
+							<span class="pull-left">View Details</span> <span
+								class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							<div class="clearfix"></div>
+						</div>
+					</a>
+				</div>
+			
+		</div>
+		<br/><br/><br/>
+		
+		   <table class="table table-striped">
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
@@ -77,33 +107,7 @@
             </tr>
             </tbody>
         </table>
-
-		<div *ngFor="let desk of desks ;trackBy: trackId"
-			class="col-lg-3 col-md-6 col-sm-6">
-	
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-users fa-5x"></i>
-							</div>
-							<div class="col-xs-9 text-right">
-								<div class="huge">{{desk.name}}</div>
-								<div class="badge">{{desk.clientNumber}}</div>
-							</div>
-						</div>
-					</div>
-					<a [routerLink]="['/', { outlets: { popup: 'desk/'+ desk.id } }]">
-						<div class="panel-footer">
-							<span class="pull-left">View Details</span> <span
-								class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-							<div class="clearfix"></div>
-						</div>
-					</a>
-				</div>
-			
-		</div>
-		<br/>
+        
 	</div>
 
 
