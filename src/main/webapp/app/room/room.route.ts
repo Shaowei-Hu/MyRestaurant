@@ -5,7 +5,7 @@ import { UserRouteAccessService } from '../shared';
 import { PaginationUtil } from 'ng-jhipster';
 
 import { RoomComponent } from './room.component';
-import { DeskDetailComponent } from './desk-detail.component';
+import { DeskOperationComponent } from './desk-operation.component';
 import { DeskPopupComponent } from './desk-dialog.component';
 
 
@@ -21,8 +21,8 @@ export const roomRoute: Routes = [
         pageTitle: 'myRestaurantApp.desk.home.title'
     }
   }, {
-    path: 'desk/:id/edit',
-    component: DeskDetailComponent,
+    path: 'room/desk/:id/operation',
+    component: DeskOperationComponent,
     data: {
         authorities: ['ROLE_USER'],
         pageTitle: 'myRestaurantApp.desk.home.title'

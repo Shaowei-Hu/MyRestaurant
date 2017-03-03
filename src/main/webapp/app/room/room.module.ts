@@ -7,7 +7,7 @@ import {
     RoomService,
     DeskPopupService,
     RoomComponent,
-    DeskDetailComponent,
+    DeskOperationComponent,
     DeskDialogComponent,
     DeskPopupComponent,
     roomRoute,
@@ -26,12 +26,13 @@ let ENTITY_STATES = [
     ],
     declarations: [
         RoomComponent,
-        DeskDetailComponent,
+        DeskOperationComponent,
         DeskDialogComponent,
         DeskPopupComponent,
     ],
     entryComponents: [
         RoomComponent,
+        DeskOperationComponent,
         DeskDialogComponent,
         DeskPopupComponent,
     ],
