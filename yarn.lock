@@ -254,6 +254,10 @@ angular2-template-loader@0.6.2:
   dependencies:
     loader-utils "^0.2.15"
 
+angular2-ui-switch@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/angular2-ui-switch/-/angular2-ui-switch-1.2.0.tgz#096a2ccc3eed06e78ef76130cd27a8220e2c0a50"
+
 ansi-align@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-1.1.0.tgz#2f0c1658829739add5ebb15e6b0c6e3423f016ba"

@@ -214,7 +214,9 @@ ui bootstrap tweaks
 /* jhipster-needle-scss-add-main JHipster will add new css style */
 
 
-
+.desk, .desk-occupied{
+	margin-top: 8px;
+}
 
 .desk:hover{
 	cursor: pointer;

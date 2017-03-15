@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MyRestaurantSharedModule } from '../shared';
+import { UiSwitchModule } from 'angular2-ui-switch';
 
 import {
     RoomService,
@@ -22,6 +23,7 @@ let ENTITY_STATES = [
 @NgModule({
     imports: [
         MyRestaurantSharedModule,
+        UiSwitchModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [

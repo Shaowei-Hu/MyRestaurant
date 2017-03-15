@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 import { Room } from './room.model';
 import { Desk } from '../entities/desk';
+
 import { RoomService } from './room.service';
 
 import { Response } from '@angular/http';
 
+import { Product, ProductService } from '../entities/product';
 import { Ordre, OrdreService } from '../entities/ordre';
 import { Payment, PaymentService } from '../entities/payment';
 
@@ -22,6 +24,9 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     isSaving: boolean;
     ordres: Ordre[];
     payments: Payment[];
+    products: Product[];
+    isAddOrder: boolean;
+    quantity: number;
 
     private subscription: any;
 
@@ -29,6 +34,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
         private roomService: RoomService,
+        private productService: ProductService,
         private ordreService: OrdreService,
         private paymentService: PaymentService,
         private eventManager: EventManager,
@@ -38,13 +44,17 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.quantity = 1;
         this.isSaving = false;
+        this.isAddOrder = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.subscription = this.route.params.subscribe(params => {
           this.load(params['id']);
         });
-//        this.ordreService.query().subscribe(
-//            (res: Response) => { this.ordres = res.json(); }, (res: Response) => this.onError(res.json()));
+        this.productService.query().subscribe(
+            (res: Response) => { this.products = res.json(); }, (res: Response) => this.onError(res.json()));
+        this.ordreService.query().subscribe(
+            (res: Response) => { this.ordres = res.json(); }, (res: Response) => this.onError(res.json()));
 //        this.paymentService.query().subscribe(
 //            (res: Response) => { this.payments = res.json(); }, (res: Response) => this.onError(res.json()));
     }
@@ -70,6 +80,44 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         });
     }
 
+    addOrder() {
+      this.desk.ordre = null;
+    }
+
+    isAddOrderToggle () {
+      this.isAddOrder = !this.isAddOrder;
+    }
+
+    addCommand (id) {
+      let productSelected = this.products.filter(function(product: Product){
+        return product.id === id;
+      });
+      for (let i = 0; i < this.quantity; i++) {
+        this.ordres.push(this.product2order(productSelected[0]));
+      }
+      this.quantity = 1;
+    }
+
+    getTableStatus(): boolean {
+      return this.desk.status === 'occupied' ? true : false;
+    }
+
+    private product2order (product: Product): Ordre {
+      let order: Ordre = new Ordre();
+      order.name = product.name;
+      order.price = product.price;
+      order.desk = this.desk;
+      return order;
+    }
+
+    onChange (value) {
+      if (value) {
+        this.desk.status = 'occupied';
+      } else {
+        this.desk.status = 'unoccupied';
+      }
+    }
+
     private onSaveSuccess (result: Desk) {
         this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
         this.isSaving = false;
@@ -89,6 +137,10 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     }
 
     trackPaymentById(index: number, item: Payment) {
+        return item.id;
+    }
+
+    trackProductById(index: number, item: Product) {
         return item.id;
     }
 }
