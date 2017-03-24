@@ -128,7 +128,7 @@
 	</div>
 
 
-    <div class="table-responsive" *ngIf="ordres">
+    <div class="table-responsive" *ngIf="desk?.ordre">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -142,7 +142,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let ordre of ordres ;trackBy: trackOrdreById">
+            <tr *ngFor="let ordre of desk.ordre ;trackBy: trackOrdreById">
                 <td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
                 <td>{{ordre.name}}</td>
                 <td>{{ordre.status}}</td>

@@ -22,7 +22,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     desk: Desk;
     authorities: any[];
     isSaving: boolean;
-    ordres: Ordre[];
     payments: Payment[];
     products: Product[];
     isAddOrder: boolean;
@@ -53,8 +52,8 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         });
         this.productService.query().subscribe(
             (res: Response) => { this.products = res.json(); }, (res: Response) => this.onError(res.json()));
-        this.ordreService.query().subscribe(
-            (res: Response) => { this.ordres = res.json(); }, (res: Response) => this.onError(res.json()));
+//        this.ordreService.query().subscribe(
+//            (res: Response) => { this.ordres = res.json(); }, (res: Response) => this.onError(res.json()));
 //        this.paymentService.query().subscribe(
 //            (res: Response) => { this.payments = res.json(); }, (res: Response) => this.onError(res.json()));
     }
@@ -77,11 +76,12 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     load (id) {
         this.roomService.find(id).subscribe(desk => {
             this.desk = desk;
+            this.desk.ordre = [];
         });
     }
 
     addOrder() {
-      this.desk.ordre = null;
+//      this.desk.ordre = null;
     }
 
     isAddOrderToggle () {
@@ -93,7 +93,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         return product.id === id;
       });
       for (let i = 0; i < this.quantity; i++) {
-        this.ordres.push(this.product2order(productSelected[0]));
+        this.desk.ordre.push(this.product2order(productSelected[0]));
       }
       this.quantity = 1;
     }
