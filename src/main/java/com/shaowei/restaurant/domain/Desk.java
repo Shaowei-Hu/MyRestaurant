@@ -1,6 +1,9 @@
 package com.shaowei.restaurant.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -19,6 +22,9 @@ import java.util.Objects;
 @Table(name = "desk")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "desk")
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Desk implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,13 +49,10 @@ public class Desk implements Serializable {
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "desk")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Ordre> ordres = new HashSet<>();
 
     @OneToMany(mappedBy = "desk")
     @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Payment> payments = new HashSet<>();
 
     public Long getId() {
@@ -203,6 +206,7 @@ public class Desk implements Serializable {
             ", status='" + status + "'" +
             ", clientNumber='" + clientNumber + "'" +
             ", amount='" + amount + "'" +
+            ", order_size='" + ordres.size() + "'" +
             '}';
     }
 }

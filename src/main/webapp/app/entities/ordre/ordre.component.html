@@ -51,7 +51,7 @@
                 <td>{{ordre.price}}</td>
                 <td>
                     <div *ngIf="ordre.desk">
-                        <a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
+                        <a [routerLink]="['../desk', ordre.desk ]" >{{ordre.desk}}</a>
                     </div>
                 </td>
                 <td>

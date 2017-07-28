@@ -9,7 +9,7 @@ export class Desk {
         public clientNumber?: number,
         public amount?: number,
         public restaurant?: Restaurant,
-        public ordre?: Ordre[],
+        public ordres?: Ordre[],
         public payment?: Payment,
     ) { }
 }
