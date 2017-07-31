@@ -132,6 +132,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
                 .subscribe((res: Ordre) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()))
                 )
             this.ordreTemp = [];
+            this.load(this.desk.id);
         } else {
 
         }
@@ -156,10 +157,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     private ordres2ordresWithQuantities(ordres:Ordre[]): OrdreWithQuantity[] {
         
         return null;
-    }
-
-    uniq(a) {
-        return Array.from(new Set(a));
     }
 
     onChange (value) {
