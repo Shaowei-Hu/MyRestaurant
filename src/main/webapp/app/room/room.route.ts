@@ -18,14 +18,14 @@ export const roomRoute: Routes = [
     component: RoomComponent,
     data: {
         authorities: ['ROLE_USER'],
-        pageTitle: 'myRestaurantApp.desk.home.title'
+        pageTitle: 'myRestaurantApp.room.home.title'
     }
   }, {
     path: 'room/desk/:id/operation',
     component: DeskOperationComponent,
     data: {
         authorities: ['ROLE_USER'],
-        pageTitle: 'myRestaurantApp.desk.home.title'
+        pageTitle: 'myRestaurantApp.room.home.title'
     }
   }
 ];
@@ -36,7 +36,7 @@ export const deskPopupRoute: Routes = [
     component: DeskPopupComponent,
     data: {
         authorities: ['ROLE_USER'],
-        pageTitle: 'myRestaurantApp.desk.home.title'
+        pageTitle: 'myRestaurantApp.room.home.title'
     },
     outlet: 'popup'
   },

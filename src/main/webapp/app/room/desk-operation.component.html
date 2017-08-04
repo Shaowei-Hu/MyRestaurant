@@ -1,23 +1,26 @@
 <div>
 
 	<h2>
-		<span jhiTranslate="myRestaurantApp.desk.home.title">Table</span><span> {{desk?.name}}</span>
-		<button class="btn btn-primary float-xs-right create-desk" (click)="isAddOrderToggle()">
-			<span class="fa fa-arrow-circle-right"></span> <span class="hidden-sm-down"> Create
-				new Order </span>
+		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{desk?.name}}</span>
+		<span class="float-xs-right">
+		<button type="button" class="btn btn-default" [routerLink]="['/room']" *ngIf="!isAddOrder">
+			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
+		<button class="btn btn-primary" (click)="isAddOrderToggle()">
+			<i [class]="buttonIcon" aria-hidden="true"></i> <span class="hidden-sm-down" [jhiTranslate]="buttonLib"> Order dishes </span>
+		</button>
+		</span>
 	</h2>
 
 	<div *ngIf="!isAddOrder">
+		<div class="panel panel-default">
+    	<div class="panel-heading"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tables Status</div>
+    	<div class="panel-body">
 		<form name="editForm" role="form" novalidate (ngSubmit)="save()"
 			#editForm="ngForm">
 
 			<div class="">
 				<jhi-alert-error></jhi-alert-error>
-
-
-				
-
 
 				<div class="form-group" [hidden]="desk?.id">
 					<label for="id" jhiTranslate="global.field.id">ID</label> <input
@@ -27,7 +30,7 @@
 				
 				<div class="form-group col-sm-6">
 					<label class="form-control-label col-sm-4"
-						jhiTranslate="myRestaurantApp.desk.name" for="field_name">Name</label>
+						jhiTranslate="myRestaurantApp.room.name" for="field_name">Name</label>
 						<div class="col-sm-8">
 							<p class="form-control-static">{{desk?.name}}</p>
 						</div>
@@ -36,7 +39,7 @@
 				
 				<div class="form-group col-sm-6">
 					<label class="form-control-label col-sm-4"
-						jhiTranslate="myRestaurantApp.desk.amount" for="field_amount">Amount</label>
+						jhiTranslate="myRestaurantApp.room.amount" for="field_amount">Amount</label>
 						<div class="col-sm-8">
 							<p class="form-control-static">{{desk?.amount}}</p>
 						</div>
@@ -47,7 +50,7 @@
 				
 				<div class="form-group col-sm-6">
 					<label class="form-control-label col-sm-4"
-						jhiTranslate="myRestaurantApp.desk.clientNumber"
+						jhiTranslate="myRestaurantApp.room.clientNumber"
 						for="field_clientNumber">Client Number</label>
 						<div class="col-sm-8">
 						<input
@@ -59,7 +62,7 @@
 				
 				<div *ngIf="desk">
 					<div class="form-group  col-sm-6">
-						<label class="form-control-label col-sm-4">Unoccupied/Occupied</label>
+						<label class="form-control-label col-sm-4">Unoccupied / Occupied</label>
 						<div class="col-sm-8">
 							<ui-switch (change)="onChange($event)"
 								[checked]="getTableStatus()"></ui-switch>
@@ -69,81 +72,86 @@
 
 
 			</div>
-			<div class="">
-				<button type="button" class="btn btn-default" data-dismiss="modal"
-					[routerLink]="['/room']">
-					<span class="fa fa-arrow-left"></span>&nbsp;<span
-						jhiTranslate="entity.action.back"> Back</span>
-				</button>
+			<span class="float-xs-right">
 				<button type="submit" [disabled]="editForm.form.invalid || isSaving"
 					class="btn btn-primary">
 					<span class="fa fa-save"></span>&nbsp;<span
-						jhiTranslate="entity.action.save">Save</span>
+						class="hidden-sm-down" jhiTranslate="entity.action.save">Save</span>
 				</button>
-			</div>
+			</span>
 		</form>
-		<br>
-	</div>
+    	</div>
+		</div>
+
+		<div class="panel panel-default" *ngIf="isDetail">
+		<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Validé
+			<a (click)="toggleDetail()"><span class="float-xs-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive" *ngIf="ordreInDesk">
+			<table class="table table-striped">
+				<thead>
+				<tr>
+				<th><span >ID</span> <span class="fa fa-sort"></span></th>
+				<th><span >Name</span> <span class="fa fa-sort"></span></th>
+				<th><span >Status</span> <span class="fa fa-sort"></span></th>
+				<th><span >Price</span> <span class="fa fa-sort"></span></th>
+				<th><span >Desk</span> <span class="fa fa-sort"></span></th>
+				<th><span >Payment</span> <span class="fa fa-sort"></span></th>
+				<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr *ngFor="let ordre of ordreInDesk ;trackBy: trackOrdreById">
+					<td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
+					<td>{{ordre.name}}</td>
+					<td>{{ordre.status}}</td>
+					<td>{{ordre.price}}</td>
+					<td>
+						<div *ngIf="ordre.desk">
+							<a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
+						</div>
+					</td>
+					<td>
+						<div *ngIf="ordre.payment">
+							<a [routerLink]="['../payment', ordre.payment?.id ]" >{{ordre.payment?.id}}</a>
+						</div>
+					</td>
+					<td class="text-xs-right">
+						<div class="btn-group flex-btn-group-container">
+							<button type="submit"
+									[routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/delete'} }]"
+									replaceUrl="true"
+									class="btn btn-danger btn-sm">
+								<span class="fa fa-remove"></span>
+								<span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+							</button>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			</div>
+
+		</div>
+		</div>
 	
+
+		<div *ngIf="!isDetail && ordreInDesk">
+		<div class="panel panel-default">
+		<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
+			<a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+		</div>
+		<div class="panel-body">
+			<list-merged [list]="ordreInDesk" [products]="products"></list-merged>
+		</div>
+		</div>
+		</div>
+	</div>
+
 	<div *ngIf="isAddOrder">
         <order-dishes [desk]="desk" [products]="products"></order-dishes>
     </div>
-
-
-    <div class="panel panel-default">
-    <div class="panel-heading">Validé</div>
-    <div class="panel-body">
-        <div class="table-responsive" *ngIf="ordreInDesk">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span >ID</span> <span class="fa fa-sort"></span></th>
-            <th><span >Name</span> <span class="fa fa-sort"></span></th>
-            <th><span >Status</span> <span class="fa fa-sort"></span></th>
-            <th><span >Price</span> <span class="fa fa-sort"></span></th>
-            <th><span >Desk</span> <span class="fa fa-sort"></span></th>
-            <th><span >Payment</span> <span class="fa fa-sort"></span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let ordre of ordreInDesk ;trackBy: trackOrdreById">
-                <td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
-                <td>{{ordre.name}}</td>
-                <td>{{ordre.status}}</td>
-                <td>{{ordre.price}}</td>
-                <td>
-                    <div *ngIf="ordre.desk">
-                        <a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="ordre.payment">
-                        <a [routerLink]="['../payment', ordre.payment?.id ]" >{{ordre.payment?.id}}</a>
-                    </div>
-                </td>
-                <td class="text-xs-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-
-    </div>
-    </div>
-
-	<div *ngIf="ordreInDesk">
-		<list-merged [list]="ordreInDesk" [products]="products"></list-merged>
-	</div>
 
 
 </div>

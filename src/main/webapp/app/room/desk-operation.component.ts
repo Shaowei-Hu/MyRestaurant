@@ -28,6 +28,9 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     payments: Payment[];
     products: Product[];
     isAddOrder: boolean;
+    isDetail: boolean;
+    buttonLib: String;
+    buttonIcon: String;
     quantity: number;
 
     ordreInDesk: Ordre[];
@@ -46,13 +49,14 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         private eventManager: EventManager,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['desk']);
+        this.jhiLanguageService.setLocations(['room']);
     }
 
     ngOnInit() {
         this.quantity = 1;
         this.isSaving = false;
         this.isAddOrder = false;
+        this.isDetail = false;
         this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.subscription = this.route.params.subscribe(params => {
@@ -67,6 +71,8 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
                 localStorage.setItem('products', JSON.stringify(this.products));
             }, (res: Response) => this.onError(res.json()));
         }
+        this.buttonLib = 'myRestaurantApp.room.orderDishes';
+        this.buttonIcon = 'fa fa-book';
         this.registerChangeInDesks();
     }
 
@@ -102,8 +108,13 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
 
     isAddOrderToggle () {
       this.isAddOrder = !this.isAddOrder;
+      this.buttonLib = this.isAddOrder ? 'myRestaurantApp.room.finish' : 'myRestaurantApp.room.orderDishes';
+      this.buttonIcon = this.isAddOrder ? 'fa fa-arrow-left' : 'fa fa-book';
     }
 
+    toggleDetail() {
+        this.isDetail = !this.isDetail;
+    }
 
     getTableStatus(): boolean {
       return this.desk.status === 'occupied' ? true : false;

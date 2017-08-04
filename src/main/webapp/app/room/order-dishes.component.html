@@ -1,4 +1,6 @@
-	<div class="well">
+	<div class="panel panel-default">
+    <div class="panel-heading"><i class="fa fa-book" aria-hidden="true"></i>  Menu</div>
+    <div class="panel-body">
 	    <div class="table-responsive" *ngIf="products">
             <table class="table table-striped">
                 <thead>
@@ -15,10 +17,22 @@
                     <td><a [routerLink]="['/product', productsWithQuantity.product.id ]">{{productsWithQuantity.product.id}}</a></td>
                     <td>{{productsWithQuantity.product.name}}</td>
                     <td>{{productsWithQuantity.product.price}}</td>
-                    <td><input type="number" class="form-control" id="" (input)="productsWithQuantity.quantity = $event.target.value"></td>
+                    <td>
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(i,1)"><span> 1 </span></button>
+                        <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(i,2)"><span> 2 </span></button>
+                        <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(i,3)"><span> 3 </span></button>
+                        <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(i,4)"><span> 4 </span></button>
+                        <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(i,5)"><span> 5 </span></button>
+                        <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(i,6)"><span> 6 </span></button>
+                        </span>
+                        <input type="number" class="form-control" [(ngModel)]="productsWithQuantity.quantity">
+                        </div>
+                    </td>
                     <td class="text-xs-right">
                         <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
+                            <button type="button"
                                     [routerLink]="['/', { outlets: { popup: 'product/'+ productsWithQuantity.product.id + '/edit'} }]"
                                     
                                     class="btn btn-info btn-sm">
@@ -26,7 +40,7 @@
                                 <span class="hidden-md-down" >View</span>
                             </button>
                             <button type="button"
-                                    (click)="addTemp(i)"
+                                    (click)="addTempItem(i)"
                                     class="btn btn-primary btn-sm">
                                 <span class="fa fa-plus"></span>
                                 <span class="hidden-md-down" >Add</span>
@@ -39,10 +53,14 @@
         </div>
 	
 	</div>
+	</div>
+    
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">Temp</div>
+<div class="panel panel-default" *ngIf="isDetail">
+    <div class="panel-heading"><i class="fa fa-pencil-square-o"></i> Temp
+        <a (click)="toggleDetail()"><span class="float-xs-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+    </div>
     <div class="panel-body">
         <div class="table-responsive" *ngIf="desk?.ordres">
         <table class="table table-striped">
@@ -58,7 +76,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let ordre of ordreTemp ;trackBy: trackOrdreById">
+            <tr *ngFor="let ordre of ordreTemp let i = index">
                 <td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
                 <td>{{ordre.name}}</td>
                 <td>{{ordre.status}}</td>
@@ -75,8 +93,8 @@
                 </td>
                 <td class="text-xs-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/delete'} }]"
+                        <button type="button"
+                                (click)="deleteTempItem(i)"
                                 replaceUrl="true"
                                 class="btn btn-danger btn-sm">
                             <span class="fa fa-remove"></span>
@@ -88,10 +106,21 @@
             </tbody>
         </table>
         </div>
-    
-        <button class="btn btn-primary" (click)="addOrdre()">Command</button>
-    
+
     </div>
     </div>
 
+<div class="panel panel-default" *ngIf="!isDetail">
+    <div class="panel-heading"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Temp  
+        <a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+    </div>
+    <div class="panel-body">
     <list-merged [list]="ordreTemp" [products]="products"></list-merged>
+    </div>
+</div>
+
+<div class="float-xs-right">
+    <button class="btn btn-primary" (click)="addOrdre()"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Command</button>
+</div> 
+<br>
+<br> 

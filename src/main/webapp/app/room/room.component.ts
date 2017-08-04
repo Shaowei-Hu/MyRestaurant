@@ -29,7 +29,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         private principal: Principal
     ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-        this.jhiLanguageService.setLocations(['desk']);
+        this.jhiLanguageService.setLocations(['room']);
     }
 
     loadAll() {

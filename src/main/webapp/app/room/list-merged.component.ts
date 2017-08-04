@@ -28,7 +28,7 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
         private eventManager: EventManager,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['desk']);
+        this.jhiLanguageService.setLocations(['room']);
     }
 
     ngOnInit() {
@@ -45,7 +45,6 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
     previousState() {
       window.history.back();
     }
-
 
     private orderList2productWithQuanlity(ordres: Ordre[]) {
         if (ordres != null && this.products != null) {

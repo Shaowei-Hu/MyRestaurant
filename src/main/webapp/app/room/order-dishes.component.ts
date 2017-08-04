@@ -22,10 +22,12 @@ import { ItemWithQuantity } from '../dto';
 export class OrderDishesComponent implements OnInit, OnDestroy {
 
     @Input() desk: Desk;
+    @Input() products: Product[];
     authorities: any[];
     isSaving: boolean;
+    isDetail: boolean;
     payments: Payment[];
-    @Input() products: Product[];
+ 
     productsWithQuantities: ItemWithQuantity[];
 
     ordreTemp: Ordre[];
@@ -41,11 +43,12 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         private eventManager: EventManager,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['desk']);
+        this.jhiLanguageService.setLocations(['room']);
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.isDetail = false;
         this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         if (typeof this.products !== 'undefined' && this.products != null) {
@@ -62,11 +65,24 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
       window.history.back();
     }
 
-    addTemp (index) {
+    toggleDetail() {
+        this.isDetail = !this.isDetail;
+    }
+
+    addTempItem (index) {
       let productSelected = this.productsWithQuantities[index];
       for (let i = 0; i < productSelected.quantity; i++) {
         this.ordreTemp.push(this.product2order(productSelected.product));
       }
+      this.productsWithQuantities[index].quantity = 0;
+    }
+
+    deleteTempItem(index: number) {
+        this.ordreTemp.splice(index, 1);
+    }
+
+    setQuantity(index: number, quantity: number) {
+        this.productsWithQuantities[index].quantity = quantity;
     }
 
     addOrdre() {

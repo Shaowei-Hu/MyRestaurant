@@ -37,7 +37,7 @@ export class DeskDialogComponent implements OnInit {
         private paymentService: PaymentService,
         private eventManager: EventManager
     ) {
-        this.jhiLanguageService.setLocations(['desk']);
+        this.jhiLanguageService.setLocations(['room']);
     }
 
     ngOnInit() {
