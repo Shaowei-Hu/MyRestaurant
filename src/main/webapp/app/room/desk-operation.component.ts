@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Rx';
+
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 import { Room } from './room.model';
 import { Desk } from '../entities/desk';
@@ -12,7 +14,6 @@ import { Product, ProductService } from '../entities/product';
 import { Ordre, OrdreService } from '../entities/ordre';
 import { Payment, PaymentService } from '../entities/payment';
 
-import { ProductWithQuantity, OrdreWithQuantity } from '../dto';
 
 
 @Component({
@@ -26,7 +27,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     isSaving: boolean;
     payments: Payment[];
     products: Product[];
-    productsWithQuantities: ProductWithQuantity[];
     isAddOrder: boolean;
     quantity: number;
 
@@ -34,6 +34,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     ordreTemp: Ordre[];
 
     private subscription: any;
+    eventSubscriber: Subscription;
 
     constructor(
         private jhiLanguageService: JhiLanguageService,
@@ -52,24 +53,26 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         this.quantity = 1;
         this.isSaving = false;
         this.isAddOrder = false;
-        this.ordreInDesk = [];
         this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.subscription = this.route.params.subscribe(params => {
           this.load(params['id']);
         });
-        this.productService.query().subscribe(
+         this.products = JSON.parse(localStorage.getItem('products'));
+        if (typeof this.products !== 'undefined' && this.products != null) {
+        } else {
+            this.productService.query().subscribe(
             (res: Response) => {
                 this.products = res.json();
-                this.productsWithQuantities = this.product2productWithQuantity(this.products);
-         }, (res: Response) => this.onError(res.json()));
-//        this.ordreService.query().subscribe(
-//            (res: Response) => { this.ordres = res.json(); }, (res: Response) => this.onError(res.json()));
-//        this.paymentService.query().subscribe(
-//            (res: Response) => { this.payments = res.json(); }, (res: Response) => this.onError(res.json()));
+                localStorage.setItem('products', JSON.stringify(this.products));
+            }, (res: Response) => this.onError(res.json()));
+        }
+        this.registerChangeInDesks();
     }
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        this.eventManager.destroy(this.eventSubscriber);
     }
     previousState() {
       window.history.back();
@@ -84,80 +87,28 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
 
         }
     }
+
     load (id) {
         this.roomService.find(id).subscribe(desk => {
-            if(desk.ordres!=null){
+            if (desk.ordres != null) {
                 this.ordreInDesk = desk.ordres;
             }
             this.desk = desk;
             this.desk.ordres = [];
+ //           this.eventManager.broadcast({ name: 'tempOrderModification', content: 'OK'});
         });
     }
 
-    addOrder() {
-//      this.desk.ordre = null;
-    }
 
     isAddOrderToggle () {
       this.isAddOrder = !this.isAddOrder;
     }
 
-    // addCommand (id) {
-    //   let productSelected = this.products.filter(function(product: Product){
-    //     return product.id === id;
-    //   });
-    //   for (let i = 0; i < this.quantity; i++) {
-    //     this.desk.ordre.push(this.product2order(productSelected[0]));
-    //   }
-    //   this.quantity = 1;
-    // }
-
-    addTemp (index) {
-      let productSelected = this.productsWithQuantities[index];
-      for (let i = 0; i < productSelected.quantity; i++) {
-        this.ordreTemp.push(this.product2order(productSelected.product));
-      }
-      this.quantity = 1;
-    }
 
     getTableStatus(): boolean {
       return this.desk.status === 'occupied' ? true : false;
     }
 
-    updateOrdre() {
-        this.isSaving = true;
-        console.log(this.desk);
-        if (this.desk.id !== undefined) {
-            this.ordreTemp.map( ordre => this.ordreService.update(ordre)
-                .subscribe((res: Ordre) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()))
-                )
-            this.ordreTemp = [];
-            this.load(this.desk.id);
-        } else {
-
-        }
-    }
-
-    private product2order (product: Product): Ordre {
-      let order: Ordre = new Ordre();
-      order.name = product.name;
-      order.price = product.price;
-      order.desk = this.desk;
-      return order;
-    }
-
-    private product2productWithQuantity(products : Product[]): ProductWithQuantity[] {
-        let productWithQuantity: ProductWithQuantity[] = [];
-        for(let product of products){
-            productWithQuantity.push(new ProductWithQuantity(product,0));
-        }
-        return productWithQuantity;
-    } 
-
-    private ordres2ordresWithQuantities(ordres:Ordre[]): OrdreWithQuantity[] {
-        
-        return null;
-    }
 
     onChange (value) {
       if (value) {
@@ -191,5 +142,9 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
 
     trackProductById(index: number, item: Product) {
         return item.id;
+    }
+
+    registerChangeInDesks() {
+        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.load (this.desk.id));
     }
 }

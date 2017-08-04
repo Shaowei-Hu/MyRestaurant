@@ -11,6 +11,8 @@ import {
     DeskOperationComponent,
     DeskDialogComponent,
     DeskPopupComponent,
+    OrderDishesComponent,
+    ListMergedComponent,
     roomRoute,
     deskPopupRoute,
 } from './';
@@ -31,12 +33,16 @@ let ENTITY_STATES = [
         DeskOperationComponent,
         DeskDialogComponent,
         DeskPopupComponent,
+        OrderDishesComponent,
+        ListMergedComponent
     ],
     entryComponents: [
         RoomComponent,
         DeskOperationComponent,
         DeskDialogComponent,
         DeskPopupComponent,
+        OrderDishesComponent,
+        ListMergedComponent
     ],
     providers: [
         RoomService,

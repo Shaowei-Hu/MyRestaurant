@@ -1,20 +1,19 @@
 package com.shaowei.restaurant.service;
 
-import com.shaowei.restaurant.domain.Ordre;
-import com.shaowei.restaurant.repository.OrdreRepository;
-import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import com.shaowei.restaurant.domain.Desk;
+import com.shaowei.restaurant.domain.Ordre;
+import com.shaowei.restaurant.repository.OrdreRepository;
+import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
+import com.shaowei.restaurant.service.dto.OrderDTO;
 
 /**
  * Service Implementation for managing Ordre.
@@ -28,10 +27,13 @@ public class OrdreService {
     private final OrdreRepository ordreRepository;
 
     private final OrdreSearchRepository ordreSearchRepository;
+    
+    private final DeskService deskService;
 
-    public OrdreService(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository) {
+    public OrdreService(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository, DeskService deskService) {
         this.ordreRepository = ordreRepository;
         this.ordreSearchRepository = ordreSearchRepository;
+        this.deskService = deskService;
     }
 
     /**
@@ -44,6 +46,27 @@ public class OrdreService {
         log.debug("Request to save Ordre : {}", ordre);
         Ordre result = ordreRepository.save(ordre);
         ordreSearchRepository.save(result);
+        return result;
+    }
+    
+    /**
+     * Save a ordre array.
+     *
+     * @param ordres the entity array to save
+     * @return the persisted entity array
+     */
+    public Ordre[] save(OrderDTO[] ordres) {
+        log.debug("Request to save Ordre array: {}", ordres.toString());
+        Ordre[] result = new Ordre[ordres.length];
+        for(int i=0; i<ordres.length; i++){
+        	Desk desk = deskService.findOne(ordres[i].getDesk());
+        	Ordre ordre = new Ordre();
+        	ordre.setDesk(desk);
+        	ordre.setName(ordres[i].getName());
+        	ordre.setPrice(ordres[i].getPrice());
+            result[i] = ordreRepository.save(ordre);
+            ordreSearchRepository.save(ordre);
+        }
         return result;
     }
 

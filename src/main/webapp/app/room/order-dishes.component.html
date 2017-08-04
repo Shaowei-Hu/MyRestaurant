@@ -1,0 +1,97 @@
+	<div class="well">
+	    <div class="table-responsive" *ngIf="products">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                <th><span jhiTranslate="global.field.id">ID</span></th>
+                <th><span >Name</span></th>
+                <th><span >Price</span></th>
+                <th><span >Quantity</span></th>
+                <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let productsWithQuantity of productsWithQuantities let i = index">
+                    <td><a [routerLink]="['/product', productsWithQuantity.product.id ]">{{productsWithQuantity.product.id}}</a></td>
+                    <td>{{productsWithQuantity.product.name}}</td>
+                    <td>{{productsWithQuantity.product.price}}</td>
+                    <td><input type="number" class="form-control" id="" (input)="productsWithQuantity.quantity = $event.target.value"></td>
+                    <td class="text-xs-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/', { outlets: { popup: 'product/'+ productsWithQuantity.product.id + '/edit'} }]"
+                                    
+                                    class="btn btn-info btn-sm">
+                                <span class="fa fa-eye"></span>
+                                <span class="hidden-md-down" >View</span>
+                            </button>
+                            <button type="button"
+                                    (click)="addTemp(i)"
+                                    class="btn btn-primary btn-sm">
+                                <span class="fa fa-plus"></span>
+                                <span class="hidden-md-down" >Add</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+	
+	</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Temp</div>
+    <div class="panel-body">
+        <div class="table-responsive" *ngIf="desk?.ordres">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span >ID</span> <span class="fa fa-sort"></span></th>
+            <th><span >Name</span> <span class="fa fa-sort"></span></th>
+            <th><span >Status</span> <span class="fa fa-sort"></span></th>
+            <th><span >Price</span> <span class="fa fa-sort"></span></th>
+            <th><span >Desk</span> <span class="fa fa-sort"></span></th>
+            <th><span >Payment</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ordre of ordreTemp ;trackBy: trackOrdreById">
+                <td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
+                <td>{{ordre.name}}</td>
+                <td>{{ordre.status}}</td>
+                <td>{{ordre.price}}</td>
+                <td>
+                    <div *ngIf="ordre.desk">
+                        <a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="ordre.payment">
+                        <a [routerLink]="['../payment', ordre.payment?.id ]" >{{ordre.payment?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-xs-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    
+        <button class="btn btn-primary" (click)="addOrdre()">Command</button>
+    
+    </div>
+    </div>
+
+    <list-merged [list]="ordreTemp" [products]="products"></list-merged>

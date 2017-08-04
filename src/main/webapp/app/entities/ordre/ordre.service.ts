@@ -25,6 +25,13 @@ export class OrdreService {
         });
     }
 
+    createMultipe(ordres: Ordre[]): Observable<Ordre> {
+        let copy: Ordre[] = Object.assign([], ordres);
+        return this.http.post(this.resourceUrl + 'es', copy).map((res: Response) => {
+            return res.json();
+        });
+    }
+
     find(id: number): Observable<Ordre> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             return res.json();

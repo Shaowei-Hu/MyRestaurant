@@ -5,3 +5,5 @@ export * from './desk-dialog.component';
 export * from './desk-operation.component';
 export * from './room.component';
 export * from './room.route';
+export * from './order-dishes.component';
+export * from './list-merged.component'
