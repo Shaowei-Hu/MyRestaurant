@@ -5,18 +5,18 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                <th><span jhiTranslate="global.field.id">ID</span></th>
+                <th class="hidden-sm-down"><span jhiTranslate="global.field.id">ID</span></th>
                 <th><span >Name</span></th>
-                <th><span >Price</span></th>
+                <th class="hidden-sm-down"><span >Price</span></th>
                 <th><span >Quantity</span></th>
                 <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let productsWithQuantity of productsWithQuantities let i = index">
-                    <td><a [routerLink]="['/product', productsWithQuantity.product.id ]">{{productsWithQuantity.product.id}}</a></td>
+                    <td class="hidden-sm-down"><a [routerLink]="['/product', productsWithQuantity.product.id ]">{{productsWithQuantity.product.id}}</a></td>
                     <td>{{productsWithQuantity.product.name}}</td>
-                    <td>{{productsWithQuantity.product.price}}</td>
+                    <td class="hidden-sm-down">{{productsWithQuantity.product.price}}</td>
                     <td>
                         <div class="input-group">
                         <span class="input-group-btn">

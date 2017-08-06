@@ -63,7 +63,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
           this.load(params['id']);
         });
          this.products = JSON.parse(localStorage.getItem('products'));
-        if (typeof this.products !== 'undefined' && this.products != null) {
+        if (typeof this.products !== 'undefined' && this.products != null && this.products.length > 0) {
         } else {
             this.productService.query().subscribe(
             (res: Response) => {

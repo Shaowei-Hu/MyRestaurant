@@ -53,8 +53,10 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
                 let productSelected: Ordre[] = this.list.filter((element) => {
                     return element.name === product.name;
                 });
-                let productWithQuanlity: ItemWithQuantity = new ItemWithQuantity(product, productSelected.length);
-                this.ordersWithQuantities.push(productWithQuanlity);
+                if (productSelected.length > 0) {
+                    let productWithQuanlity: ItemWithQuantity = new ItemWithQuantity(product, productSelected.length);
+                    this.ordersWithQuantities.push(productWithQuanlity);
+                }
             }
         }
 

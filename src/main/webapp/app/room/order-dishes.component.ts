@@ -27,7 +27,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
     isSaving: boolean;
     isDetail: boolean;
     payments: Payment[];
- 
+
     productsWithQuantities: ItemWithQuantity[];
 
     ordreTemp: Ordre[];
