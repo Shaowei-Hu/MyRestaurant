@@ -70,6 +70,20 @@ public class DeskService {
         Desk desk = deskRepository.findOne(id);
         return desk;
     }
+    
+    /**
+     *  Get one desk with orders by id.
+     *
+     *  @param id the id of the entity
+     *  @return the entity
+     */
+    @Transactional(readOnly = true)
+    public Desk findOneEager(Long id) {
+        log.debug("Request to get Desk : {}", id);
+        Desk desk = deskRepository.findOne(id);
+        desk.getOrdres().size();
+        return desk;
+    }
 
     /**
      *  Delete the  desk by id.

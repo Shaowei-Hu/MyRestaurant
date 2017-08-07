@@ -1,6 +1,10 @@
 <div>
     <div class="container-fluid">
-    <h2><span jhiTranslate="myRestaurantApp.room.home.title">Desks</span></h2>
+    <h2>
+        <span jhiTranslate="myRestaurantApp.room.home.title">Desks</span>
+        <small><span class="float-xs-right">Amount in progress : {{getRoomAmount()}}</span></small>
+    </h2>
+    
     <jhi-alert></jhi-alert>
         <div class="row">
             <div class="col-xs-8 no-padding-right">

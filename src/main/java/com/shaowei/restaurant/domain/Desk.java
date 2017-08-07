@@ -197,16 +197,4 @@ public class Desk implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
-    @Override
-    public String toString() {
-        return "Desk{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", status='" + status + "'" +
-            ", clientNumber='" + clientNumber + "'" +
-            ", amount='" + amount + "'" +
-            ", order_size='" + ordres.size() + "'" +
-            '}';
-    }
 }

@@ -10,7 +10,7 @@ import { ItemWithQuantity } from '../dto';
 
 
 @Component({
-    selector: 'list-merged',
+    selector: 'res-list-merged',
     templateUrl: './list-merged.component.html'
 })
 export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoCheck {

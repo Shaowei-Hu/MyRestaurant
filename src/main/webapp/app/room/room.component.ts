@@ -11,7 +11,7 @@ import { ITEMS_PER_PAGE, Principal } from '../shared';
 import { PaginationConfig } from '../blocks/config/uib-pagination.config';
 
 @Component({
-    selector: 'jhi-desk',
+    selector: 'res-room',
     templateUrl: './room.component.html'
 })
 export class RoomComponent implements OnInit, OnDestroy {
@@ -79,7 +79,12 @@ export class RoomComponent implements OnInit, OnDestroy {
         return item.id;
     }
 
-
+    getRoomAmount() {
+        if (this.desks) {
+            return this.desks.reduce((pv, cv) => pv + cv.amount , 0);
+        }
+        return 0;
+    }
 
     registerChangeInDesks() {
         this.eventSubscriber = this.eventManager.subscribe('deskListModification', (response) => this.loadAll());

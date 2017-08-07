@@ -16,7 +16,7 @@ import { ItemWithQuantity } from '../dto';
 
 
 @Component({
-    selector: 'order-dishes',
+    selector: 'res-order-dishes',
     templateUrl: './order-dishes.component.html'
 })
 export class OrderDishesComponent implements OnInit, OnDestroy {

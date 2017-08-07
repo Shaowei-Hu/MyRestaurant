@@ -22,8 +22,8 @@
                         <span class="input-group-btn">
                         <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(i,1)"><span> 1 </span></button>
                         <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(i,2)"><span> 2 </span></button>
-                        <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(i,3)"><span> 3 </span></button>
-                        <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(i,4)"><span> 4 </span></button>
+                        <button type="button" class="btn btn-info btn-primary hidden-xs-down" (click)="setQuantity(i,3)"><span> 3 </span></button>
+                        <button type="button" class="btn btn-info btn-primary hidden-xs-down" (click)="setQuantity(i,4)"><span> 4 </span></button>
                         <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(i,5)"><span> 5 </span></button>
                         <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(i,6)"><span> 6 </span></button>
                         </span>
@@ -115,12 +115,12 @@
         <a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
     <div class="panel-body">
-    <list-merged [list]="ordreTemp" [products]="products"></list-merged>
+    <res-list-merged [list]="ordreTemp" [products]="products"></res-list-merged>
     </div>
 </div>
 
 <div class="float-xs-right">
-    <button class="btn btn-primary" (click)="addOrdre()"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Command</button>
+    <button class="btn btn-primary" [disabled]="ordreTemp.length<1 || isSaving" (click)="addOrdre()"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Command</button>
 </div> 
 <br>
 <br> 

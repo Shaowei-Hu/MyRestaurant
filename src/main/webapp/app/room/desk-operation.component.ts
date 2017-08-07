@@ -17,7 +17,7 @@ import { Payment, PaymentService } from '../entities/payment';
 
 
 @Component({
-    selector: 'jhi-desk-operation',
+    selector: 'res-desk-operation',
     templateUrl: './desk-operation.component.html'
 })
 export class DeskOperationComponent implements OnInit, OnDestroy {
@@ -101,7 +101,19 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
             }
             this.desk = desk;
             this.desk.ordres = [];
- //           this.eventManager.broadcast({ name: 'tempOrderModification', content: 'OK'});
+            this.desk.amount = this.getAmount();
+        });
+    }
+
+    loadUpdate (id) {
+        this.roomService.find(id).subscribe(desk => {
+            if (desk.ordres != null) {
+                this.ordreInDesk = desk.ordres;
+            }
+            this.desk = desk;
+            this.desk.ordres = [];
+            this.desk.amount = this.getAmount();
+            this.save();
         });
     }
 
@@ -127,6 +139,13 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
       } else {
         this.desk.status = 'unoccupied';
       }
+    }
+
+    getAmount () {
+        if (this.ordreInDesk) {
+            return this.ordreInDesk.reduce((pv, cv) => pv + cv.price, 0);
+        }
+        return 0;
     }
 
     private onSaveSuccess (result: Desk) {
@@ -156,6 +175,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInDesks() {
-        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.load (this.desk.id));
+        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.desk.id));
     }
 }

@@ -143,14 +143,14 @@
 			<a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 		</div>
 		<div class="panel-body">
-			<list-merged [list]="ordreInDesk" [products]="products"></list-merged>
+			<res-list-merged [list]="ordreInDesk" [products]="products"></res-list-merged>
 		</div>
 		</div>
 		</div>
 	</div>
 
 	<div *ngIf="isAddOrder">
-        <order-dishes [desk]="desk" [products]="products"></order-dishes>
+        <res-order-dishes [desk]="desk" [products]="products"></res-order-dishes>
     </div>
 
 

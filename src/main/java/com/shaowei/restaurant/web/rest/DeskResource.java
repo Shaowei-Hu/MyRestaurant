@@ -100,7 +100,7 @@ public class DeskResource {
     @Timed
     public ResponseEntity<Desk> getDesk(@PathVariable Long id) {
         log.debug("REST request to get Desk : {}", id);
-        Desk desk = deskService.findOne(id);
+        Desk desk = deskService.findOneEager(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(desk));
     }
 
