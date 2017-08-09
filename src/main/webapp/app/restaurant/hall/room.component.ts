@@ -5,10 +5,10 @@ import { Subscription } from 'rxjs/Rx';
 import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
 
 import { Room } from './room.model';
-import { Desk } from '../entities/desk';
+import { Desk } from '../../entities/desk';
 import { RoomService } from './room.service';
-import { ITEMS_PER_PAGE, Principal } from '../shared';
-import { PaginationConfig } from '../blocks/config/uib-pagination.config';
+import { ITEMS_PER_PAGE, Principal } from '../../shared';
+import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'res-room',

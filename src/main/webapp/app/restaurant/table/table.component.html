@@ -3,16 +3,18 @@
 	<h2>
 		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{desk?.name}}</span>
 		<span class="float-xs-right">
-		<button type="button" class="btn btn-default" [routerLink]="['/room']" *ngIf="!isAddOrder">
+		<button type="button" class="btn btn-default" [routerLink]="['/room']">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
-		<button class="btn btn-primary" (click)="isAddOrderToggle()">
-			<i [class]="buttonIcon" aria-hidden="true"></i> <span class="hidden-sm-down" [jhiTranslate]="buttonLib"> Order dishes </span>
+		<button class="btn btn-primary" [routerLink]="['/dishes', 'desk', desk?.id, desk?.name]">
+			<i class="fa fa-book" aria-hidden="true"></i> <span class="hidden-sm-down" [jhiTranslate]="buttonLib"> Order dishes </span>
 		</button>
 		</span>
 	</h2>
 
-	<div *ngIf="!isAddOrder">
+	<jhi-alert></jhi-alert>
+
+	<div>
 		<div class="panel panel-default">
     	<div class="panel-heading"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tables Status</div>
     	<div class="panel-body">
@@ -143,15 +145,10 @@
 			<a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 		</div>
 		<div class="panel-body">
-			<res-list-merged [list]="ordreInDesk" [products]="products"></res-list-merged>
+			<res-list-merged [list]="ordreInDesk"></res-list-merged>
 		</div>
 		</div>
 		</div>
 	</div>
-
-	<div *ngIf="isAddOrder">
-        <res-order-dishes [desk]="desk" [products]="products"></res-order-dishes>
-    </div>
-
 
 </div>

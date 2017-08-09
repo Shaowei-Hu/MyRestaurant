@@ -3,30 +3,23 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
-import { Room } from './room.model';
-import { Desk } from '../entities/desk';
-
-import { RoomService } from './room.service';
+import { Desk, DeskService } from '../../entities/desk';
 
 import { Response } from '@angular/http';
 
-import { Product, ProductService } from '../entities/product';
-import { Ordre, OrdreService } from '../entities/ordre';
-import { Payment, PaymentService } from '../entities/payment';
-
-
+import { Ordre, OrdreService } from '../../entities/ordre';
+import { Payment, PaymentService } from '../../entities/payment';
 
 @Component({
-    selector: 'res-desk-operation',
-    templateUrl: './desk-operation.component.html'
+    selector: 'res-table',
+    templateUrl: './table.component.html'
 })
-export class DeskOperationComponent implements OnInit, OnDestroy {
+export class TableComponent implements OnInit, OnDestroy {
 
     desk: Desk;
     authorities: any[];
     isSaving: boolean;
     payments: Payment[];
-    products: Product[];
     isAddOrder: boolean;
     isDetail: boolean;
     buttonLib: String;
@@ -42,8 +35,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     constructor(
         private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
-        private roomService: RoomService,
-        private productService: ProductService,
+        private deskService: DeskService,
         private ordreService: OrdreService,
         private paymentService: PaymentService,
         private eventManager: EventManager,
@@ -62,15 +54,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
         this.subscription = this.route.params.subscribe(params => {
           this.load(params['id']);
         });
-         this.products = JSON.parse(localStorage.getItem('products'));
-        if (typeof this.products !== 'undefined' && this.products != null && this.products.length > 0) {
-        } else {
-            this.productService.query().subscribe(
-            (res: Response) => {
-                this.products = res.json();
-                localStorage.setItem('products', JSON.stringify(this.products));
-            }, (res: Response) => this.onError(res.json()));
-        }
         this.buttonLib = 'myRestaurantApp.room.orderDishes';
         this.buttonIcon = 'fa fa-book';
         this.registerChangeInDesks();
@@ -87,7 +70,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     save () {
         this.isSaving = true;
         if (this.desk.id !== undefined) {
-            this.roomService.update(this.desk)
+            this.deskService.update(this.desk)
                 .subscribe((res: Desk) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         } else {
 
@@ -95,7 +78,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     }
 
     load (id) {
-        this.roomService.find(id).subscribe(desk => {
+        this.deskService.find(id).subscribe(desk => {
             if (desk.ordres != null) {
                 this.ordreInDesk = desk.ordres;
             }
@@ -106,7 +89,7 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     }
 
     loadUpdate (id) {
-        this.roomService.find(id).subscribe(desk => {
+        this.deskService.find(id).subscribe(desk => {
             if (desk.ordres != null) {
                 this.ordreInDesk = desk.ordres;
             }
@@ -115,13 +98,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
             this.desk.amount = this.getAmount();
             this.save();
         });
-    }
-
-
-    isAddOrderToggle () {
-      this.isAddOrder = !this.isAddOrder;
-      this.buttonLib = this.isAddOrder ? 'myRestaurantApp.room.finish' : 'myRestaurantApp.room.orderDishes';
-      this.buttonIcon = this.isAddOrder ? 'fa fa-arrow-left' : 'fa fa-book';
     }
 
     toggleDetail() {
@@ -167,10 +143,6 @@ export class DeskOperationComponent implements OnInit, OnDestroy {
     }
 
     trackPaymentById(index: number, item: Payment) {
-        return item.id;
-    }
-
-    trackProductById(index: number, item: Product) {
         return item.id;
     }
 

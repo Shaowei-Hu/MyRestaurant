@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
-import { DeskService } from '../entities/desk';
+import { DeskService } from '../../entities/desk';
 import { Observable } from 'rxjs/Rx';
 
 import { Room } from './room.model';
-import { Desk } from '../entities/desk';
+import { Desk } from '../../entities/desk';
 @Injectable()
 export class RoomService {
 

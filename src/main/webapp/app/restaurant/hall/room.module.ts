@@ -1,20 +1,17 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { MyRestaurantSharedModule } from '../shared';
+import { MyRestaurantSharedModule } from '../../shared';
 import { UiSwitchModule } from 'angular2-ui-switch';
 
 import {
     RoomService,
     DeskPopupService,
     RoomComponent,
-    DeskOperationComponent,
     DeskDialogComponent,
     DeskPopupComponent,
-    OrderDishesComponent,
-    ListMergedComponent,
     roomRoute,
-    deskPopupRoute,
+    deskPopupRoute
 } from './';
 
 let ENTITY_STATES = [
@@ -30,19 +27,13 @@ let ENTITY_STATES = [
     ],
     declarations: [
         RoomComponent,
-        DeskOperationComponent,
         DeskDialogComponent,
-        DeskPopupComponent,
-        OrderDishesComponent,
-        ListMergedComponent
+        DeskPopupComponent
     ],
     entryComponents: [
         RoomComponent,
-        DeskOperationComponent,
         DeskDialogComponent,
-        DeskPopupComponent,
-        OrderDishesComponent,
-        ListMergedComponent
+        DeskPopupComponent
     ],
     providers: [
         RoomService,

@@ -1,4 +1,15 @@
-	<div class="panel panel-default">
+	<h2>
+		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{desk?.name}}</span>
+		<span class="float-xs-right">
+		<button type="button" class="btn btn-default" [routerLink]="['/table', desk?.id]">
+			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
+		</button>
+		</span>
+	</h2>
+
+	<jhi-alert></jhi-alert>
+    
+    <div class="panel panel-default">
     <div class="panel-heading"><i class="fa fa-book" aria-hidden="true"></i>  Menu</div>
     <div class="panel-body">
 	    <div class="table-responsive" *ngIf="products">
@@ -62,7 +73,7 @@
         <a (click)="toggleDetail()"><span class="float-xs-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
     <div class="panel-body">
-        <div class="table-responsive" *ngIf="desk?.ordres">
+        <div class="table-responsive" *ngIf="ordreTemp">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -115,7 +126,7 @@
         <a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
     <div class="panel-body">
-    <res-list-merged [list]="ordreTemp" [products]="products"></res-list-merged>
+    <res-list-merged [list]="ordreTemp"></res-list-merged>
     </div>
 </div>
 

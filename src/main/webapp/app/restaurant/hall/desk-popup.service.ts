@@ -2,7 +2,7 @@ import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Room } from './room.model';
-import { Desk } from '../entities/desk';
+import { Desk } from '../../entities/desk';
 import { RoomService } from './room.service';
 @Injectable()
 export class DeskPopupService {

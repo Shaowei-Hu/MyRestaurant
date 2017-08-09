@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 
-import { Product } from '../entities/product';
-import { Ordre } from '../entities/ordre';
+import { Product } from '../../entities/product';
+import { Ordre } from '../../entities/ordre';
 
-import { ItemWithQuantity } from '../dto';
+import { ItemWithQuantity } from '../../dto';
 
 
 @Component({
@@ -16,7 +16,6 @@ import { ItemWithQuantity } from '../dto';
 export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
 
     @Input() list: Ordre[];
-    @Input() products: Product[];
     authorities: any[];
     ordersWithQuantities: ItemWithQuantity[];
     quantity: number;
@@ -34,7 +33,6 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
     ngOnInit() {
         this.olderList = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.products = JSON.parse(localStorage.getItem('products'));
         this.ordersWithQuantities = [];
         this.orderList2productWithQuanlity(this.list);
     }
@@ -47,19 +45,33 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
     }
 
     private orderList2productWithQuanlity(ordres: Ordre[]) {
-        if (ordres != null && this.products != null) {
+        if (ordres != null) {
             this.ordersWithQuantities = [];
-            for (let product of this.products) {
-                let productSelected: Ordre[] = this.list.filter((element) => {
-                    return element.name === product.name;
-                });
-                if (productSelected.length > 0) {
-                    let productWithQuanlity: ItemWithQuantity = new ItemWithQuantity(product, productSelected.length);
+            let stats = this.statistic(ordres);
+            let uniqueOrderName = Object.keys(stats);
+            uniqueOrderName.forEach( item => {
+                let product = new Product();
+                product.name = item;
+                product.price = stats[item].price;
+                if (stats[item].len > 0) {
+                    let productWithQuanlity: ItemWithQuantity = new ItemWithQuantity(product, stats[item].len);
                     this.ordersWithQuantities.push(productWithQuanlity);
                 }
-            }
+            });
         }
 
+    }
+
+    private statistic(arr: Ordre[]): any {
+        let seen = {};
+        arr.forEach((item) => {
+            if (seen.hasOwnProperty(item.name)) {
+                seen[item.name].len++;
+            } else {
+                seen[item.name] = {price: item.price, len: 1};
+            }
+        });
+        return seen;
     }
 
     ngOnChanges(changes: SimpleChanges) {

@@ -1,18 +1,15 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
-import { Room } from './room.model';
-import { Desk } from '../entities/desk';
-
-import { RoomService } from './room.service';
+import { Desk } from '../../entities/desk';
 
 import { Response } from '@angular/http';
 
-import { Product, ProductService } from '../entities/product';
-import { Ordre, OrdreService } from '../entities/ordre';
-import { Payment, PaymentService } from '../entities/payment';
+import { Product, ProductService } from '../../entities/product';
+import { Ordre, OrdreService } from '../../entities/ordre';
+import { Payment, PaymentService } from '../../entities/payment';
 
-import { ItemWithQuantity } from '../dto';
+import { ItemWithQuantity } from '../../dto';
 
 
 @Component({
@@ -21,8 +18,8 @@ import { ItemWithQuantity } from '../dto';
 })
 export class OrderDishesComponent implements OnInit, OnDestroy {
 
-    @Input() desk: Desk;
-    @Input() products: Product[];
+    desk: Desk;
+    products: Product[];
     authorities: any[];
     isSaving: boolean;
     isDetail: boolean;
@@ -51,9 +48,23 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         this.isDetail = false;
         this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        if (typeof this.products !== 'undefined' && this.products != null) {
+
+        this.route.params.subscribe(params => {
+          this.desk = new Desk();
+          this.desk.id = params['id'];
+          this.desk.name = params['name'];
+        });
+
+        this.products = JSON.parse(localStorage.getItem('products'));
+        if (typeof this.products !== 'undefined' && this.products != null && this.products.length > 0) {
             this.productsWithQuantities = this.product2productWithQuantity(this.products);
         } else {
+            this.productService.query().subscribe(
+            (res: Response) => {
+                this.products = res.json();
+                localStorage.setItem('products', JSON.stringify(this.products));
+                this.productsWithQuantities = this.product2productWithQuantity(this.products);
+            }, (res: Response) => this.onError(res.json()));
         }
     }
 
@@ -129,6 +140,10 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
 
     private onError (error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackProductById(index: number, item: Product) {
+        return item.id;
     }
 
 }

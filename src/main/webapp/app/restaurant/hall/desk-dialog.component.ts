@@ -6,12 +6,12 @@ import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 
 import { Room } from './room.model';
-import { Desk } from '../entities/desk';
+import { Desk } from '../../entities/desk';
 import { DeskPopupService } from './desk-popup.service';
 import { RoomService } from './room.service';
-import { Restaurant, RestaurantService } from '../entities/restaurant';
-import { Ordre, OrdreService } from '../entities/ordre';
-import { Payment, PaymentService } from '../entities/payment';
+import { Restaurant, RestaurantService } from '../../entities/restaurant';
+import { Ordre, OrdreService } from '../../entities/ordre';
+import { Payment, PaymentService } from '../../entities/payment';
 @Component({
     selector: 'jhi-desk-dialog',
     templateUrl: './desk-dialog.component.html'

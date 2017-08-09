@@ -7,7 +7,7 @@ import { Ng2Webstorage } from 'ng2-webstorage';
 
 import { MyRestaurantSharedModule, UserRouteAccessService } from './shared';
 import { MyRestaurantHomeModule } from './home/home.module';
-import { MyRestaurantRoomModule } from './room/room.module';
+import { MyRestaurantRestaurantModule } from './restaurant/restaurant.module';
 import { MyRestaurantAdminModule } from './admin/admin.module';
 import { MyRestaurantAccountModule } from './account/account.module';
 import { MyRestaurantEntityModule } from './entities/entity.module';
@@ -37,7 +37,7 @@ import {
         MyRestaurantAdminModule,
         MyRestaurantAccountModule,
         MyRestaurantEntityModule,
-        MyRestaurantRoomModule
+        MyRestaurantRestaurantModule
     ],
     declarations: [
         JhiMainComponent,
