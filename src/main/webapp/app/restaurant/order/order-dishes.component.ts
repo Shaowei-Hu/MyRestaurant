@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
 import { Desk } from '../../entities/desk';
 
@@ -38,7 +38,8 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         private ordreService: OrdreService,
         private paymentService: PaymentService,
         private eventManager: EventManager,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.jhiLanguageService.setLocations(['room']);
     }
@@ -129,6 +130,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
 
     private onSaveSuccess (result: Desk) {
         this.eventManager.broadcast({ name: 'ordreListModification', content: 'OK'});
+        this.router.navigate(['/', { outlets: { popup: 'dishes/confirm'} }]);
         this.isSaving = false;
         this.ordreTemp = [];
     }

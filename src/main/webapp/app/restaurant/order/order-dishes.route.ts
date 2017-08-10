@@ -5,6 +5,7 @@ import { UserRouteAccessService } from '../../shared';
 import { PaginationUtil } from 'ng-jhipster';
 
 import { OrderDishesComponent } from './order-dishes.component';
+import { OrderPopupComponent } from './order-confirm.component';
 
 import { Principal } from '../../shared';
 
@@ -18,4 +19,17 @@ export const orderDishesRoute: Routes = [
         pageTitle: 'myRestaurantApp.room.home.title'
     }
   }
+];
+
+export const orderPopupRoute: Routes = [
+  {
+    path: 'dishes/confirm',
+    component: OrderPopupComponent,
+    data: {
+        authorities: ['ROLE_USER'],
+        pageTitle: 'myRestaurantApp.room.home.title'
+    },
+    outlet: 'popup'
+  },
+
 ];

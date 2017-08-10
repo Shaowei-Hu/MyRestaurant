@@ -2,6 +2,8 @@ package com.shaowei.restaurant.service;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -57,16 +59,19 @@ public class OrdreService {
      */
     public Ordre[] save(OrderDTO[] ordres) {
         log.debug("Request to save Ordre array: {}", ordres.toString());
+        BigDecimal amount = new BigDecimal(0);
+        Desk desk = deskService.findOne(ordres[0].getDesk());
         Ordre[] result = new Ordre[ordres.length];
         for(int i=0; i<ordres.length; i++){
-        	Desk desk = deskService.findOne(ordres[i].getDesk());
         	Ordre ordre = new Ordre();
         	ordre.setDesk(desk);
         	ordre.setName(ordres[i].getName());
         	ordre.setPrice(ordres[i].getPrice());
             result[i] = ordreRepository.save(ordre);
             ordreSearchRepository.save(ordre);
+            amount = amount.add(result[i].getPrice()); 
         }
+        desk.setAmount(desk.getAmount().add(amount));
         return result;
     }
 

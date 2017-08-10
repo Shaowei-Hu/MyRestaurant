@@ -8,11 +8,16 @@ import { MyRestaurantListMergedModule } from '../summary/list-merged.module';
 
 import {
     OrderDishesComponent,
-    orderDishesRoute
+    orderDishesRoute,
+    orderPopupRoute,
+    OrderPopupService,
+    OrderConfirmComponent,
+    OrderPopupComponent
 } from './';
 
 let ENTITY_STATES = [
-    ...orderDishesRoute
+    ...orderDishesRoute,
+    ...orderPopupRoute
 ];
 
 @NgModule({
@@ -24,9 +29,15 @@ let ENTITY_STATES = [
     ],
     declarations: [
         OrderDishesComponent,
+        OrderConfirmComponent,
+        OrderPopupComponent
     ],
     entryComponents: [
         OrderDishesComponent,
+        OrderConfirmComponent,
+    ],
+    providers: [
+        OrderPopupService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
