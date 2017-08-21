@@ -1,0 +1,13 @@
+.desk, .desk-occupied{
+	margin-top: 8px;
+}
+
+.desk:hover{
+	cursor: pointer;
+	box-shadow: 3px 3px 5px #888888;
+}
+
+.desk-occupied:hover{
+	cursor: pointer;
+	box-shadow: 1px 1px 3px #888888;
+}

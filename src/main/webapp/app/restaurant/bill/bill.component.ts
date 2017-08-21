@@ -10,11 +10,12 @@ import { Response } from '@angular/http';
 import { Ordre, OrdreService } from '../../entities/ordre';
 import { Payment, PaymentService } from '../../entities/payment';
 
+
 @Component({
     selector: 'res-table',
-    templateUrl: './table.component.html'
+    templateUrl: './bill.component.html'
 })
-export class TableComponent implements OnInit, OnDestroy {
+export class BillComponent implements OnInit, OnDestroy {
 
     desk: Desk;
     authorities: any[];
@@ -24,7 +25,9 @@ export class TableComponent implements OnInit, OnDestroy {
     quantity: number;
 
     ordreInDesk: Ordre[];
-    ordreTemp: Ordre[];
+    paymentTemp: Payment;
+
+    amountRest: number;
 
     private subscription: any;
     eventSubscriber: Subscription;
@@ -45,7 +48,9 @@ export class TableComponent implements OnInit, OnDestroy {
         this.quantity = 1;
         this.isSaving = false;
         this.isDetail = false;
-        this.ordreTemp = [];
+        this.paymentTemp = new Payment();
+        this.paymentTemp.amount = 0;
+        this.amountRest = 0;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.subscription = this.route.params.subscribe(params => {
           this.load(params['id']);
@@ -79,37 +84,26 @@ export class TableComponent implements OnInit, OnDestroy {
             this.desk = desk;
             this.desk.ordres = [];
             this.desk.amount = this.getAmount();
+            this.amountRest = this.desk.amount - this.getAmountPaid();
+            this.paymentTemp.desk = this.desk;
         });
     }
 
-    loadUpdate (id) {
-        this.deskService.find(id).subscribe(desk => {
-            if (desk.ordres != null) {
-                this.ordreInDesk = desk.ordres;
-            }
-            this.desk = desk;
-            this.desk.ordres = [];
-            this.desk.amount = this.getAmount();
-            this.save();
-        });
+    savePayment() {
+        console.log(this.paymentTemp);
+        this.isSaving = true;
+        if (this.paymentTemp.id === undefined) {
+            this.paymentService.create(this.paymentTemp)
+                .subscribe((res: Payment) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+        } else {
+
+        }
     }
 
     toggleDetail() {
         this.isDetail = !this.isDetail;
     }
 
-    getTableStatus(): boolean {
-      return this.desk.status === 'occupied' ? true : false;
-    }
-
-
-    onChange (value) {
-      if (value) {
-        this.desk.status = 'occupied';
-      } else {
-        this.desk.status = 'unoccupied';
-      }
-    }
 
     getAmount () {
         if (this.ordreInDesk) {
@@ -118,8 +112,15 @@ export class TableComponent implements OnInit, OnDestroy {
         return 0;
     }
 
+    getAmountPaid () {
+        if (this.desk.payments) {
+            return this.desk.payments.reduce((pv, cv) => pv + cv.amount, 0);
+        }
+        return 0;
+    }
+
     private onSaveSuccess (result: Desk) {
-        this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'paymentListModification', content: 'OK'});
         this.isSaving = false;
     }
 
@@ -141,6 +142,6 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInDesks() {
-        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.desk.id));
+        this.eventSubscriber = this.eventManager.subscribe('paymentListModification', (response) => this.load(this.desk.id));
     }
 }

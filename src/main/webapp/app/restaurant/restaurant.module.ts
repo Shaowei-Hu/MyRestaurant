@@ -3,6 +3,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MyRestaurantRoomModule } from './hall/room.module';
 import { MyRestaurantTableModule } from './table/table.module';
 import { MyRestaurantOrderDishesModule } from './order/order-dishes.module';
+import { MyRestaurantBillModule } from './bill/bill.module';
+import { MyRestaurantNumpadModule } from './numpad/numpad.module';
 import { MyRestaurantListMergedModule } from './summary/list-merged.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
@@ -11,7 +13,9 @@ import { MyRestaurantListMergedModule } from './summary/list-merged.module';
         MyRestaurantRoomModule,
         MyRestaurantTableModule,
         MyRestaurantOrderDishesModule,
-        MyRestaurantListMergedModule
+        MyRestaurantListMergedModule,
+        MyRestaurantBillModule,
+        MyRestaurantNumpadModule
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

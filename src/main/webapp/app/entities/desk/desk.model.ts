@@ -10,6 +10,6 @@ export class Desk {
         public amount?: number,
         public restaurant?: Restaurant,
         public ordres?: Ordre[],
-        public payment?: Payment,
+        public payments?: Payment[],
     ) { }
 }

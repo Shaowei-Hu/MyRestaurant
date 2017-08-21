@@ -12,7 +12,10 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'res-room',
-    templateUrl: './room.component.html'
+    templateUrl: './room.component.html',
+    styleUrls: [
+        'room.component.scss'
+    ]
 })
 export class RoomComponent implements OnInit, OnDestroy {
     desks: Desk[];

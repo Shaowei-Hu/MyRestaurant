@@ -82,6 +82,7 @@ public class DeskService {
         log.debug("Request to get Desk : {}", id);
         Desk desk = deskRepository.findOne(id);
         desk.getOrdres().size();
+        desk.getPayments().size();
         return desk;
     }
 

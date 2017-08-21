@@ -6,8 +6,11 @@
 		<button type="button" class="btn btn-default" [routerLink]="['/room']">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
+		<button class="btn btn-primary" [routerLink]="['/bill', desk?.id]">
+			<i class="fa fa-usd" aria-hidden="true"></i> <span class="hidden-sm-down"> Bill </span>
+		</button>
 		<button class="btn btn-primary" [routerLink]="['/dishes', 'desk', desk?.id, desk?.name]">
-			<i class="fa fa-book" aria-hidden="true"></i> <span class="hidden-sm-down" [jhiTranslate]="buttonLib"> Order dishes </span>
+			<i class="fa fa-book" aria-hidden="true"></i> <span class="hidden-sm-down" jhiTranslate="myRestaurantApp.room.orderDishes"> Order dishes </span>
 		</button>
 		</span>
 	</h2>
@@ -25,8 +28,8 @@
 				<jhi-alert-error></jhi-alert-error>
 
 				<div class="form-group" [hidden]="desk?.id">
-					<label for="id" jhiTranslate="global.field.id">ID</label> <input
-						type="text" class="form-control" id="id" name="id"
+					<label for="id" jhiTranslate="global.field.id">ID</label>
+					<input type="text" class="form-control" id="id" name="id"
 						[ngModel]="desk?.id" (ngModelChange)="desk.id=$event" readonly />
 				</div>
 				
