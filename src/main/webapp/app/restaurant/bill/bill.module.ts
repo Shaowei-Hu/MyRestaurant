@@ -8,7 +8,8 @@ import { MyRestaurantListMergedModule } from '../summary/list-merged.module';
 import {
     BillComponent,
     billRoute,
-    ByAmountComponent
+    ByAmountComponent,
+    ByOrderComponent
 } from './';
 
 let ENTITY_STATES = [
@@ -23,11 +24,11 @@ let ENTITY_STATES = [
     ],
     declarations: [
         BillComponent,
-        ByAmountComponent
+        ByAmountComponent,
+        ByOrderComponent
     ],
     entryComponents: [
-        BillComponent,
-        ByAmountComponent
+        BillComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

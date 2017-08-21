@@ -82,10 +82,10 @@ export class BillComponent implements OnInit, OnDestroy {
                 this.ordreInDesk = desk.ordres;
             }
             this.desk = desk;
-            this.desk.ordres = [];
             this.desk.amount = this.getAmount();
             this.amountRest = this.desk.amount - this.getAmountPaid();
-            this.paymentTemp.desk = this.desk;
+            this.paymentTemp.desk = Object.assign({}, this.desk);
+            this.paymentTemp.desk.ordres = [];
         });
     }
 

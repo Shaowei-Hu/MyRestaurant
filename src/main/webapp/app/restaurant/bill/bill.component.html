@@ -99,14 +99,12 @@
 		<div class="col-lg-8">
 			
 			<div class="panel panel-default">
-				<div class="panel-heading"><i class="fa fa-usd" aria-hidden="true"></i> Payment</div>
+				<div class="panel-heading">
+					<i class="fa fa-usd" aria-hidden="true"></i>
+					<span> Payment</span>
+					<span class="float-xs-right">Amount to pay:  <strong>{{amountRest}}</strong> </span>
+				</div>
 				<div class="panel-body">
-
-					<h2>
-						<small>Amount to pay:</small>  {{amountRest}}      
-						<span *ngIf="desk?.payments" class="float-xs-right"><small>Amount paid:</small>  {{getAmountPaid()}}</span>
-					</h2>
-					<br>
 					<ngb-tabset activeId="byAmount">
 						<ngb-tab id="byAmount" title="By Amount">
 							<template ngbTabContent>
@@ -115,7 +113,7 @@
 						</ngb-tab>
 						<ngb-tab id="byOrder" title="By Order">
 							<template ngbTabContent>
-								<span>order</span>
+								<res-by-order [desk]="desk" [payment]="paymentTemp"></res-by-order>
 							</template>
 						</ngb-tab>
 					</ngb-tabset>
@@ -132,7 +130,11 @@
 
 
 			<div class="panel panel-default" *ngIf="desk?.payments">
-				<div class="panel-heading"><i class="fa fa-usd" aria-hidden="true"></i> Paid</div>
+				<div class="panel-heading">
+					<i class="fa fa-usd" aria-hidden="true"></i>
+					<span> Paid</span>
+					<span class="float-xs-right">Amount paid:  <strong>{{getAmountPaid()}}</strong></span>
+				</div>
 				<div class="panel-body">
 					<table class="table table-striped">
 						<thead>
