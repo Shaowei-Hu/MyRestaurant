@@ -13,23 +13,23 @@ export class CalculatorPopupService {
 
     ) {}
 
-    open (num?: number | any): NgbModalRef {
+    open (num?: any): NgbModalRef {
         let modalRef = null;
         if (this.isOpen) {
             return;
         }
         this.isOpen = true;
         if (num) {
-            modalRef = this.numpadModalRef(CalculatorComponent, num.toString());
+            modalRef = this.numpadModalRef(CalculatorComponent, num);
         } else {
-            modalRef = this.numpadModalRef(CalculatorComponent, '0');
+            modalRef = this.numpadModalRef(CalculatorComponent, '{all:"0", rest:"0", current:"0"}');
         }
         return modalRef;
     }
 
-    numpadModalRef(component: Component, num: string): NgbModalRef {
-        let modalRef = this.modalService.open(component, { size: 'sm', backdrop: true, keyboard: true });
-        modalRef.componentInstance.numResult = num;
+    numpadModalRef(component: Component, num: any): NgbModalRef {
+        let modalRef = this.modalService.open(component, { size: 'lg', backdrop: true, keyboard: true, windowClass: 'calculator-modal' });
+        modalRef.componentInstance.values = num;
         modalRef.result.then(result => {
             this.isOpen = false;
         }, (reason) => {

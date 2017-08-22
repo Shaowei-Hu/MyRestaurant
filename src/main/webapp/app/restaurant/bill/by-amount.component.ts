@@ -8,9 +8,10 @@ import { Desk, DeskService } from '../../entities/desk';
 import { Response } from '@angular/http';
 
 import { Ordre, OrdreService } from '../../entities/ordre';
-import { Payment, PaymentService } from '../../entities/payment';
+import { Payment } from '../../entities/payment';
 
 import { NumpadPopupService } from '../numpad';
+import { CalculatorPopupService } from '../calculator';
 
 @Component({
     selector: 'res-by-amount',
@@ -33,10 +34,10 @@ export class ByAmountComponent implements OnInit, OnDestroy {
     constructor(
         private jhiLanguageService: JhiLanguageService,
         private alertService: AlertService,
-        private paymentService: PaymentService,
         private eventManager: EventManager,
         private route: ActivatedRoute,
-        private numpadService: NumpadPopupService
+        private numpadService: NumpadPopupService,
+        private calculatorService: CalculatorPopupService
     ) {
     }
 
@@ -64,13 +65,18 @@ export class ByAmountComponent implements OnInit, OnDestroy {
         }
     }
 
-
     openNumpad () {
         this.numpadService.open().result.then((result) => {
             this.payment.amount = Number(result);
         }, (reason) => {});
     }
 
+    openCalculator () {
+        let values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
+        this.calculatorService.open(values).result.then((result) => {
+            this.payment.amount = Number(result);
+        }, (reason) => {});
+    }
 
     private onSaveSuccess (result: Desk) {
         this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});

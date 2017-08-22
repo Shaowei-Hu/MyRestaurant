@@ -11,6 +11,7 @@ import { Ordre, OrdreService } from '../../entities/ordre';
 import { Payment, PaymentService } from '../../entities/payment';
 
 import { NumpadPopupService } from '../numpad';
+import { CalculatorPopupService } from '../calculator';
 
 @Component({
     selector: 'res-by-order',
@@ -28,6 +29,8 @@ export class ByOrderComponent implements OnInit, OnDestroy {
     payments: Payment[];
     isDetail: boolean;
 
+    eventSubscriber: Subscription;
+
     orderToPay: Ordre[];
     orderSelected: Ordre[];
 
@@ -37,7 +40,8 @@ export class ByOrderComponent implements OnInit, OnDestroy {
         private paymentService: PaymentService,
         private eventManager: EventManager,
         private route: ActivatedRoute,
-        private numpadService: NumpadPopupService
+        private numpadService: NumpadPopupService,
+        private calculatorService: CalculatorPopupService
     ) {
     }
 
@@ -53,7 +57,7 @@ export class ByOrderComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-
+        this.eventManager.destroy(this.eventSubscriber);
     }
     previousState() {
       window.history.back();
@@ -67,6 +71,10 @@ export class ByOrderComponent implements OnInit, OnDestroy {
     removeOrder(index: number) {
         this.orderToPay = this.orderToPay.concat(this.orderSelected.splice(index, 1));
         this.getAmountSelected();
+    }
+
+    cleanOrder() {
+        this.orderSelected = [];
     }
 
     getAmountSelected() {
@@ -83,15 +91,11 @@ export class ByOrderComponent implements OnInit, OnDestroy {
         }, (reason) => {});
     }
 
-
-    private onSaveSuccess (result: Desk) {
-        this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
-        this.isSaving = false;
-    }
-
-    private onSaveError (error) {
-        this.isSaving = false;
-        this.onError(error);
+    openCalculator () {
+        let values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
+        this.calculatorService.open(values).result.then((result) => {
+            this.payment.amount = Number(result);
+        }, (reason) => {});
     }
 
     private onError (error) {
@@ -107,5 +111,6 @@ export class ByOrderComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInDesks() {
+        this.eventSubscriber = this.eventManager.subscribe('paymentListModification', (response) => this.cleanOrder());
     }
 }

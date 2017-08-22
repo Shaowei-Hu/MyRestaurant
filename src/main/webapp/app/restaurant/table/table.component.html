@@ -152,6 +152,46 @@
 		</div>
 		</div>
 		</div>
+
+
+
+		<div class="panel panel-default" *ngIf="desk?.payments.length>0">
+				<div class="panel-heading">
+					<i class="fa fa-usd" aria-hidden="true"></i>
+					<span> Paid</span>
+					<span class="float-xs-right">Amount paid:  <strong>{{getAmountPaid()}}</strong></span>
+				</div>
+				<div class="panel-body">
+					<table class="table table-striped">
+						<thead>
+						<tr>
+						<th><span>ID</span> <span class="fa fa-sort"></span></th>
+						<th><span>Type</span> <span class="fa fa-sort"></span></th>
+						<th><span>Amount</span> <span class="fa fa-sort"></span></th>
+						<th></th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let payment of desk.payments ;trackBy: trackId">
+							<td><a [routerLink]="['/payment', payment.id ]">{{payment.id}}</a></td>
+							<td>{{payment.type}}</td>
+							<td>{{payment.amount}}</td>
+							<td class="text-xs-right">
+								<div class="btn-group flex-btn-group-container">
+									<button type="submit"
+											[routerLink]="['/', { outlets: { popup: 'payment/'+ payment.id + '/delete'} }]"
+											replaceUrl="true"
+											class="btn btn-danger btn-sm">
+										<span class="fa fa-remove"></span>
+										<span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+									</button>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 	</div>
 
 </div>

@@ -66,16 +66,6 @@ export class BillComponent implements OnInit, OnDestroy {
       window.history.back();
     }
 
-    save () {
-        this.isSaving = true;
-        if (this.desk.id !== undefined) {
-            this.deskService.update(this.desk)
-                .subscribe((res: Desk) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
-        } else {
-
-        }
-    }
-
     load (id) {
         this.deskService.find(id).subscribe(desk => {
             if (desk.ordres != null) {

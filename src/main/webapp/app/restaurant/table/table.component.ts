@@ -118,6 +118,13 @@ export class TableComponent implements OnInit, OnDestroy {
         return 0;
     }
 
+    getAmountPaid () {
+        if (this.desk.payments) {
+            return this.desk.payments.reduce((pv, cv) => pv + cv.amount, 0);
+        }
+        return 0;
+    }
+
     private onSaveSuccess (result: Desk) {
         this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
         this.isSaving = false;

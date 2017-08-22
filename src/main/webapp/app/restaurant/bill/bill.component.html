@@ -3,7 +3,7 @@
 	<h2>
 		<span>Bill Table</span><span> {{desk?.name}}</span>
 		<span class="float-xs-right">
-		<button type="button" class="btn btn-default" [routerLink]="['/room']">
+		<button type="button" class="btn btn-default" (click)="previousState()">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
 		</span>
