@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { MyRestaurantSharedModule } from '../../shared';
 
 import {
-    RoomService,
     DeskPopupService,
     RoomComponent,
     DeskDialogComponent,
@@ -34,7 +33,6 @@ let ENTITY_STATES = [
         DeskPopupComponent
     ],
     providers: [
-        RoomService,
         DeskPopupService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

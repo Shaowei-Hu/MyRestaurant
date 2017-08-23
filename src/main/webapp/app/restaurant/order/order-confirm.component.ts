@@ -65,7 +65,7 @@ export class OrderPopupComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.modalRef = this.orderPopupService.open(OrderConfirmComponent);
+        this.modalRef = this.orderPopupService.open(OrderConfirmComponent as Component);
     }
 
     ngOnDestroy() {

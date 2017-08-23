@@ -2,15 +2,14 @@ import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Room } from './room.model';
-import { Desk } from '../../entities/desk';
-import { RoomService } from './room.service';
+import { Desk, DeskService } from '../../entities/desk';
 @Injectable()
 export class DeskPopupService {
     private isOpen = false;
     constructor (
         private modalService: NgbModal,
-        private router: Router,
-        private roomService: RoomService
+        private deskService: DeskService,
+        private router: Router
 
     ) {}
 
@@ -21,7 +20,7 @@ export class DeskPopupService {
         this.isOpen = true;
 
         if (id) {
-            this.roomService.find(id).subscribe(desk => {
+            this.deskService.find(id).subscribe(desk => {
                 this.deskModalRef(component, desk);
             });
         } else {

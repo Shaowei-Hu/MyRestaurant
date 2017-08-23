@@ -1,4 +1,6 @@
 import { BaseEntity } from './../../shared';
+import { Ordre } from './../ordre';
+import { Payment } from './../payment';
 
 export class Desk implements BaseEntity {
     constructor(
@@ -8,8 +10,8 @@ export class Desk implements BaseEntity {
         public clientNumber?: number,
         public amount?: number,
         public restaurant?: BaseEntity,
-        public ordres?: BaseEntity[],
-        public payments?: BaseEntity[],
+        public ordres?: Ordre[],
+        public payments?: Payment[],
     ) {
     }
 }

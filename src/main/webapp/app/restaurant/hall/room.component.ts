@@ -5,9 +5,8 @@ import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
 
 import { Room } from './room.model';
-import { Desk } from '../../entities/desk';
-import { RoomService } from './room.service';
-import { ITEMS_PER_PAGE, Principal } from '../../shared';
+import { Desk, DeskService } from '../../entities/desk';
+import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
@@ -25,10 +24,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     constructor(
         private jhiLanguageService: JhiLanguageService,
-        private roomService: RoomService,
         private alertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private activatedRoute: ActivatedRoute,
+        private deskService: DeskService,
         private principal: Principal
     ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
@@ -36,20 +35,20 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     loadAll() {
         if (this.currentSearch) {
-            this.roomService.search({
+            this.deskService.search({
                 query: this.currentSearch,
                 }).subscribe(
-                    (res: Response) => this.desks = res.json(),
-                    (res: Response) => this.onError(res.json())
+                    (res: ResponseWrapper) => this.desks = res.json,
+                    (res: ResponseWrapper) => this.onError(res.json)
                 );
             return;
        }
-        this.roomService.query().subscribe(
-            (res: Response) => {
-                this.desks = res.json();
+        this.deskService.query().subscribe(
+            (res: ResponseWrapper) => {
+                this.desks = res.json;
                 this.currentSearch = '';
             },
-            (res: Response) => this.onError(res.json())
+            (res: ResponseWrapper) => this.onError(res.json)
         );
     }
 

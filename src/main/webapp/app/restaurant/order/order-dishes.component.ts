@@ -110,7 +110,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
       let order: Ordre = new Ordre();
       order.name = product.name;
       order.price = product.price;
-      order.desk = this.desk.id;
+      order.desk.id = this.desk.id;
       return order;
     }
 
@@ -126,7 +126,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    private onSaveSuccess (result: Desk) {
+    private onSaveSuccess (result: any) {
         this.eventManager.broadcast({ name: 'ordreListModification', content: 'OK'});
         this.router.navigate(['/', { outlets: { popup: 'dishes/confirm'} }]);
         this.isSaving = false;

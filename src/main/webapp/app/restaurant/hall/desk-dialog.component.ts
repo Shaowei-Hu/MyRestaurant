@@ -6,9 +6,8 @@ import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService, JhiLanguageService } from 'ng-jhipster';
 
 import { Room } from './room.model';
-import { Desk } from '../../entities/desk';
+import { Desk, DeskService } from '../../entities/desk';
 import { DeskPopupService } from './desk-popup.service';
-import { RoomService } from './room.service';
 import { Restaurant, RestaurantService } from '../../entities/restaurant';
 import { Ordre, OrdreService } from '../../entities/ordre';
 import { Payment, PaymentService } from '../../entities/payment';
@@ -30,8 +29,8 @@ export class DeskDialogComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
-        private roomService: RoomService,
         private restaurantService: RestaurantService,
+        private deskService: DeskService,
         private ordreService: OrdreService,
         private paymentService: PaymentService,
         private eventManager: JhiEventManager
@@ -55,7 +54,7 @@ export class DeskDialogComponent implements OnInit {
     save () {
         this.isSaving = true;
         if (this.desk.id !== undefined) {
-            this.roomService.update(this.desk)
+            this.deskService.update(this.desk)
                 .subscribe((res: Desk) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         }
     }
@@ -106,10 +105,10 @@ export class DeskPopupComponent implements OnInit, OnDestroy {
         this.routeSub = this.route.params.subscribe(params => {
             if ( params['id'] ) {
                 this.modalRef = this.deskPopupService
-                    .open(DeskDialogComponent, params['id']);
+                    .open(DeskDialogComponent as Component, params['id']);
             } else {
                 this.modalRef = this.deskPopupService
-                    .open(DeskDialogComponent);
+                    .open(DeskDialogComponent as Component);
             }
 
         });
