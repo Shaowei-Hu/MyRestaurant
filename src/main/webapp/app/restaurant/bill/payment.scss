@@ -1,0 +1,82 @@
+// The code is a bit of a mess at the moment! Sorry about that.
+
+section {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 2rem;
+}
+section > div {
+  flex: 1;
+  padding-top: 2rem;
+  // &:not(:first-of-type) {
+  //   padding-left: 2rem;
+  // }
+}
+
+input[type="radio"] {
+  display: none;
+  &:not(:disabled) ~ label {
+    cursor: pointer;
+  }
+  &:disabled ~ label {
+    color: hsla(150, 5%, 75%, 1);
+    border-color: hsla(150, 5%, 75%, 1);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+section label {
+  height: 100%;
+  display: block;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  position: relative;
+}
+input[type="radio"]:checked + label {
+  background: #337ab7;
+  color: #fff;
+  &::after {
+    color: hsla(215, 5%, 25%, 1);
+    font-family: FontAwesome;
+    border: 2px solid #337ab7;
+    content: "\f00c";
+    font-size: 16px;
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 28px;
+    width: 28px;
+    line-height: 23px;
+    text-align: center;
+    border-radius: 50%;
+    background: white;
+  }
+}
+input[type="radio"]#control_05:checked + label {
+  background: #f0ad4e;
+  border-color: #eea236;
+}
+
+section p {
+    margin: 0.5rem;
+    font-family: sans-serif;
+}
+
+section {
+    margin-top: 1.0rem;
+}
+
+.pay-button {
+  margin-top: 1.5rem;
+}
+
+@media only screen and (max-width: 700px) {
+  section {
+    flex-direction: column;
+  }
+}

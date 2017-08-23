@@ -1,0 +1,21 @@
+
+
+        <div class="table-responsive" *ngIf="ordersWithQuantities">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+
+            <th><span >Name</span> <span class="fa fa-sort"></span></th>
+            <th><span >Price</span> <span class="fa fa-sort"></span></th>
+            <th><span >Quantity</span> <span class="fa fa-sort"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let orderWithQuantity of ordersWithQuantities">
+                <td>{{orderWithQuantity.product.name}}</td>
+                <td>{{orderWithQuantity.product.price}}</td>
+                <td>{{orderWithQuantity.quantity}}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
