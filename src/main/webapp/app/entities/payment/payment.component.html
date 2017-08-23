@@ -1,32 +1,27 @@
 <div>
-    <h2><span jhiTranslate="myRestaurantApp.payment.home.title">Payments</span>
-        <button class="btn btn-primary float-xs-right create-payment" [routerLink]="['/', { outlets: { popup: ['payment-new'] } }]">
+    <h2>
+        <span jhiTranslate="myRestaurantApp.payment.home.title">Payments</span>
+        <button class="btn btn-primary float-right jh-create-entity create-payment" [routerLink]="['/', { outlets: { popup: ['payment-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="myRestaurantApp.payment.home.createLabel">
             Create new Payment
             </span>
-        </button></h2>
+        </button>
+    </h2>
     <jhi-alert></jhi-alert>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-8 no-padding-right">
-                <form name="searchForm" class="form-inline">
-                    <div class="input-group pull-right">
-                        <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'myRestaurantApp.payment.home.search' | translate }}">
-                        <span  class="input-group-btn width-min">
-                            <button class="btn btn-info" (click)="search(currentSearch)">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </span>
-                        <span class="input-group-btn width-min" *ngIf="currentSearch">
-                            <button class="btn btn-info" (click)="clear()">
-                                <span class="fa fa-trash-o"></span>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'myRestaurantApp.payment.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     <br/>
@@ -51,7 +46,7 @@
                         <a [routerLink]="['../desk', payment.desk?.id ]" >{{payment.desk?.id}}</a>
                     </div>
                 </td>
-                <td class="text-xs-right">
+                <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['../payment', payment.id ]"
@@ -79,8 +74,12 @@
             </tbody>
         </table>
     </div>
-        <div class="text-xs-center" *ngIf="payments && payments.length">
-            <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+        <div *ngIf="payments && payments.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
         </div>
 </div>

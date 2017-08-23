@@ -77,7 +77,7 @@ public class OrdreResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        OrdreResource ordreResource = new OrdreResource(ordreService);
+        final OrdreResource ordreResource = new OrdreResource(ordreService);
         this.restOrdreMockMvc = MockMvcBuilders.standaloneSetup(ordreResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -92,9 +92,9 @@ public class OrdreResourceIntTest {
      */
     public static Ordre createEntity(EntityManager em) {
         Ordre ordre = new Ordre()
-                .name(DEFAULT_NAME)
-                .status(DEFAULT_STATUS)
-                .price(DEFAULT_PRICE);
+            .name(DEFAULT_NAME)
+            .status(DEFAULT_STATUS)
+            .price(DEFAULT_PRICE);
         return ordre;
     }
 
@@ -110,7 +110,6 @@ public class OrdreResourceIntTest {
         int databaseSizeBeforeCreate = ordreRepository.findAll().size();
 
         // Create the Ordre
-
         restOrdreMockMvc.perform(post("/api/ordres")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(ordre)))
@@ -135,13 +134,12 @@ public class OrdreResourceIntTest {
         int databaseSizeBeforeCreate = ordreRepository.findAll().size();
 
         // Create the Ordre with an existing ID
-        Ordre existingOrdre = new Ordre();
-        existingOrdre.setId(1L);
+        ordre.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restOrdreMockMvc.perform(post("/api/ordres")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingOrdre)))
+            .content(TestUtil.convertObjectToJsonBytes(ordre)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -200,9 +198,9 @@ public class OrdreResourceIntTest {
         // Update the ordre
         Ordre updatedOrdre = ordreRepository.findOne(ordre.getId());
         updatedOrdre
-                .name(UPDATED_NAME)
-                .status(UPDATED_STATUS)
-                .price(UPDATED_PRICE);
+            .name(UPDATED_NAME)
+            .status(UPDATED_STATUS)
+            .price(UPDATED_PRICE);
 
         restOrdreMockMvc.perform(put("/api/ordres")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -279,7 +277,17 @@ public class OrdreResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Ordre.class);
+        Ordre ordre1 = new Ordre();
+        ordre1.setId(1L);
+        Ordre ordre2 = new Ordre();
+        ordre2.setId(ordre1.getId());
+        assertThat(ordre1).isEqualTo(ordre2);
+        ordre2.setId(2L);
+        assertThat(ordre1).isNotEqualTo(ordre2);
+        ordre1.setId(null);
+        assertThat(ordre1).isNotEqualTo(ordre2);
     }
 }

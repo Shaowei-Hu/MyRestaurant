@@ -1,23 +1,23 @@
 import './vendor.ts';
 
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
 import { MyRestaurantSharedModule, UserRouteAccessService } from './shared';
 import { MyRestaurantHomeModule } from './home/home.module';
-import { MyRestaurantRestaurantModule } from './restaurant/restaurant.module';
 import { MyRestaurantAdminModule } from './admin/admin.module';
 import { MyRestaurantAccountModule } from './account/account.module';
 import { MyRestaurantEntityModule } from './entities/entity.module';
 
-import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
+// jhipster-needle-angular-add-module-import JHipster will add new module here
+
 import {
     JhiMainComponent,
+    LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
     ProfileService,
@@ -25,7 +25,6 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
-
 
 @NgModule({
     imports: [
@@ -37,7 +36,7 @@ import {
         MyRestaurantAdminModule,
         MyRestaurantAccountModule,
         MyRestaurantEntityModule,
-        MyRestaurantRestaurantModule
+        // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
         JhiMainComponent,
@@ -49,8 +48,6 @@ import {
     ],
     providers: [
         ProfileService,
-        { provide: Window, useValue: window },
-        { provide: Document, useValue: document },
         customHttpProvider(),
         PaginationConfig,
         UserRouteAccessService

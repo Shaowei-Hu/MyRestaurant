@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -29,7 +29,7 @@ public class ProductResource {
     private final Logger log = LoggerFactory.getLogger(ProductResource.class);
 
     private static final String ENTITY_NAME = "product";
-        
+
     private final ProductService productService;
 
     public ProductResource(ProductService productService) {
@@ -62,7 +62,7 @@ public class ProductResource {
      * @param product the product to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated product,
      * or with status 400 (Bad Request) if the product is not valid,
-     * or with status 500 (Internal Server Error) if the product couldnt be updated
+     * or with status 500 (Internal Server Error) if the product couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/products")
@@ -88,7 +88,7 @@ public class ProductResource {
     public List<Product> getAllProducts() {
         log.debug("REST request to get all Products");
         return productService.findAll();
-    }
+        }
 
     /**
      * GET  /products/:id : get the "id" product.
@@ -122,7 +122,7 @@ public class ProductResource {
      * SEARCH  /_search/products?query=:query : search for the product corresponding
      * to the query.
      *
-     * @param query the query of the product search 
+     * @param query the query of the product search
      * @return the result of the search
      */
     @GetMapping("/_search/products")
@@ -131,6 +131,5 @@ public class ProductResource {
         log.debug("REST request to search Products for query {}", query);
         return productService.search(query);
     }
-
 
 }

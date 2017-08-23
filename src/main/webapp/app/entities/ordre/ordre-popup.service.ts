@@ -3,40 +3,51 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Ordre } from './ordre.model';
 import { OrdreService } from './ordre.service';
+
 @Injectable()
 export class OrdrePopupService {
-    private isOpen = false;
-    constructor (
+    private ngbModalRef: NgbModalRef;
+
+    constructor(
         private modalService: NgbModal,
         private router: Router,
         private ordreService: OrdreService
 
-    ) {}
+    ) {
+        this.ngbModalRef = null;
+    }
 
-    open (component: Component, id?: number | any): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
+    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        return new Promise<NgbModalRef>((resolve, reject) => {
+            const isOpen = this.ngbModalRef !== null;
+            if (isOpen) {
+                resolve(this.ngbModalRef);
+            }
 
-        if (id) {
-            this.ordreService.find(id).subscribe(ordre => {
-                this.ordreModalRef(component, ordre);
-            });
-        } else {
-            return this.ordreModalRef(component, new Ordre());
-        }
+            if (id) {
+                this.ordreService.find(id).subscribe((ordre) => {
+                    this.ngbModalRef = this.ordreModalRef(component, ordre);
+                    resolve(this.ngbModalRef);
+                });
+            } else {
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.ngbModalRef = this.ordreModalRef(component, new Ordre());
+                    resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     ordreModalRef(component: Component, ordre: Ordre): NgbModalRef {
-        let modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
         modalRef.componentInstance.ordre = ordre;
-        modalRef.result.then(result => {
+        modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         });
         return modalRef;
     }

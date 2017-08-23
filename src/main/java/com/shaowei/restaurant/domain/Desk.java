@@ -1,26 +1,16 @@
 package com.shaowei.restaurant.domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
 
 /**
  * A Desk.
@@ -29,9 +19,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "desk")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "desk")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 public class Desk implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,11 +43,16 @@ public class Desk implements Serializable {
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "desk")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Ordre> ordres = new HashSet<>();
 
     @OneToMany(mappedBy = "desk")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Payment> payments = new HashSet<>();
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -183,6 +175,7 @@ public class Desk implements Serializable {
     public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -193,14 +186,25 @@ public class Desk implements Serializable {
             return false;
         }
         Desk desk = (Desk) o;
-        if (desk.id == null || id == null) {
+        if (desk.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, desk.id);
+        return Objects.equals(getId(), desk.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Desk{" +
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", clientNumber='" + getClientNumber() + "'" +
+            ", amount='" + getAmount() + "'" +
+            "}";
     }
 }

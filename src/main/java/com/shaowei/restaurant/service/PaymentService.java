@@ -7,12 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -24,11 +21,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class PaymentService {
 
     private final Logger log = LoggerFactory.getLogger(PaymentService.class);
-    
+
     private final PaymentRepository paymentRepository;
 
     private final PaymentSearchRepository paymentSearchRepository;
-
     public PaymentService(PaymentRepository paymentRepository, PaymentSearchRepository paymentSearchRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentSearchRepository = paymentSearchRepository;
@@ -49,15 +45,14 @@ public class PaymentService {
 
     /**
      *  Get all the payments.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Payment> findAll(Pageable pageable) {
         log.debug("Request to get all Payments");
-        Page<Payment> result = paymentRepository.findAll(pageable);
-        return result;
+        return paymentRepository.findAll(pageable);
     }
 
     /**
@@ -69,8 +64,7 @@ public class PaymentService {
     @Transactional(readOnly = true)
     public Payment findOne(Long id) {
         log.debug("Request to get Payment : {}", id);
-        Payment payment = paymentRepository.findOne(id);
-        return payment;
+        return paymentRepository.findOne(id);
     }
 
     /**
@@ -88,6 +82,7 @@ public class PaymentService {
      * Search for the payment corresponding to the query.
      *
      *  @param query the query of the search
+     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Transactional(readOnly = true)

@@ -27,7 +27,7 @@ public class Payment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
+    @Column(name = "jhi_type")
     private String type;
 
     @Column(name = "amount", precision=10, scale=2)
@@ -41,6 +41,7 @@ public class Payment implements Serializable {
     @ManyToOne
     private Desk desk;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -112,6 +113,7 @@ public class Payment implements Serializable {
     public void setDesk(Desk desk) {
         this.desk = desk;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -122,23 +124,23 @@ public class Payment implements Serializable {
             return false;
         }
         Payment payment = (Payment) o;
-        if (payment.id == null || id == null) {
+        if (payment.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, payment.id);
+        return Objects.equals(getId(), payment.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Payment{" +
-            "id=" + id +
-            ", type='" + type + "'" +
-            ", amount='" + amount + "'" +
-            '}';
+            "id=" + getId() +
+            ", type='" + getType() + "'" +
+            ", amount='" + getAmount() + "'" +
+            "}";
     }
 }

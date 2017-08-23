@@ -1,9 +1,8 @@
 package com.shaowei.restaurant.service;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
-import java.math.BigDecimal;
-
+import com.shaowei.restaurant.domain.Ordre;
+import com.shaowei.restaurant.repository.OrdreRepository;
+import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,11 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shaowei.restaurant.domain.Desk;
-import com.shaowei.restaurant.domain.Ordre;
-import com.shaowei.restaurant.repository.OrdreRepository;
-import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
-import com.shaowei.restaurant.service.dto.OrderDTO;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Ordre.
@@ -25,17 +21,13 @@ import com.shaowei.restaurant.service.dto.OrderDTO;
 public class OrdreService {
 
     private final Logger log = LoggerFactory.getLogger(OrdreService.class);
-    
+
     private final OrdreRepository ordreRepository;
 
     private final OrdreSearchRepository ordreSearchRepository;
-    
-    private final DeskService deskService;
-
-    public OrdreService(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository, DeskService deskService) {
+    public OrdreService(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository) {
         this.ordreRepository = ordreRepository;
         this.ordreSearchRepository = ordreSearchRepository;
-        this.deskService = deskService;
     }
 
     /**
@@ -50,42 +42,17 @@ public class OrdreService {
         ordreSearchRepository.save(result);
         return result;
     }
-    
-    /**
-     * Save a ordre array.
-     *
-     * @param ordres the entity array to save
-     * @return the persisted entity array
-     */
-    public Ordre[] save(OrderDTO[] ordres) {
-        log.debug("Request to save Ordre array: {}", ordres.toString());
-        BigDecimal amount = new BigDecimal(0);
-        Desk desk = deskService.findOne(ordres[0].getDesk());
-        Ordre[] result = new Ordre[ordres.length];
-        for(int i=0; i<ordres.length; i++){
-        	Ordre ordre = new Ordre();
-        	ordre.setDesk(desk);
-        	ordre.setName(ordres[i].getName());
-        	ordre.setPrice(ordres[i].getPrice());
-            result[i] = ordreRepository.save(ordre);
-            ordreSearchRepository.save(ordre);
-            amount = amount.add(result[i].getPrice()); 
-        }
-        desk.setAmount(desk.getAmount().add(amount));
-        return result;
-    }
 
     /**
      *  Get all the ordres.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Ordre> findAll(Pageable pageable) {
         log.debug("Request to get all Ordres");
-        Page<Ordre> result = ordreRepository.findAll(pageable);
-        return result;
+        return ordreRepository.findAll(pageable);
     }
 
     /**
@@ -97,8 +64,7 @@ public class OrdreService {
     @Transactional(readOnly = true)
     public Ordre findOne(Long id) {
         log.debug("Request to get Ordre : {}", id);
-        Ordre ordre = ordreRepository.findOne(id);
-        return ordre;
+        return ordreRepository.findOne(id);
     }
 
     /**
@@ -116,6 +82,7 @@ public class OrdreService {
      * Search for the ordre corresponding to the query.
      *
      *  @param query the query of the search
+     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Transactional(readOnly = true)

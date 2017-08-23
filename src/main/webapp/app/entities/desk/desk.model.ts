@@ -1,15 +1,15 @@
-import { Restaurant } from '../restaurant';
-import { Ordre } from '../ordre';
-import { Payment } from '../payment';
-export class Desk {
+import { BaseEntity } from './../../shared';
+
+export class Desk implements BaseEntity {
     constructor(
         public id?: number,
         public name?: string,
         public status?: string,
         public clientNumber?: number,
         public amount?: number,
-        public restaurant?: Restaurant,
-        public ordres?: Ordre[],
-        public payments?: Payment[],
-    ) { }
+        public restaurant?: BaseEntity,
+        public ordres?: BaseEntity[],
+        public payments?: BaseEntity[],
+    ) {
+    }
 }

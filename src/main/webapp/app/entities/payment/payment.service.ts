@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { Payment } from './payment.model';
+import { ResponseWrapper, createRequestOption } from '../../shared';
+
 @Injectable()
 export class PaymentService {
 
@@ -12,14 +14,14 @@ export class PaymentService {
     constructor(private http: Http) { }
 
     create(payment: Payment): Observable<Payment> {
-        let copy: Payment = Object.assign({}, payment);
+        const copy = this.convert(payment);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
     update(payment: Payment): Observable<Payment> {
-        let copy: Payment = Object.assign({}, payment);
+        const copy = this.convert(payment);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -31,36 +33,29 @@ export class PaymentService {
         });
     }
 
-    query(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+    query(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
-        ;
+            .map((res: Response) => this.convertResponse(res));
     }
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    search(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
+    search(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
         return this.http.get(this.resourceSearchUrl, options)
-        ;
+            .map((res: any) => this.convertResponse(res));
     }
 
+    private convertResponse(res: Response): ResponseWrapper {
+        const jsonResponse = res.json();
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
+    }
 
-    private createRequestOption(req?: any): BaseRequestOptions {
-        let options: BaseRequestOptions = new BaseRequestOptions();
-        if (req) {
-            let params: URLSearchParams = new URLSearchParams();
-            params.set('page', req.page);
-            params.set('size', req.size);
-            if (req.sort) {
-                params.paramsMap.set('sort', req.sort);
-            }
-            params.set('query', req.query);
-
-            options.search = params;
-        }
-        return options;
+    private convert(payment: Payment): Payment {
+        const copy: Payment = Object.assign({}, payment);
+        return copy;
     }
 }

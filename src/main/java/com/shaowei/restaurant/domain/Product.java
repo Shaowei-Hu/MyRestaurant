@@ -33,6 +33,7 @@ public class Product implements Serializable {
     @Column(name = "description")
     private String description;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -79,6 +80,7 @@ public class Product implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -89,24 +91,24 @@ public class Product implements Serializable {
             return false;
         }
         Product product = (Product) o;
-        if (product.id == null || id == null) {
+        if (product.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, product.id);
+        return Objects.equals(getId(), product.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Product{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", price='" + price + "'" +
-            ", description='" + description + "'" +
-            '}';
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", price='" + getPrice() + "'" +
+            ", description='" + getDescription() + "'" +
+            "}";
     }
 }

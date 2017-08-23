@@ -74,7 +74,7 @@ public class PaymentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PaymentResource paymentResource = new PaymentResource(paymentService);
+        final PaymentResource paymentResource = new PaymentResource(paymentService);
         this.restPaymentMockMvc = MockMvcBuilders.standaloneSetup(paymentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -89,8 +89,8 @@ public class PaymentResourceIntTest {
      */
     public static Payment createEntity(EntityManager em) {
         Payment payment = new Payment()
-                .type(DEFAULT_TYPE)
-                .amount(DEFAULT_AMOUNT);
+            .type(DEFAULT_TYPE)
+            .amount(DEFAULT_AMOUNT);
         return payment;
     }
 
@@ -106,7 +106,6 @@ public class PaymentResourceIntTest {
         int databaseSizeBeforeCreate = paymentRepository.findAll().size();
 
         // Create the Payment
-
         restPaymentMockMvc.perform(post("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(payment)))
@@ -130,13 +129,12 @@ public class PaymentResourceIntTest {
         int databaseSizeBeforeCreate = paymentRepository.findAll().size();
 
         // Create the Payment with an existing ID
-        Payment existingPayment = new Payment();
-        existingPayment.setId(1L);
+        payment.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPaymentMockMvc.perform(post("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingPayment)))
+            .content(TestUtil.convertObjectToJsonBytes(payment)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -193,8 +191,8 @@ public class PaymentResourceIntTest {
         // Update the payment
         Payment updatedPayment = paymentRepository.findOne(payment.getId());
         updatedPayment
-                .type(UPDATED_TYPE)
-                .amount(UPDATED_AMOUNT);
+            .type(UPDATED_TYPE)
+            .amount(UPDATED_AMOUNT);
 
         restPaymentMockMvc.perform(put("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -269,7 +267,17 @@ public class PaymentResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Payment.class);
+        Payment payment1 = new Payment();
+        payment1.setId(1L);
+        Payment payment2 = new Payment();
+        payment2.setId(payment1.getId());
+        assertThat(payment1).isEqualTo(payment2);
+        payment2.setId(2L);
+        assertThat(payment1).isNotEqualTo(payment2);
+        payment1.setId(null);
+        assertThat(payment1).isNotEqualTo(payment2);
     }
 }

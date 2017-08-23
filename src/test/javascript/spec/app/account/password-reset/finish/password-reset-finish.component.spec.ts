@@ -1,16 +1,11 @@
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
 import { Renderer, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoginModalService } from '../../../../../../../main/webapp/app/shared';
-import { Observable } from 'rxjs/Rx';
-import { JhiLanguageService } from 'ng-jhipster';
-import { MockLanguageService } from '../../../../helpers/mock-language.service';
+import { MyRestaurantTestModule } from '../../../../test.module';
 import { PasswordResetFinishComponent } from '../../../../../../../main/webapp/app/account/password-reset/finish/password-reset-finish.component';
-import { PasswordResetFinish } from '../../../../../../../main/webapp/app/account/password-reset/finish/password-reset-finish.service';
+import { PasswordResetFinishService } from '../../../../../../../main/webapp/app/account/password-reset/finish/password-reset-finish.service';
 import { MockActivatedRoute } from '../../../../helpers/mock-route.service';
-
 
 describe('Component Tests', () => {
 
@@ -21,17 +16,10 @@ describe('Component Tests', () => {
 
         beforeEach(() => {
             fixture = TestBed.configureTestingModule({
+                imports: [MyRestaurantTestModule],
                 declarations: [PasswordResetFinishComponent],
-                providers: [PasswordResetFinish,
-                    MockBackend,
-                    BaseRequestOptions,
-                    {
-                        provide: Http,
-                        useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                            return new Http(backendInstance, defaultOptions);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                    },
+                providers: [
+                    PasswordResetFinishService,
                     {
                         provide: LoginModalService,
                         useValue: null
@@ -39,10 +27,6 @@ describe('Component Tests', () => {
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({'key': 'XYZPDQ'})
-                    },
-                    {
-                        provide: JhiLanguageService,
-                        useClass: MockLanguageService
                     },
                     {
                         provide: Renderer,
@@ -55,15 +39,12 @@ describe('Component Tests', () => {
                         useValue: new ElementRef(null)
                     }
                 ]
-            }).overrideComponent(PasswordResetFinishComponent, {
-                set: {
-                    template: ''
-                }
-            }).createComponent(PasswordResetFinishComponent);
+            }).overrideTemplate(PasswordResetFinishComponent, '')
+            .createComponent(PasswordResetFinishComponent);
             comp = fixture.componentInstance;
         });
 
-        it('should define its initial state', function () {
+        it('should define its initial state', () => {
             comp.ngOnInit();
 
             expect(comp.keyMissing).toBeFalsy();
@@ -73,8 +54,8 @@ describe('Component Tests', () => {
 
         it('sets focus after the view has been initialized',
             inject([ElementRef], (elementRef: ElementRef) => {
-                let element = fixture.nativeElement;
-                let node = {
+                const element = fixture.nativeElement;
+                const node = {
                     focus() {}
                 };
 

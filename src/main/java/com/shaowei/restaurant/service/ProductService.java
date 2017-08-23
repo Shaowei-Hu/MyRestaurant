@@ -5,8 +5,8 @@ import com.shaowei.restaurant.repository.ProductRepository;
 import com.shaowei.restaurant.repository.search.ProductSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +22,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ProductService {
 
     private final Logger log = LoggerFactory.getLogger(ProductService.class);
-    
+
     private final ProductRepository productRepository;
 
     private final ProductSearchRepository productSearchRepository;
-
     public ProductService(ProductRepository productRepository, ProductSearchRepository productSearchRepository) {
         this.productRepository = productRepository;
         this.productSearchRepository = productSearchRepository;
@@ -47,15 +46,13 @@ public class ProductService {
 
     /**
      *  Get all the products.
-     *  
+     *
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         log.debug("Request to get all Products");
-        List<Product> result = productRepository.findAll();
-
-        return result;
+        return productRepository.findAll();
     }
 
     /**
@@ -67,8 +64,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Product findOne(Long id) {
         log.debug("Request to get Product : {}", id);
-        Product product = productRepository.findOne(id);
-        return product;
+        return productRepository.findOne(id);
     }
 
     /**

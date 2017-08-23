@@ -1,6 +1,6 @@
 {
   "generator-jhipster": {
-    "jhipsterVersion": "4.0.5",
+    "jhipsterVersion": "4.7.0",
     "baseName": "MyRestaurant",
     "packageName": "com.shaowei.restaurant",
     "packageFolder": "com/shaowei/restaurant",
@@ -18,7 +18,7 @@
     "buildTool": "maven",
     "enableSocialSignIn": false,
     "rememberMeKey": "496ee11152dc13f90749e4662f64473cf0b8bbb4",
-    "clientFramework": "angular2",
+    "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "yarn",
     "applicationType": "monolith",

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Desk } from './desk.model';
 import { DeskPopupService } from './desk-popup.service';
@@ -17,20 +17,18 @@ export class DeskDeleteDialogComponent {
     desk: Desk;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private deskService: DeskService,
         public activeModal: NgbActiveModal,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['desk']);
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete (id: number) {
-        this.deskService.delete(id).subscribe(response => {
+    confirmDelete(id: number) {
+        this.deskService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'deskListModification',
                 content: 'Deleted an desk'
@@ -46,18 +44,17 @@ export class DeskDeleteDialogComponent {
 })
 export class DeskDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private deskPopupService: DeskPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
-            this.modalRef = this.deskPopupService
-                .open(DeskDeleteDialogComponent, params['id']);
+        this.routeSub = this.route.params.subscribe((params) => {
+            this.deskPopupService
+                .open(DeskDeleteDialogComponent as Component, params['id']);
         });
     }
 

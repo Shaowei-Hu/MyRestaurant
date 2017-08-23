@@ -73,7 +73,7 @@ public class RestaurantResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        RestaurantResource restaurantResource = new RestaurantResource(restaurantService);
+        final RestaurantResource restaurantResource = new RestaurantResource(restaurantService);
         this.restRestaurantMockMvc = MockMvcBuilders.standaloneSetup(restaurantResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -88,8 +88,8 @@ public class RestaurantResourceIntTest {
      */
     public static Restaurant createEntity(EntityManager em) {
         Restaurant restaurant = new Restaurant()
-                .name(DEFAULT_NAME)
-                .content(DEFAULT_CONTENT);
+            .name(DEFAULT_NAME)
+            .content(DEFAULT_CONTENT);
         return restaurant;
     }
 
@@ -105,7 +105,6 @@ public class RestaurantResourceIntTest {
         int databaseSizeBeforeCreate = restaurantRepository.findAll().size();
 
         // Create the Restaurant
-
         restRestaurantMockMvc.perform(post("/api/restaurants")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(restaurant)))
@@ -129,13 +128,12 @@ public class RestaurantResourceIntTest {
         int databaseSizeBeforeCreate = restaurantRepository.findAll().size();
 
         // Create the Restaurant with an existing ID
-        Restaurant existingRestaurant = new Restaurant();
-        existingRestaurant.setId(1L);
+        restaurant.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restRestaurantMockMvc.perform(post("/api/restaurants")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingRestaurant)))
+            .content(TestUtil.convertObjectToJsonBytes(restaurant)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -192,8 +190,8 @@ public class RestaurantResourceIntTest {
         // Update the restaurant
         Restaurant updatedRestaurant = restaurantRepository.findOne(restaurant.getId());
         updatedRestaurant
-                .name(UPDATED_NAME)
-                .content(UPDATED_CONTENT);
+            .name(UPDATED_NAME)
+            .content(UPDATED_CONTENT);
 
         restRestaurantMockMvc.perform(put("/api/restaurants")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -268,7 +266,17 @@ public class RestaurantResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Restaurant.class);
+        Restaurant restaurant1 = new Restaurant();
+        restaurant1.setId(1L);
+        Restaurant restaurant2 = new Restaurant();
+        restaurant2.setId(restaurant1.getId());
+        assertThat(restaurant1).isEqualTo(restaurant2);
+        restaurant2.setId(2L);
+        assertThat(restaurant1).isNotEqualTo(restaurant2);
+        restaurant1.setId(null);
+        assertThat(restaurant1).isNotEqualTo(restaurant2);
     }
 }

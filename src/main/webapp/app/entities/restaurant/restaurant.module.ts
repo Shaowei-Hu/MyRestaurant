@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MyRestaurantSharedModule } from '../../shared';
-
 import {
     RestaurantService,
     RestaurantPopupService,
@@ -16,7 +15,7 @@ import {
     restaurantPopupRoute,
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...restaurantRoute,
     ...restaurantPopupRoute,
 ];

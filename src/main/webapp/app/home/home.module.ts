@@ -5,7 +5,6 @@ import { MyRestaurantSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
 
-
 @NgModule({
     imports: [
         MyRestaurantSharedModule,

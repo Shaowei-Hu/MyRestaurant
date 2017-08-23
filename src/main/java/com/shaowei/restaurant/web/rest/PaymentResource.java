@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -35,7 +35,7 @@ public class PaymentResource {
     private final Logger log = LoggerFactory.getLogger(PaymentResource.class);
 
     private static final String ENTITY_NAME = "payment";
-        
+
     private final PaymentService paymentService;
 
     public PaymentResource(PaymentService paymentService) {
@@ -68,7 +68,7 @@ public class PaymentResource {
      * @param payment the payment to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated payment,
      * or with status 400 (Bad Request) if the payment is not valid,
-     * or with status 500 (Internal Server Error) if the payment couldnt be updated
+     * or with status 500 (Internal Server Error) if the payment couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/payments")
@@ -89,12 +89,10 @@ public class PaymentResource {
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of payments in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/payments")
     @Timed
-    public ResponseEntity<List<Payment>> getAllPayments(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Payment>> getAllPayments(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Payments");
         Page<Payment> page = paymentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/payments");
@@ -133,20 +131,17 @@ public class PaymentResource {
      * SEARCH  /_search/payments?query=:query : search for the payment corresponding
      * to the query.
      *
-     * @param query the query of the payment search 
+     * @param query the query of the payment search
      * @param pageable the pagination information
      * @return the result of the search
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/_search/payments")
     @Timed
-    public ResponseEntity<List<Payment>> searchPayments(@RequestParam String query, @ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Payment>> searchPayments(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Payments for query {}", query);
         Page<Payment> page = paymentService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/payments");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

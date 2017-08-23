@@ -1,10 +1,12 @@
 package com.shaowei.restaurant.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-
+import com.codahale.metrics.annotation.Timed;
+import com.shaowei.restaurant.domain.Ordre;
+import com.shaowei.restaurant.service.OrdreService;
+import com.shaowei.restaurant.web.rest.util.HeaderUtil;
+import com.shaowei.restaurant.web.rest.util.PaginationUtil;
+import io.swagger.annotations.ApiParam;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,25 +14,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.codahale.metrics.annotation.Timed;
-import com.shaowei.restaurant.domain.Ordre;
-import com.shaowei.restaurant.service.OrdreService;
-import com.shaowei.restaurant.service.dto.OrderDTO;
-import com.shaowei.restaurant.web.rest.util.HeaderUtil;
-import com.shaowei.restaurant.web.rest.util.PaginationUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import io.github.jhipster.web.util.ResponseUtil;
-import io.swagger.annotations.ApiParam;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Ordre.
@@ -42,7 +35,7 @@ public class OrdreResource {
     private final Logger log = LoggerFactory.getLogger(OrdreResource.class);
 
     private static final String ENTITY_NAME = "ordre";
-        
+
     private final OrdreService ordreService;
 
     public OrdreResource(OrdreService ordreService) {
@@ -68,25 +61,6 @@ public class OrdreResource {
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
-    
-    /**
-     * POST  /ordres : Create an array of new ordre.
-     *
-     * @param ordres the ordre arrat to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new ordres, or with status 400 (Bad Request) if the ordre has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PostMapping("/ordreses")
-    @Timed
-    public ResponseEntity<Ordre[]> createOrdre(@RequestBody OrderDTO[] ordres) throws URISyntaxException {
-        log.debug("REST request to save Ordre array : {}", ordres.toString());
-
-        Ordre[] result = ordreService.save(ordres);
-        return ResponseEntity.created(new URI("/api/ordreses/++size" + result.length))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.toString()))
-            .body(result);
-    }
-
 
     /**
      * PUT  /ordres : Updates an existing ordre.
@@ -94,7 +68,7 @@ public class OrdreResource {
      * @param ordre the ordre to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated ordre,
      * or with status 400 (Bad Request) if the ordre is not valid,
-     * or with status 500 (Internal Server Error) if the ordre couldnt be updated
+     * or with status 500 (Internal Server Error) if the ordre couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/ordres")
@@ -115,12 +89,10 @@ public class OrdreResource {
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of ordres in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/ordres")
     @Timed
-    public ResponseEntity<List<Ordre>> getAllOrdres(@ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Ordre>> getAllOrdres(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Ordres");
         Page<Ordre> page = ordreService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ordres");
@@ -159,20 +131,17 @@ public class OrdreResource {
      * SEARCH  /_search/ordres?query=:query : search for the ordre corresponding
      * to the query.
      *
-     * @param query the query of the ordre search 
+     * @param query the query of the ordre search
      * @param pageable the pagination information
      * @return the result of the search
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/_search/ordres")
     @Timed
-    public ResponseEntity<List<Ordre>> searchOrdres(@RequestParam String query, @ApiParam Pageable pageable)
-        throws URISyntaxException {
+    public ResponseEntity<List<Ordre>> searchOrdres(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Ordres for query {}", query);
         Page<Ordre> page = ordreService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/ordres");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

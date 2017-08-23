@@ -1,16 +1,12 @@
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { JhiLanguageService } from 'ng-jhipster';
-import { MockLanguageService } from '../../../helpers/mock-language.service';
+import { MyRestaurantTestModule } from '../../../test.module';
 import { PasswordComponent } from '../../../../../../main/webapp/app/account/password/password.component';
-import { Password } from '../../../../../../main/webapp/app/account/password/password.service';
+import { PasswordService } from '../../../../../../main/webapp/app/account/password/password.service';
 import { Principal } from '../../../../../../main/webapp/app/shared/auth/principal.service';
 import { AccountService } from '../../../../../../main/webapp/app/shared/auth/account.service';
 import { JhiTrackerService } from '../../../../../../main/webapp/app/shared/tracker/tracker.service';
 import { MockTrackerService } from '../../../helpers/mock-tracker.service';
-
 
 describe('Component Tests', () => {
 
@@ -18,44 +14,29 @@ describe('Component Tests', () => {
 
         let comp: PasswordComponent;
         let fixture: ComponentFixture<PasswordComponent>;
-        let service: Password;
+        let service: PasswordService;
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
+                imports: [MyRestaurantTestModule],
                 declarations: [PasswordComponent],
                 providers: [
-                    MockBackend,
                     Principal,
                     AccountService,
                     {
                         provide: JhiTrackerService,
                         useClass: MockTrackerService
                     },
-                    BaseRequestOptions,
-                    {
-                        provide: Http,
-                        useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                            return new Http(backendInstance, defaultOptions);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                    },
-                    {
-                        provide: JhiLanguageService,
-                        useClass: MockLanguageService
-                    },
-                    Password
+                    PasswordService
                 ]
-            }).overrideComponent(PasswordComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(PasswordComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(PasswordComponent);
             comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(Password);
+            service = fixture.debugElement.injector.get(PasswordService);
         });
 
         it('should show error if passwords do not match', () => {

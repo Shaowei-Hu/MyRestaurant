@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -29,7 +29,7 @@ public class DeskResource {
     private final Logger log = LoggerFactory.getLogger(DeskResource.class);
 
     private static final String ENTITY_NAME = "desk";
-        
+
     private final DeskService deskService;
 
     public DeskResource(DeskService deskService) {
@@ -62,7 +62,7 @@ public class DeskResource {
      * @param desk the desk to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated desk,
      * or with status 400 (Bad Request) if the desk is not valid,
-     * or with status 500 (Internal Server Error) if the desk couldnt be updated
+     * or with status 500 (Internal Server Error) if the desk couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/desks")
@@ -88,7 +88,7 @@ public class DeskResource {
     public List<Desk> getAllDesks() {
         log.debug("REST request to get all Desks");
         return deskService.findAll();
-    }
+        }
 
     /**
      * GET  /desks/:id : get the "id" desk.
@@ -100,7 +100,7 @@ public class DeskResource {
     @Timed
     public ResponseEntity<Desk> getDesk(@PathVariable Long id) {
         log.debug("REST request to get Desk : {}", id);
-        Desk desk = deskService.findOneEager(id);
+        Desk desk = deskService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(desk));
     }
 
@@ -122,7 +122,7 @@ public class DeskResource {
      * SEARCH  /_search/desks?query=:query : search for the desk corresponding
      * to the query.
      *
-     * @param query the query of the desk search 
+     * @param query the query of the desk search
      * @return the result of the search
      */
     @GetMapping("/_search/desks")
@@ -131,6 +131,5 @@ public class DeskResource {
         log.debug("REST request to search Desks for query {}", query);
         return deskService.search(query);
     }
-
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Ordre } from './ordre.model';
 import { OrdrePopupService } from './ordre-popup.service';
@@ -17,20 +17,18 @@ export class OrdreDeleteDialogComponent {
     ordre: Ordre;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private ordreService: OrdreService,
         public activeModal: NgbActiveModal,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['ordre']);
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete (id: number) {
-        this.ordreService.delete(id).subscribe(response => {
+    confirmDelete(id: number) {
+        this.ordreService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'ordreListModification',
                 content: 'Deleted an ordre'
@@ -46,18 +44,17 @@ export class OrdreDeleteDialogComponent {
 })
 export class OrdreDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private ordrePopupService: OrdrePopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
-            this.modalRef = this.ordrePopupService
-                .open(OrdreDeleteDialogComponent, params['id']);
+        this.routeSub = this.route.params.subscribe((params) => {
+            this.ordrePopupService
+                .open(OrdreDeleteDialogComponent as Component, params['id']);
         });
     }
 

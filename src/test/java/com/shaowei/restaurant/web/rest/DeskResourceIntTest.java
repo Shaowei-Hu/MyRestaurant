@@ -80,7 +80,7 @@ public class DeskResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        DeskResource deskResource = new DeskResource(deskService);
+        final DeskResource deskResource = new DeskResource(deskService);
         this.restDeskMockMvc = MockMvcBuilders.standaloneSetup(deskResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -95,10 +95,10 @@ public class DeskResourceIntTest {
      */
     public static Desk createEntity(EntityManager em) {
         Desk desk = new Desk()
-                .name(DEFAULT_NAME)
-                .status(DEFAULT_STATUS)
-                .clientNumber(DEFAULT_CLIENT_NUMBER)
-                .amount(DEFAULT_AMOUNT);
+            .name(DEFAULT_NAME)
+            .status(DEFAULT_STATUS)
+            .clientNumber(DEFAULT_CLIENT_NUMBER)
+            .amount(DEFAULT_AMOUNT);
         return desk;
     }
 
@@ -114,7 +114,6 @@ public class DeskResourceIntTest {
         int databaseSizeBeforeCreate = deskRepository.findAll().size();
 
         // Create the Desk
-
         restDeskMockMvc.perform(post("/api/desks")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(desk)))
@@ -140,13 +139,12 @@ public class DeskResourceIntTest {
         int databaseSizeBeforeCreate = deskRepository.findAll().size();
 
         // Create the Desk with an existing ID
-        Desk existingDesk = new Desk();
-        existingDesk.setId(1L);
+        desk.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDeskMockMvc.perform(post("/api/desks")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingDesk)))
+            .content(TestUtil.convertObjectToJsonBytes(desk)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -207,10 +205,10 @@ public class DeskResourceIntTest {
         // Update the desk
         Desk updatedDesk = deskRepository.findOne(desk.getId());
         updatedDesk
-                .name(UPDATED_NAME)
-                .status(UPDATED_STATUS)
-                .clientNumber(UPDATED_CLIENT_NUMBER)
-                .amount(UPDATED_AMOUNT);
+            .name(UPDATED_NAME)
+            .status(UPDATED_STATUS)
+            .clientNumber(UPDATED_CLIENT_NUMBER)
+            .amount(UPDATED_AMOUNT);
 
         restDeskMockMvc.perform(put("/api/desks")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -289,7 +287,17 @@ public class DeskResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Desk.class);
+        Desk desk1 = new Desk();
+        desk1.setId(1L);
+        Desk desk2 = new Desk();
+        desk2.setId(desk1.getId());
+        assertThat(desk1).isEqualTo(desk2);
+        desk2.setId(2L);
+        assertThat(desk1).isNotEqualTo(desk2);
+        desk1.setId(null);
+        assertThat(desk1).isNotEqualTo(desk2);
     }
 }

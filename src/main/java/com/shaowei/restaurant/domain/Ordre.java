@@ -1,23 +1,13 @@
 package com.shaowei.restaurant.domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * A Ordre.
@@ -26,9 +16,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "ordre")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "ordre")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 public class Ordre implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +39,7 @@ public class Ordre implements Serializable {
     @ManyToOne
     private Payment payment;
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -124,6 +112,7 @@ public class Ordre implements Serializable {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -134,24 +123,24 @@ public class Ordre implements Serializable {
             return false;
         }
         Ordre ordre = (Ordre) o;
-        if (ordre.id == null || id == null) {
+        if (ordre.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, ordre.id);
+        return Objects.equals(getId(), ordre.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Ordre{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", status='" + status + "'" +
-            ", price='" + price + "'" +
-            '}';
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", price='" + getPrice() + "'" +
+            "}";
     }
 }

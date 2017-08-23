@@ -1,11 +1,7 @@
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { JhiLanguageService } from 'ng-jhipster';
-
 import { JhiLanguageHelper } from '../../../../../../main/webapp/app/shared';
-import { MockLanguageService } from '../../../helpers/mock-language.service';
+import { MyRestaurantTestModule } from '../../../test.module';
 import { Principal, AccountService } from '../../../../../../main/webapp/app/shared';
 import { SettingsComponent } from '../../../../../../main/webapp/app/account/settings/settings.component';
 import { MockAccountService } from '../../../helpers/mock-account.service';
@@ -13,21 +9,20 @@ import { MockPrincipal } from '../../../helpers/mock-principal.service';
 import { JhiTrackerService } from '../../../../../../main/webapp/app/shared/tracker/tracker.service';
 import { MockTrackerService } from '../../../helpers/mock-tracker.service';
 
-
 describe('Component Tests', () => {
 
     describe('SettingsComponent', () => {
 
         let comp: SettingsComponent;
         let fixture: ComponentFixture<SettingsComponent>;
-        let mockAuth: MockAccountService;
-        let mockPrincipal: MockPrincipal;
+        let mockAuth: any;
+        let mockPrincipal: any;
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
+                imports: [MyRestaurantTestModule],
                 declarations: [SettingsComponent],
                 providers: [
-                    MockBackend,
                     {
                         provide: Principal,
                         useClass: MockPrincipal
@@ -40,28 +35,13 @@ describe('Component Tests', () => {
                         provide: JhiTrackerService,
                         useClass: MockTrackerService
                     },
-                    BaseRequestOptions,
                     {
                         provide: JhiLanguageHelper,
                         useValue: null
                     },
-                    {
-                        provide: JhiLanguageService,
-                        useClass: MockLanguageService
-                    },
-                    {
-                        provide: Http,
-                        useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                            return new Http(backendInstance, defaultOptions);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                    }
                 ]
-            }).overrideComponent(SettingsComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(SettingsComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {
@@ -71,9 +51,9 @@ describe('Component Tests', () => {
             mockPrincipal = fixture.debugElement.injector.get(Principal);
         });
 
-        it('should send the current identity upon save', function () {
+        it('should send the current identity upon save', () => {
             // GIVEN
-            let accountValues = {
+            const accountValues = {
                 firstName: 'John',
                 lastName: 'Doe',
 
@@ -94,9 +74,9 @@ describe('Component Tests', () => {
             expect(comp.settingsAccount).toEqual(accountValues);
         });
 
-        it('should notify of success upon successful save', function () {
+        it('should notify of success upon successful save', () => {
             // GIVEN
-            let accountValues = {
+            const accountValues = {
                 firstName: 'John',
                 lastName: 'Doe'
             };
@@ -110,7 +90,7 @@ describe('Component Tests', () => {
             expect(comp.success).toBe('OK');
         });
 
-        it('should notify of error upon failed save', function () {
+        it('should notify of error upon failed save', () => {
             // GIVEN
             mockAuth.saveSpy.and.returnValue(Observable.throw('ERROR'));
 

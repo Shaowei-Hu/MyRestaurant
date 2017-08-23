@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -29,7 +29,7 @@ public class RestaurantResource {
     private final Logger log = LoggerFactory.getLogger(RestaurantResource.class);
 
     private static final String ENTITY_NAME = "restaurant";
-        
+
     private final RestaurantService restaurantService;
 
     public RestaurantResource(RestaurantService restaurantService) {
@@ -62,7 +62,7 @@ public class RestaurantResource {
      * @param restaurant the restaurant to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated restaurant,
      * or with status 400 (Bad Request) if the restaurant is not valid,
-     * or with status 500 (Internal Server Error) if the restaurant couldnt be updated
+     * or with status 500 (Internal Server Error) if the restaurant couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/restaurants")
@@ -88,7 +88,7 @@ public class RestaurantResource {
     public List<Restaurant> getAllRestaurants() {
         log.debug("REST request to get all Restaurants");
         return restaurantService.findAll();
-    }
+        }
 
     /**
      * GET  /restaurants/:id : get the "id" restaurant.
@@ -122,7 +122,7 @@ public class RestaurantResource {
      * SEARCH  /_search/restaurants?query=:query : search for the restaurant corresponding
      * to the query.
      *
-     * @param query the query of the restaurant search 
+     * @param query the query of the restaurant search
      * @return the result of the search
      */
     @GetMapping("/_search/restaurants")
@@ -131,6 +131,5 @@ public class RestaurantResource {
         log.debug("REST request to search Restaurants for query {}", query);
         return restaurantService.search(query);
     }
-
 
 }

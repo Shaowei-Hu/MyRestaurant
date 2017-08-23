@@ -2,13 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Restaurant } from './restaurant.model';
 import { RestaurantPopupService } from './restaurant-popup.service';
 import { RestaurantService } from './restaurant.service';
-import { Desk, DeskService } from '../desk';
+
 @Component({
     selector: 'jhi-restaurant-dialog',
     templateUrl: './restaurant-dialog.component.html'
@@ -16,59 +17,58 @@ import { Desk, DeskService } from '../desk';
 export class RestaurantDialogComponent implements OnInit {
 
     restaurant: Restaurant;
-    authorities: any[];
     isSaving: boolean;
 
-    desks: Desk[];
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private restaurantService: RestaurantService,
-        private deskService: DeskService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['restaurant']);
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.deskService.query().subscribe(
-            (res: Response) => { this.desks = res.json(); }, (res: Response) => this.onError(res.json()));
     }
-    clear () {
+
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.restaurant.id !== undefined) {
-            this.restaurantService.update(this.restaurant)
-                .subscribe((res: Restaurant) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+            this.subscribeToSaveResponse(
+                this.restaurantService.update(this.restaurant));
         } else {
-            this.restaurantService.create(this.restaurant)
-                .subscribe((res: Restaurant) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+            this.subscribeToSaveResponse(
+                this.restaurantService.create(this.restaurant));
         }
     }
 
-    private onSaveSuccess (result: Restaurant) {
+    private subscribeToSaveResponse(result: Observable<Restaurant>) {
+        result.subscribe((res: Restaurant) =>
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSaveSuccess(result: Restaurant) {
         this.eventManager.broadcast({ name: 'restaurantListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
+        try {
+            error.json();
+        } catch (exception) {
+            error.message = error.text();
+        }
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    trackDeskById(index: number, item: Desk) {
-        return item.id;
     }
 }
 
@@ -78,24 +78,22 @@ export class RestaurantDialogComponent implements OnInit {
 })
 export class RestaurantPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private restaurantPopupService: RestaurantPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.restaurantPopupService
-                    .open(RestaurantDialogComponent, params['id']);
+                this.restaurantPopupService
+                    .open(RestaurantDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.restaurantPopupService
-                    .open(RestaurantDialogComponent);
+                this.restaurantPopupService
+                    .open(RestaurantDialogComponent as Component);
             }
-
         });
     }
 

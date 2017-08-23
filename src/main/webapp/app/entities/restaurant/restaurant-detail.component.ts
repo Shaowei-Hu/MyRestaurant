@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { JhiLanguageService } from 'ng-jhipster';
+import { Subscription } from 'rxjs/Rx';
+import { JhiEventManager } from 'ng-jhipster';
+
 import { Restaurant } from './restaurant.model';
 import { RestaurantService } from './restaurant.service';
 
@@ -11,24 +13,25 @@ import { RestaurantService } from './restaurant.service';
 export class RestaurantDetailComponent implements OnInit, OnDestroy {
 
     restaurant: Restaurant;
-    private subscription: any;
+    private subscription: Subscription;
+    private eventSubscriber: Subscription;
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
+        private eventManager: JhiEventManager,
         private restaurantService: RestaurantService,
         private route: ActivatedRoute
     ) {
-        this.jhiLanguageService.setLocations(['restaurant']);
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
+        this.registerChangeInRestaurants();
     }
 
-    load (id) {
-        this.restaurantService.find(id).subscribe(restaurant => {
+    load(id) {
+        this.restaurantService.find(id).subscribe((restaurant) => {
             this.restaurant = restaurant;
         });
     }
@@ -38,6 +41,13 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        this.eventManager.destroy(this.eventSubscriber);
     }
 
+    registerChangeInRestaurants() {
+        this.eventSubscriber = this.eventManager.subscribe(
+            'restaurantListModification',
+            (response) => this.load(this.restaurant.id)
+        );
+    }
 }

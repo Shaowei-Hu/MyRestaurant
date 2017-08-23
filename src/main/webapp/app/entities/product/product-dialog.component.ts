@@ -2,12 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Product } from './product.model';
 import { ProductPopupService } from './product-popup.service';
 import { ProductService } from './product.service';
+
 @Component({
     selector: 'jhi-product-dialog',
     templateUrl: './product-dialog.component.html'
@@ -15,49 +17,57 @@ import { ProductService } from './product.service';
 export class ProductDialogComponent implements OnInit {
 
     product: Product;
-    authorities: any[];
     isSaving: boolean;
+
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private productService: ProductService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['product']);
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
-    clear () {
+
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.product.id !== undefined) {
-            this.productService.update(this.product)
-                .subscribe((res: Product) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+            this.subscribeToSaveResponse(
+                this.productService.update(this.product));
         } else {
-            this.productService.create(this.product)
-                .subscribe((res: Product) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+            this.subscribeToSaveResponse(
+                this.productService.create(this.product));
         }
     }
 
-    private onSaveSuccess (result: Product) {
+    private subscribeToSaveResponse(result: Observable<Product>) {
+        result.subscribe((res: Product) =>
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSaveSuccess(result: Product) {
         this.eventManager.broadcast({ name: 'productListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
+        try {
+            error.json();
+        } catch (exception) {
+            error.message = error.text();
+        }
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }
@@ -68,24 +78,22 @@ export class ProductDialogComponent implements OnInit {
 })
 export class ProductPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private productPopupService: ProductPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.productPopupService
-                    .open(ProductDialogComponent, params['id']);
+                this.productPopupService
+                    .open(ProductDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.productPopupService
-                    .open(ProductDialogComponent);
+                this.productPopupService
+                    .open(ProductDialogComponent as Component);
             }
-
         });
     }
 

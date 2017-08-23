@@ -3,6 +3,7 @@ package com.shaowei.restaurant.domain;
 import com.shaowei.restaurant.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -16,8 +17,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 /**
  * A user.
@@ -55,7 +57,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String lastName;
 
     @Email
-    @Size(max = 100)
+    @Size(min = 5, max = 100)
     @Column(length = 100, unique = true)
     private String email;
 
@@ -78,10 +80,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Size(max = 20)
     @Column(name = "reset_key", length = 20)
+    @JsonIgnore
     private String resetKey;
 
     @Column(name = "reset_date")
-    private ZonedDateTime resetDate = null;
+    private Instant resetDate = null;
 
     @JsonIgnore
     @ManyToMany
@@ -112,7 +115,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     //Lowercase the login before saving it in database
     public void setLogin(String login) {
-        this.login = login.toLowerCase(Locale.ENGLISH);
+        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
 
     public String getPassword() {
@@ -179,14 +182,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.resetKey = resetKey;
     }
 
-    public ZonedDateTime getResetDate() {
+    public Instant getResetDate() {
        return resetDate;
     }
 
-    public void setResetDate(ZonedDateTime resetDate) {
+    public void setResetDate(Instant resetDate) {
        this.resetDate = resetDate;
     }
-
     public String getLangKey() {
         return langKey;
     }
@@ -221,17 +223,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         }
 
         User user = (User) o;
-
-        if (!login.equals(user.login)) {
-            return false;
-        }
-
-        return true;
+        return !(user.getId() == null || getId() == null) && Objects.equals(getId(), user.getId());
     }
 
     @Override
     public int hashCode() {
-        return login.hashCode();
+        return Objects.hashCode(getId());
     }
 
     @Override

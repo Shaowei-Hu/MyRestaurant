@@ -5,8 +5,8 @@ import com.shaowei.restaurant.repository.DeskRepository;
 import com.shaowei.restaurant.repository.search.DeskSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +22,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class DeskService {
 
     private final Logger log = LoggerFactory.getLogger(DeskService.class);
-    
+
     private final DeskRepository deskRepository;
 
     private final DeskSearchRepository deskSearchRepository;
-
     public DeskService(DeskRepository deskRepository, DeskSearchRepository deskSearchRepository) {
         this.deskRepository = deskRepository;
         this.deskSearchRepository = deskSearchRepository;
@@ -47,15 +46,13 @@ public class DeskService {
 
     /**
      *  Get all the desks.
-     *  
+     *
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Desk> findAll() {
         log.debug("Request to get all Desks");
-        List<Desk> result = deskRepository.findAll();
-
-        return result;
+        return deskRepository.findAll();
     }
 
     /**
@@ -67,23 +64,7 @@ public class DeskService {
     @Transactional(readOnly = true)
     public Desk findOne(Long id) {
         log.debug("Request to get Desk : {}", id);
-        Desk desk = deskRepository.findOne(id);
-        return desk;
-    }
-    
-    /**
-     *  Get one desk with orders by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
-     */
-    @Transactional(readOnly = true)
-    public Desk findOneEager(Long id) {
-        log.debug("Request to get Desk : {}", id);
-        Desk desk = deskRepository.findOne(id);
-        desk.getOrdres().size();
-        desk.getPayments().size();
-        return desk;
+        return deskRepository.findOne(id);
     }
 
     /**

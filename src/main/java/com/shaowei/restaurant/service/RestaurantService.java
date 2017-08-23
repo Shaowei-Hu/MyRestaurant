@@ -5,8 +5,8 @@ import com.shaowei.restaurant.repository.RestaurantRepository;
 import com.shaowei.restaurant.repository.search.RestaurantSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +22,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class RestaurantService {
 
     private final Logger log = LoggerFactory.getLogger(RestaurantService.class);
-    
+
     private final RestaurantRepository restaurantRepository;
 
     private final RestaurantSearchRepository restaurantSearchRepository;
-
     public RestaurantService(RestaurantRepository restaurantRepository, RestaurantSearchRepository restaurantSearchRepository) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantSearchRepository = restaurantSearchRepository;
@@ -47,15 +46,13 @@ public class RestaurantService {
 
     /**
      *  Get all the restaurants.
-     *  
+     *
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Restaurant> findAll() {
         log.debug("Request to get all Restaurants");
-        List<Restaurant> result = restaurantRepository.findAll();
-
-        return result;
+        return restaurantRepository.findAll();
     }
 
     /**
@@ -67,8 +64,7 @@ public class RestaurantService {
     @Transactional(readOnly = true)
     public Restaurant findOne(Long id) {
         log.debug("Request to get Restaurant : {}", id);
-        Restaurant restaurant = restaurantRepository.findOne(id);
-        return restaurant;
+        return restaurantRepository.findOne(id);
     }
 
     /**

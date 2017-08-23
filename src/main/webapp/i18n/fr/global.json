@@ -4,11 +4,10 @@
         "browsehappy": "Vous utilisez un <strong>ancien</strong> navigateur. Veuillez <a href=\"http://browsehappy.com/?locale=fr\">mettre à jour votre navigateur</a> pour une meilleure expérience.",
         "menu": {
             "home": "Accueil",
-            "room": "Salle",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entités",
-                "desk": "Table",
+                "desk": "Desk",
                 "ordre": "Ordre",
                 "payment": "Payment",
                 "product": "Product",
@@ -89,7 +88,8 @@
         },
         "ribbon": {
             "dev":"Développement"
-        }
+        },
+        "item-count": "Affichage {{first}} - {{second}} de {{total}} items."
     },
     "entity": {
         "action": {
@@ -129,8 +129,8 @@
         "url.not.found": "Non trouvé",
         "NotNull": "Le champ {{fieldName}} ne peut pas être vide !",
         "Size": "Le champ {{fieldName}} ne respecte pas les critères minimum et maximum !",
-        "userexists": "Login déja utilisé !",
-        "emailexists": "Email déja utilisé !",
+        "userexists": "Login déjà utilisé !",
+        "emailexists": "Email déjà utilisé !",
         "idexists": "Une nouvelle entité {{entityName}} ne peut pas avoir d'ID !"
     },
     "footer": "Ceci est votre pied de page"

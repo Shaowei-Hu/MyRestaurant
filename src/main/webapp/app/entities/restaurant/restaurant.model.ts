@@ -1,9 +1,11 @@
-import { Desk } from '../desk';
-export class Restaurant {
+import { BaseEntity } from './../../shared';
+
+export class Restaurant implements BaseEntity {
     constructor(
         public id?: number,
         public name?: string,
         public content?: string,
-        public desk?: Desk,
-    ) { }
+        public desks?: BaseEntity[],
+    ) {
+    }
 }

@@ -77,7 +77,7 @@ public class ProductResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProductResource productResource = new ProductResource(productService);
+        final ProductResource productResource = new ProductResource(productService);
         this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -92,9 +92,9 @@ public class ProductResourceIntTest {
      */
     public static Product createEntity(EntityManager em) {
         Product product = new Product()
-                .name(DEFAULT_NAME)
-                .price(DEFAULT_PRICE)
-                .description(DEFAULT_DESCRIPTION);
+            .name(DEFAULT_NAME)
+            .price(DEFAULT_PRICE)
+            .description(DEFAULT_DESCRIPTION);
         return product;
     }
 
@@ -110,7 +110,6 @@ public class ProductResourceIntTest {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
 
         // Create the Product
-
         restProductMockMvc.perform(post("/api/products")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(product)))
@@ -135,13 +134,12 @@ public class ProductResourceIntTest {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
 
         // Create the Product with an existing ID
-        Product existingProduct = new Product();
-        existingProduct.setId(1L);
+        product.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restProductMockMvc.perform(post("/api/products")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(existingProduct)))
+            .content(TestUtil.convertObjectToJsonBytes(product)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
@@ -200,9 +198,9 @@ public class ProductResourceIntTest {
         // Update the product
         Product updatedProduct = productRepository.findOne(product.getId());
         updatedProduct
-                .name(UPDATED_NAME)
-                .price(UPDATED_PRICE)
-                .description(UPDATED_DESCRIPTION);
+            .name(UPDATED_NAME)
+            .price(UPDATED_PRICE)
+            .description(UPDATED_DESCRIPTION);
 
         restProductMockMvc.perform(put("/api/products")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -279,7 +277,17 @@ public class ProductResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Product.class);
+        Product product1 = new Product();
+        product1.setId(1L);
+        Product product2 = new Product();
+        product2.setId(product1.getId());
+        assertThat(product1).isEqualTo(product2);
+        product2.setId(2L);
+        assertThat(product1).isNotEqualTo(product2);
+        product1.setId(null);
+        assertThat(product1).isNotEqualTo(product2);
     }
 }

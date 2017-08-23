@@ -2,14 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Payment } from './payment.model';
 import { PaymentPopupService } from './payment-popup.service';
 import { PaymentService } from './payment.service';
-import { Ordre, OrdreService } from '../ordre';
 import { Desk, DeskService } from '../desk';
+import { ResponseWrapper } from '../../shared';
+
 @Component({
     selector: 'jhi-payment-dialog',
     templateUrl: './payment-dialog.component.html'
@@ -17,64 +19,63 @@ import { Desk, DeskService } from '../desk';
 export class PaymentDialogComponent implements OnInit {
 
     payment: Payment;
-    authorities: any[];
     isSaving: boolean;
 
-    ordres: Ordre[];
-
     desks: Desk[];
+
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiLanguageService: JhiLanguageService,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private paymentService: PaymentService,
-        private ordreService: OrdreService,
         private deskService: DeskService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
-        this.jhiLanguageService.setLocations(['payment']);
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.ordreService.query().subscribe(
-            (res: Response) => { this.ordres = res.json(); }, (res: Response) => this.onError(res.json()));
-        this.deskService.query().subscribe(
-            (res: Response) => { this.desks = res.json(); }, (res: Response) => this.onError(res.json()));
+        this.deskService.query()
+            .subscribe((res: ResponseWrapper) => { this.desks = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-    clear () {
+
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.payment.id !== undefined) {
-            this.paymentService.update(this.payment)
-                .subscribe((res: Payment) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+            this.subscribeToSaveResponse(
+                this.paymentService.update(this.payment));
         } else {
-            this.paymentService.create(this.payment)
-                .subscribe((res: Payment) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+            this.subscribeToSaveResponse(
+                this.paymentService.create(this.payment));
         }
     }
 
-    private onSaveSuccess (result: Payment) {
+    private subscribeToSaveResponse(result: Observable<Payment>) {
+        result.subscribe((res: Payment) =>
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSaveSuccess(result: Payment) {
         this.eventManager.broadcast({ name: 'paymentListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
+        try {
+            error.json();
+        } catch (exception) {
+            error.message = error.text();
+        }
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    trackOrdreById(index: number, item: Ordre) {
-        return item.id;
     }
 
     trackDeskById(index: number, item: Desk) {
@@ -88,24 +89,22 @@ export class PaymentDialogComponent implements OnInit {
 })
 export class PaymentPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private paymentPopupService: PaymentPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.paymentPopupService
-                    .open(PaymentDialogComponent, params['id']);
+                this.paymentPopupService
+                    .open(PaymentDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.paymentPopupService
-                    .open(PaymentDialogComponent);
+                this.paymentPopupService
+                    .open(PaymentDialogComponent as Component);
             }
-
         });
     }
 

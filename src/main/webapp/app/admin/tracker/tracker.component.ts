@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
 
 import { JhiTrackerService } from '../../shared';
 
@@ -12,13 +11,11 @@ export class JhiTrackerComponent implements OnInit, OnDestroy {
     activities: any[] = [];
 
     constructor(
-        private jhiLanguageService: JhiLanguageService,
         private trackerService: JhiTrackerService
     ) {
-        this.jhiLanguageService.setLocations(['tracker']);
     }
 
-    showActivity (activity: any) {
+    showActivity(activity: any) {
         let existingActivity = false;
         for (let index = 0; index < this.activities.length; index++) {
             if (this.activities[index].sessionId === activity.sessionId) {
@@ -37,7 +34,7 @@ export class JhiTrackerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.trackerService.subscribe();
-        this.trackerService.receive().subscribe(activity => {
+        this.trackerService.receive().subscribe((activity) => {
             this.showActivity(activity);
         });
     }
@@ -45,5 +42,4 @@ export class JhiTrackerComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.trackerService.unsubscribe();
     }
-
 }

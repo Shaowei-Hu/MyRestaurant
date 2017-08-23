@@ -37,6 +37,7 @@ public class Restaurant implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Desk> desks = new HashSet<>();
 
+    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -95,6 +96,7 @@ public class Restaurant implements Serializable {
     public void setDesks(Set<Desk> desks) {
         this.desks = desks;
     }
+    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -105,23 +107,23 @@ public class Restaurant implements Serializable {
             return false;
         }
         Restaurant restaurant = (Restaurant) o;
-        if (restaurant.id == null || id == null) {
+        if (restaurant.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(id, restaurant.id);
+        return Objects.equals(getId(), restaurant.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
         return "Restaurant{" +
-            "id=" + id +
-            ", name='" + name + "'" +
-            ", content='" + content + "'" +
-            '}';
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", content='" + getContent() + "'" +
+            "}";
     }
 }

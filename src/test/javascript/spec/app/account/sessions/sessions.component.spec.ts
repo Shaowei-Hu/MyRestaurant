@@ -1,53 +1,35 @@
-import { ComponentFixture, TestBed, async, inject, tick, fakeAsync } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
+import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { JhiLanguageService } from 'ng-jhipster';
-import { MockLanguageService } from '../../../helpers/mock-language.service';
+import { MyRestaurantTestModule } from '../../../test.module';
 import { Session } from '../../../../../../main/webapp/app/account/sessions/session.model';
 import { SessionsComponent } from '../../../../../../main/webapp/app/account/sessions/sessions.component';
 import { SessionsService } from '../../../../../../main/webapp/app/account/sessions/sessions.service';
 import { MockPrincipal } from '../../../helpers/mock-principal.service';
 import { Principal } from '../../../../../../main/webapp/app/shared/auth/principal.service';
 
-
 describe('Component Tests', () => {
 
-    let sessions: Session;
+    let sessions: Session[];
     let fixture: ComponentFixture<SessionsComponent>;
     let comp: SessionsComponent;
 
-    describe('SessionsComponent', function () {
+    describe('SessionsComponent', function() {
 
         beforeEach(() => {
-            sessions = new Session('xxxxxx==', new Date(2015, 10, 15), '0:0:0:0:0:0:0:1', 'Mozilla/5.0');
+            sessions = [new Session('xxxxxx==', new Date(2015, 10, 15), '0:0:0:0:0:0:0:1', 'Mozilla/5.0')];
 
             fixture = TestBed.configureTestingModule({
+                imports: [MyRestaurantTestModule],
                 declarations: [SessionsComponent],
-                providers: [MockBackend,
+                providers: [
                     SessionsService,
-                    BaseRequestOptions,
-                    {
-                        provide: Http,
-                        useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                            return new Http(backendInstance, defaultOptions);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                    },
-                    {
-                        provide: JhiLanguageService,
-                        useClass: MockLanguageService
-                    },
                     {
                         provide: Principal,
                         useClass: MockPrincipal
                     }
                 ]
-            }).overrideComponent(SessionsComponent, {
-                set: {
-                    template: ''
-                }
-            }).createComponent(SessionsComponent);
+            }).overrideTemplate(SessionsComponent, '')
+            .createComponent(SessionsComponent);
             comp = fixture.componentInstance;
         });
 
