@@ -46,7 +46,7 @@ export class TableComponent implements OnInit, OnDestroy {
         this.isDetail = false;
         this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
           this.load(params['id']);
         });
         this.registerChangeInDesks();
@@ -60,7 +60,7 @@ export class TableComponent implements OnInit, OnDestroy {
       window.history.back();
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.desk.id !== undefined) {
             this.deskService.update(this.desk)
@@ -70,8 +70,8 @@ export class TableComponent implements OnInit, OnDestroy {
         }
     }
 
-    load (id) {
-        this.deskService.find(id).subscribe(desk => {
+    load(id) {
+        this.deskService.find(id).subscribe((desk) => {
             if (desk.ordres != null) {
                 this.ordreInDesk = desk.ordres;
             }
@@ -81,8 +81,8 @@ export class TableComponent implements OnInit, OnDestroy {
         });
     }
 
-    loadUpdate (id) {
-        this.deskService.find(id).subscribe(desk => {
+    loadUpdate(id) {
+        this.deskService.find(id).subscribe((desk) => {
             if (desk.ordres != null) {
                 this.ordreInDesk = desk.ordres;
             }
@@ -101,8 +101,7 @@ export class TableComponent implements OnInit, OnDestroy {
       return this.desk.status === 'occupied' ? true : false;
     }
 
-
-    onChange (value) {
+    onChange(value) {
       if (value) {
         this.desk.status = 'occupied';
       } else {
@@ -110,31 +109,31 @@ export class TableComponent implements OnInit, OnDestroy {
       }
     }
 
-    getAmount () {
+    getAmount() {
         if (this.ordreInDesk) {
             return this.ordreInDesk.reduce((pv, cv) => pv + cv.price, 0);
         }
         return 0;
     }
 
-    getAmountPaid () {
+    getAmountPaid() {
         if (this.desk.payments) {
             return this.desk.payments.reduce((pv, cv) => pv + cv.amount, 0);
         }
         return 0;
     }
 
-    private onSaveSuccess (result: Desk) {
+    private onSaveSuccess(result: Desk) {
         this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
         this.isSaving = false;
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 

@@ -8,7 +8,6 @@ import { Ordre } from '../../entities/ordre';
 
 import { ItemWithQuantity } from '../../dto';
 
-
 @Component({
     selector: 'res-list-merged',
     templateUrl: './list-merged.component.html'
@@ -45,14 +44,14 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
     private orderList2productWithQuanlity(ordres: Ordre[]) {
         if (ordres != null) {
             this.ordersWithQuantities = [];
-            let stats = this.statistic(ordres);
-            let uniqueOrderName = Object.keys(stats);
-            uniqueOrderName.forEach( item => {
-                let product = new Product();
+            const stats = this.statistic(ordres);
+            const uniqueOrderName = Object.keys(stats);
+            uniqueOrderName.forEach( (item) => {
+                const product = new Product();
                 product.name = item;
                 product.price = stats[item].price;
                 if (stats[item].len > 0) {
-                    let productWithQuanlity: ItemWithQuantity = new ItemWithQuantity(product, stats[item].len);
+                    const productWithQuanlity: ItemWithQuantity = new ItemWithQuantity(product, stats[item].len);
                     this.ordersWithQuantities.push(productWithQuanlity);
                 }
             });
@@ -61,7 +60,7 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
     }
 
     private statistic(arr: Ordre[]): any {
-        let seen = {};
+        const seen = {};
         arr.forEach((item) => {
             if (seen.hasOwnProperty(item.name)) {
                 seen[item.name].len++;
@@ -81,7 +80,7 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
 
     ngDoCheck() {
         if ( typeof this.list !== 'undefined') {
-            let isSame = (this.list.length === this.olderList.length) && this.list.every((element, index) => {
+            const isSame = (this.list.length === this.olderList.length) && this.list.every((element, index) => {
                 return element.name === this.olderList[index].name;
             });
             if (!isSame) {
@@ -92,9 +91,8 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
 
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
-
 
 }

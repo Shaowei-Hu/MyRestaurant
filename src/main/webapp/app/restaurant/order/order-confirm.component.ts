@@ -27,8 +27,6 @@ export class OrderConfirmComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private restaurantService: RestaurantService,
-        private ordreService: OrdreService,
-        private paymentService: PaymentService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -38,15 +36,15 @@ export class OrderConfirmComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
 
     }
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }
@@ -59,7 +57,7 @@ export class OrderPopupComponent implements OnInit, OnDestroy {
 
     modalRef: NgbModalRef;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private orderPopupService: OrderPopupService
     ) {}

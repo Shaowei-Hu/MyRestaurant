@@ -5,7 +5,6 @@ import { MyRestaurantSharedModule } from '../../shared';
 
 import { ListMergedComponent } from './';
 
-
 @NgModule({
     imports: [
         MyRestaurantSharedModule,

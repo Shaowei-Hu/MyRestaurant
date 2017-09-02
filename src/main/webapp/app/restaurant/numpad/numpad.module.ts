@@ -8,7 +8,6 @@ import {
     NumpadComponent,
 } from './';
 
-
 @NgModule({
     imports: [
         MyRestaurantSharedModule

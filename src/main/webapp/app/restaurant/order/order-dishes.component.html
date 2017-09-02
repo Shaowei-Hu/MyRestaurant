@@ -1,6 +1,6 @@
 	<h2>
 		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{desk?.name}}</span>
-		<span class="float-xs-right">
+		<span class="float-right">
 		<button type="button" class="btn btn-default" [routerLink]="['/table', desk?.id]">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
@@ -70,7 +70,7 @@
 
 <div class="panel panel-default" *ngIf="isDetail">
     <div class="panel-heading"><i class="fa fa-pencil-square-o"></i> Temp
-        <a (click)="toggleDetail()"><span class="float-xs-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+        <a (click)="toggleDetail()"><span class="float-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
     <div class="panel-body">
         <div class="table-responsive" *ngIf="ordreTemp">
@@ -123,14 +123,14 @@
 
 <div class="panel panel-default" *ngIf="!isDetail">
     <div class="panel-heading"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Temp  
-        <a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+        <a (click)="toggleDetail()"><span class="float-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
     <div class="panel-body">
     <res-list-merged [list]="ordreTemp"></res-list-merged>
     </div>
 </div>
 
-<div class="float-xs-right">
+<div class="float-right">
     <button class="btn btn-primary" [disabled]="ordreTemp.length<1 || isSaving" (click)="addOrdre()"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Command</button>
 </div> 
 <br>

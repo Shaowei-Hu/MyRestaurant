@@ -31,26 +31,26 @@ export class NumpadComponent implements OnInit {
  //       this.numResult = '0';
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
     }
 
-    press (num: string) {
+    press(num: string) {
         if (this.numResult.startsWith('0')) {
             this.numResult = this.numResult.substring(1);
         }
         this.numResult = this.numResult + num;
     }
 
-    point () {
+    point() {
         this.numResult = this.numResult + '.';
     }
 
-    negative () {
+    negative() {
         if (this.numResult.startsWith('-')) {
             this.numResult = this.numResult.substring(1);
         } else {
@@ -58,11 +58,11 @@ export class NumpadComponent implements OnInit {
         }
     }
 
-    clean () {
+    clean() {
         this.numResult = '0';
     }
 
-    del () {
+    del() {
         if (this.numResult.length > 1) {
             this.numResult = this.numResult.substring(0, this.numResult.length - 1);
         } else {
@@ -74,7 +74,7 @@ export class NumpadComponent implements OnInit {
         this.activeModal.close(this.numResult);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }

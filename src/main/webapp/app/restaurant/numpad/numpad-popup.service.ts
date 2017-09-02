@@ -7,13 +7,13 @@ import { NumpadComponent } from './';
 @Injectable()
 export class NumpadPopupService {
     private isOpen = false;
-    constructor (
+    constructor(
         private modalService: NgbModal,
         private router: Router,
 
     ) {}
 
-    open (num?: number | any): NgbModalRef {
+    open(num?: number | any): NgbModalRef {
         let modalRef = null;
         if (this.isOpen) {
             return;
@@ -28,9 +28,9 @@ export class NumpadPopupService {
     }
 
     numpadModalRef(component: Component, num: string): NgbModalRef {
-        let modalRef = this.modalService.open(component, { size: 'sm', backdrop: true, keyboard: true });
+        const modalRef = this.modalService.open(component, { size: 'sm', backdrop: true, keyboard: true });
         modalRef.componentInstance.numResult = num;
-        modalRef.result.then(result => {
+        modalRef.result.then((result) => {
             this.isOpen = false;
         }, (reason) => {
             this.isOpen = false;

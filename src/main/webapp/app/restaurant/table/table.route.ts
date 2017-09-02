@@ -8,7 +8,6 @@ import { TableComponent } from './table.component';
 
 import { Principal } from '../../shared';
 
-
 export const tableRoute: Routes = [
 {
     path: 'table/:id',
@@ -19,4 +18,3 @@ export const tableRoute: Routes = [
     }
   }
 ];
-

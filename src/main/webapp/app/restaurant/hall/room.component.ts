@@ -52,7 +52,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         );
     }
 
-    search (query) {
+    search(query) {
         if (!query) {
             return this.clear();
         }
@@ -76,7 +76,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId (index: number, item: Desk) {
+    trackId(index: number, item: Desk) {
         return item.id;
     }
 
@@ -91,8 +91,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('deskListModification', (response) => this.loadAll());
     }
 
-
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 

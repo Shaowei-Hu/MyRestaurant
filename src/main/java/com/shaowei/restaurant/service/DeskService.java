@@ -64,6 +64,9 @@ public class DeskService {
     @Transactional(readOnly = true)
     public Desk findOne(Long id) {
         log.debug("Request to get Desk : {}", id);
+        Desk desk = deskRepository.findOne(id);
+        desk.getOrdres().size();
+        desk.getPayments().size();
         return deskRepository.findOne(id);
     }
 

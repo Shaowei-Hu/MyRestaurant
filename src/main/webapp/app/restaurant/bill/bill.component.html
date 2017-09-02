@@ -2,7 +2,7 @@
 
 	<h2>
 		<span>Bill Table</span><span> {{desk?.name}}</span>
-		<span class="float-xs-right">
+		<span class="float-right">
 		<button type="button" class="btn btn-default" (click)="previousState()">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
@@ -55,7 +55,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default" *ngIf="isDetail">
 				<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Validé
-					<a (click)="toggleDetail()"><span class="float-xs-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+					<a (click)="toggleDetail()"><span class="float-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive" *ngIf="ordreInDesk">
@@ -86,7 +86,7 @@
 				<div *ngIf="!isDetail && ordreInDesk">
 					<div class="panel panel-default">
 					<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
-						<a (click)="toggleDetail()"><span class="float-xs-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+						<a (click)="toggleDetail()"><span class="float-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 					</div>
 					<div class="panel-body">
 						<res-list-merged [list]="ordreInDesk"></res-list-merged>
@@ -102,23 +102,23 @@
 				<div class="panel-heading">
 					<i class="fa fa-usd" aria-hidden="true"></i>
 					<span> Payment</span>
-					<span class="float-xs-right">Amount to pay:  <strong>{{amountRest}}</strong> </span>
+					<span class="float-right">Amount to pay:  <strong>{{amountRest}}</strong> </span>
 				</div>
 				<div class="panel-body">
 					<ngb-tabset activeId="byAmount">
 						<ngb-tab id="byAmount" title="By Amount">
-							<template ngbTabContent>
+							<ng-template ngbTabContent>
 								<res-by-amount [desk]="desk" [payment]="paymentTemp"></res-by-amount>
-							</template>
+							</ng-template>
 						</ngb-tab>
 						<ngb-tab id="byOrder" title="By Order">
-							<template ngbTabContent>
+							<ng-template ngbTabContent>
 								<res-by-order [desk]="desk" [payment]="paymentTemp"></res-by-order>
-							</template>
+							</ng-template>
 						</ngb-tab>
 					</ngb-tabset>
 					<br>
-					<div class="float-xs-right pay-button">
+					<div class="float-right pay-button">
 						<div class="col-lg-2">
 							<button type="button" class="btn btn-primary" (click)="savePayment()">
 								<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;<span class="hidden-sm-down"> Payment</span>
@@ -133,7 +133,7 @@
 				<div class="panel-heading">
 					<i class="fa fa-usd" aria-hidden="true"></i>
 					<span> Paid</span>
-					<span class="float-xs-right">Amount paid:  <strong>{{getAmountPaid()}}</strong></span>
+					<span class="float-right">Amount paid:  <strong>{{getAmountPaid()}}</strong></span>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped">

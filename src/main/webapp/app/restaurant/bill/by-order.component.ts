@@ -84,20 +84,20 @@ export class ByOrderComponent implements OnInit, OnDestroy {
         }
     }
 
-    openNumpad () {
+    openNumpad() {
         this.numpadService.open(this.payment.amount).result.then((result) => {
             this.payment.amount = Number(result);
         }, (reason) => {});
     }
 
-    openCalculator () {
-        let values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
+    openCalculator() {
+        const values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
         this.calculatorService.open(values).result.then((result) => {
             this.payment.amount = Number(result);
         }, (reason) => {});
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 

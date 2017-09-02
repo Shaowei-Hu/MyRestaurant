@@ -6,13 +6,13 @@ import { Desk } from '../../entities/desk';
 @Injectable()
 export class OrderPopupService {
     private isOpen = false;
-    constructor (
+    constructor(
         private modalService: NgbModal,
         private router: Router,
 
     ) {}
 
-    open (component: Component, id?: number | any): NgbModalRef {
+    open(component: Component, id?: number | any): NgbModalRef {
         if (this.isOpen) {
             return;
         }
@@ -21,8 +21,8 @@ export class OrderPopupService {
     }
 
     deskModalRef(component: Component): NgbModalRef {
-        let modalRef = this.modalService.open(component, { size: 'lg', backdrop: true, keyboard: true });
-        modalRef.result.then(result => {
+        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: true, keyboard: true });
+        modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
             this.isOpen = false;
         }, (reason) => {

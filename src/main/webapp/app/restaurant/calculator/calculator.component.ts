@@ -37,11 +37,11 @@ export class CalculatorComponent implements OnInit {
         this.numResult = '0';
     }
 
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
     }
 
@@ -73,7 +73,7 @@ export class CalculatorComponent implements OnInit {
         }
     }
 
-    press (num: string) {
+    press(num: string) {
         this.lastKey = '';
         if (this.numResult.startsWith('0')) {
             this.numResult = this.numResult.substring(1);
@@ -81,27 +81,27 @@ export class CalculatorComponent implements OnInit {
         this.numResult = this.numResult + num;
     }
 
-    point () {
+    point() {
         this.numResult = this.numResult + '.';
     }
 
-    plus () {
+    plus() {
         this.numResult = this.numResult + '+';
     }
 
-    minus () {
+    minus() {
         this.numResult = this.numResult + '-';
     }
 
-    multiple () {
+    multiple() {
         this.numResult = this.numResult + '*';
     }
 
-    divide () {
+    divide() {
         this.numResult = this.numResult + '/';
     }
 
-    result () {
+    result() {
         let temp: any = 0;
         try {
             temp = eval(this.numResult);
@@ -130,7 +130,7 @@ export class CalculatorComponent implements OnInit {
     }
 
 
-    negative () {
+    negative() {
         if (this.numResult.startsWith('-')) {
             this.numResult = this.numResult.substring(1);
         } else {
@@ -138,11 +138,11 @@ export class CalculatorComponent implements OnInit {
         }
     }
 
-    clean () {
+    clean() {
         this.numResult = '0';
     }
 
-    del () {
+    del() {
         if (this.numResult.length > 1) {
             this.numResult = this.numResult.substring(0, this.numResult.length - 1);
         } else {

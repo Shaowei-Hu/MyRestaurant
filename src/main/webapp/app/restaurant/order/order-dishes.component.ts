@@ -8,9 +8,9 @@ import { Response } from '@angular/http';
 import { Product, ProductService } from '../../entities/product';
 import { Ordre, OrdreService } from '../../entities/ordre';
 import { Payment, PaymentService } from '../../entities/payment';
+import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 
 import { ItemWithQuantity } from '../../dto';
-
 
 @Component({
     selector: 'res-order-dishes',
@@ -48,7 +48,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
 
-        this.route.params.subscribe(params => {
+        this.route.params.subscribe((params) => {
           this.desk = new Desk();
           this.desk.id = params['id'];
           this.desk.name = params['name'];
@@ -59,11 +59,11 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
             this.productsWithQuantities = this.product2productWithQuantity(this.products);
         } else {
             this.productService.query().subscribe(
-            (res: Response) => {
-                this.products = res.json();
+            (res: ResponseWrapper) => {
+                this.products = res.json;
                 localStorage.setItem('products', JSON.stringify(this.products));
                 this.productsWithQuantities = this.product2productWithQuantity(this.products);
-            }, (res: Response) => this.onError(res.json()));
+            }, (res: ResponseWrapper) => this.onError(res.json));
         }
     }
 
@@ -79,8 +79,8 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         this.isDetail = !this.isDetail;
     }
 
-    addTempItem (index) {
-      let productSelected = this.productsWithQuantities[index];
+    addTempItem(index) {
+      const productSelected = this.productsWithQuantities[index];
       for (let i = 0; i < productSelected.quantity; i++) {
         this.ordreTemp.push(this.product2order(productSelected.product));
       }
@@ -106,17 +106,17 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         }
     }
 
-    private product2order (product: Product): Ordre {
-      let order: Ordre = new Ordre();
+    private product2order(product: Product): Ordre {
+      const order: Ordre = new Ordre();
       order.name = product.name;
       order.price = product.price;
-      order.desk.id = this.desk.id;
+      order.desk = this.desk.id;
       return order;
     }
 
     private product2productWithQuantity(products: Product[]): ItemWithQuantity[] {
-        let productWithQuantity: ItemWithQuantity[] = [];
-        for (let product of products) {
+        const productWithQuantity: ItemWithQuantity[] = [];
+        for (const product of products) {
             productWithQuantity.push(new ItemWithQuantity(product, 0));
         }
         return productWithQuantity;
@@ -126,19 +126,19 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    private onSaveSuccess (result: any) {
+    private onSaveSuccess(result: any) {
         this.eventManager.broadcast({ name: 'ordreListModification', content: 'OK'});
-        this.router.navigate(['/', { outlets: { popup: 'dishes/confirm'} }]);
+ //       this.router.navigate(['/', { outlets: { popup: 'dishes/confirm'} }]);
         this.isSaving = false;
         this.ordreTemp = [];
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 

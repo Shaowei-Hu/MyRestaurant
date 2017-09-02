@@ -10,7 +10,6 @@ import { Response } from '@angular/http';
 import { Ordre, OrdreService } from '../../entities/ordre';
 import { Payment, PaymentService } from '../../entities/payment';
 
-
 @Component({
     selector: 'res-table',
     templateUrl: './bill.component.html'
@@ -50,7 +49,7 @@ export class BillComponent implements OnInit, OnDestroy {
         this.paymentTemp.amount = 0;
         this.amountRest = 0;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.subscription = this.route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe((params) => {
           this.load(params['id']);
         });
         this.registerChangeInDesks();
@@ -64,8 +63,8 @@ export class BillComponent implements OnInit, OnDestroy {
       window.history.back();
     }
 
-    load (id) {
-        this.deskService.find(id).subscribe(desk => {
+    load(id) {
+        this.deskService.find(id).subscribe((desk) => {
             if (desk.ordres != null) {
                 this.ordreInDesk = desk.ordres;
             }
@@ -92,32 +91,31 @@ export class BillComponent implements OnInit, OnDestroy {
         this.isDetail = !this.isDetail;
     }
 
-
-    getAmount () {
+    getAmount() {
         if (this.ordreInDesk) {
             return this.ordreInDesk.reduce((pv, cv) => pv + cv.price, 0);
         }
         return 0;
     }
 
-    getAmountPaid () {
+    getAmountPaid() {
         if (this.desk.payments) {
             return this.desk.payments.reduce((pv, cv) => pv + cv.amount, 0);
         }
         return 0;
     }
 
-    private onSaveSuccess (result: Desk) {
+    private onSaveSuccess(result: Desk) {
         this.eventManager.broadcast({ name: 'paymentListModification', content: 'OK'});
         this.isSaving = false;
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 

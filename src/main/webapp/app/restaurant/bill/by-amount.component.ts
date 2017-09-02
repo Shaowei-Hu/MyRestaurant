@@ -55,7 +55,7 @@ export class ByAmountComponent implements OnInit, OnDestroy {
       window.history.back();
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.desk.id !== undefined) {
 
@@ -64,30 +64,30 @@ export class ByAmountComponent implements OnInit, OnDestroy {
         }
     }
 
-    openNumpad () {
+    openNumpad() {
         this.numpadService.open().result.then((result) => {
             this.payment.amount = Number(result);
         }, (reason) => {});
     }
 
-    openCalculator () {
-        let values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
+    openCalculator() {
+        const values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
         this.calculatorService.open(values).result.then((result) => {
             this.payment.amount = Number(result);
         }, (reason) => {});
     }
 
-    private onSaveSuccess (result: Desk) {
+    private onSaveSuccess(result: Desk) {
         this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
         this.isSaving = false;
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
