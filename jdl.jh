@@ -1,0 +1,71 @@
+entity Restaurant {
+	name String,
+    content String,
+    creationDate ZonedDateTime
+}
+
+entity Stage {
+	name String,
+    status String,
+    clientNumber Integer,
+	amount BigDecimal,
+    amountPaid BigDecimal,
+    creationDate ZonedDateTime
+}
+
+entity Desk {
+	name String,
+    status String,
+    clientNumber Integer,
+    ranking Integer
+}
+  
+entity Ordre {
+	name String,
+    status String,
+    price BigDecimal,
+    creationDate ZonedDateTime
+}
+
+entity Payment {
+	type PaymentType,
+    info String,
+    amount BigDecimal,
+    creationDate ZonedDateTime
+}
+
+entity Product {
+	name String,
+    price BigDecimal,
+    taxType String,
+    description String,
+    ranking Integer
+}
+
+entity Category {
+    name String,
+    ranking Integer
+}
+
+enum PaymentType {
+    CARD, CASH, CHECK, TICKET, OTHER
+}
+
+relationship OneToMany {
+	Restaurant{desk} to Desk,
+    Desk{stage} to Stage{desk},
+    Stage{ordre} to Ordre{stage},
+    Stage{payment} to Payment{stage},
+    Payment{ordre} to Ordre,
+    Category{product} to Product
+}
+
+
+
+// Set pagination options
+paginate Desk with infinite-scroll
+paginate Payment, Ordre, Stage with pagination
+
+// Set service options to all except few
+service all with serviceImpl 
+// Set an angular suffix

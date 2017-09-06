@@ -1,0 +1,30 @@
+{
+    "myRestaurantApp": {
+        "stage" : {
+            "home": {
+                "title": "Stages",
+                "createLabel": "Créer un nouveau Stage",
+                "createOrEditLabel": "Créer ou éditer un Stage",
+                "search": "Recherche pour Stage"
+            },
+            "created": "Un nouveau Stage a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Stage avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Stage avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Stage {{ id }} ?"
+            },
+            "detail": {
+                "title": "Stage"
+            },
+            "name": "Name",
+            "status": "Status",
+            "clientNumber": "Client Number",
+            "amount": "Amount",
+            "amountPaid": "Amount Paid",
+            "creationDate": "Creation Date",
+            "ordre": "Ordre",
+            "payment": "Payment",
+            "desk": "Desk"
+        }
+    }
+}

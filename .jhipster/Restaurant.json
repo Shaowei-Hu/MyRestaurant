@@ -16,11 +16,15 @@
         {
             "fieldName": "content",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170224101812",
     "entityTableName": "restaurant",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceClass"
+    "service": "serviceImpl"
 }

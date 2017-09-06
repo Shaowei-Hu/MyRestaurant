@@ -18,7 +18,10 @@
             },
             "name": "Name",
             "price": "Price",
-            "description": "Description"
+            "taxType": "Tax Type",
+            "description": "Description",
+            "ranking": "Ranking",
+            "category": "Category"
         }
     }
 }

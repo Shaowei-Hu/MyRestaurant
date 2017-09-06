@@ -5,7 +5,10 @@ export class Product implements BaseEntity {
         public id?: number,
         public name?: string,
         public price?: number,
+        public taxType?: string,
         public description?: string,
+        public ranking?: number,
+        public category?: BaseEntity,
     ) {
     }
 }

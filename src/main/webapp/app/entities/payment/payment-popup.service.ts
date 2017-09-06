@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Payment } from './payment.model';
 import { PaymentService } from './payment.service';
 
@@ -9,6 +10,7 @@ export class PaymentPopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private paymentService: PaymentService
@@ -26,6 +28,8 @@ export class PaymentPopupService {
 
             if (id) {
                 this.paymentService.find(id).subscribe((payment) => {
+                    payment.creationDate = this.datePipe
+                        .transform(payment.creationDate, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.paymentModalRef(component, payment);
                     resolve(this.ngbModalRef);
                 });

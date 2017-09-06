@@ -46,8 +46,14 @@ public class ProductResourceIntTest {
     private static final BigDecimal DEFAULT_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_PRICE = new BigDecimal(2);
 
+    private static final String DEFAULT_TAX_TYPE = "AAAAAAAAAA";
+    private static final String UPDATED_TAX_TYPE = "BBBBBBBBBB";
+
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_RANKING = 1;
+    private static final Integer UPDATED_RANKING = 2;
 
     @Autowired
     private ProductRepository productRepository;
@@ -94,7 +100,9 @@ public class ProductResourceIntTest {
         Product product = new Product()
             .name(DEFAULT_NAME)
             .price(DEFAULT_PRICE)
-            .description(DEFAULT_DESCRIPTION);
+            .taxType(DEFAULT_TAX_TYPE)
+            .description(DEFAULT_DESCRIPTION)
+            .ranking(DEFAULT_RANKING);
         return product;
     }
 
@@ -121,7 +129,9 @@ public class ProductResourceIntTest {
         Product testProduct = productList.get(productList.size() - 1);
         assertThat(testProduct.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProduct.getPrice()).isEqualTo(DEFAULT_PRICE);
+        assertThat(testProduct.getTaxType()).isEqualTo(DEFAULT_TAX_TYPE);
         assertThat(testProduct.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testProduct.getRanking()).isEqualTo(DEFAULT_RANKING);
 
         // Validate the Product in Elasticsearch
         Product productEs = productSearchRepository.findOne(testProduct.getId());
@@ -160,7 +170,9 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].taxType").value(hasItem(DEFAULT_TAX_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].ranking").value(hasItem(DEFAULT_RANKING)));
     }
 
     @Test
@@ -176,7 +188,9 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.id").value(product.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.taxType").value(DEFAULT_TAX_TYPE.toString()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.ranking").value(DEFAULT_RANKING));
     }
 
     @Test
@@ -200,7 +214,9 @@ public class ProductResourceIntTest {
         updatedProduct
             .name(UPDATED_NAME)
             .price(UPDATED_PRICE)
-            .description(UPDATED_DESCRIPTION);
+            .taxType(UPDATED_TAX_TYPE)
+            .description(UPDATED_DESCRIPTION)
+            .ranking(UPDATED_RANKING);
 
         restProductMockMvc.perform(put("/api/products")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -213,7 +229,9 @@ public class ProductResourceIntTest {
         Product testProduct = productList.get(productList.size() - 1);
         assertThat(testProduct.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProduct.getPrice()).isEqualTo(UPDATED_PRICE);
+        assertThat(testProduct.getTaxType()).isEqualTo(UPDATED_TAX_TYPE);
         assertThat(testProduct.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testProduct.getRanking()).isEqualTo(UPDATED_RANKING);
 
         // Validate the Product in Elasticsearch
         Product productEs = productSearchRepository.findOne(testProduct.getId());
@@ -273,7 +291,9 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(product.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].taxType").value(hasItem(DEFAULT_TAX_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].ranking").value(hasItem(DEFAULT_RANKING)));
     }
 
     @Test

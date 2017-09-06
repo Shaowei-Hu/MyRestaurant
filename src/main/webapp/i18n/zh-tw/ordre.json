@@ -19,7 +19,8 @@
             "name": "Name",
             "status": "Status",
             "price": "Price",
-            "desk": "Desk",
+            "creationDate": "Creation Date",
+            "stage": "Stage",
             "payment": "Payment"
         }
     }

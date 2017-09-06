@@ -9,7 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Payment } from './payment.model';
 import { PaymentPopupService } from './payment-popup.service';
 import { PaymentService } from './payment.service';
-import { Desk, DeskService } from '../desk';
+import { Stage, StageService } from '../stage';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -21,21 +21,21 @@ export class PaymentDialogComponent implements OnInit {
     payment: Payment;
     isSaving: boolean;
 
-    desks: Desk[];
+    stages: Stage[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private paymentService: PaymentService,
-        private deskService: DeskService,
+        private stageService: StageService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.deskService.query()
-            .subscribe((res: ResponseWrapper) => { this.desks = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.stageService.query()
+            .subscribe((res: ResponseWrapper) => { this.stages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -78,7 +78,7 @@ export class PaymentDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackDeskById(index: number, item: Desk) {
+    trackStageById(index: number, item: Stage) {
         return item.id;
     }
 }

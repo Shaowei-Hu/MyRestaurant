@@ -9,6 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Product } from './product.model';
 import { ProductPopupService } from './product-popup.service';
 import { ProductService } from './product.service';
+import { Category, CategoryService } from '../category';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-product-dialog',
@@ -19,16 +21,21 @@ export class ProductDialogComponent implements OnInit {
     product: Product;
     isSaving: boolean;
 
+    categories: Category[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private productService: ProductService,
+        private categoryService: CategoryService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.categoryService.query()
+            .subscribe((res: ResponseWrapper) => { this.categories = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -69,6 +76,10 @@ export class ProductDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackCategoryById(index: number, item: Category) {
+        return item.id;
     }
 }
 

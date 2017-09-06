@@ -18,6 +18,7 @@
             },
             "name": "Name",
             "content": "Content",
+            "creationDate": "Creation Date",
             "desk": "Desk"
         }
     }

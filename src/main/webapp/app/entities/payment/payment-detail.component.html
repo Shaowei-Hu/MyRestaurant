@@ -6,16 +6,24 @@
     <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="myRestaurantApp.payment.type">Type</span></dt>
         <dd>
-            <span>{{payment.type}}</span>
+            <span jhiTranslate="{{'myRestaurantApp.PaymentType.' + payment.type}}">{{payment.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.payment.info">Info</span></dt>
+        <dd>
+            <span>{{payment.info}}</span>
         </dd>
         <dt><span jhiTranslate="myRestaurantApp.payment.amount">Amount</span></dt>
         <dd>
             <span>{{payment.amount}}</span>
         </dd>
-        <dt><span jhiTranslate="myRestaurantApp.payment.desk">Desk</span></dt>
+        <dt><span jhiTranslate="myRestaurantApp.payment.creationDate">Creation Date</span></dt>
         <dd>
-            <div *ngIf="payment.desk">
-                <a [routerLink]="['/desk', payment.desk?.id]">{{payment.desk?.id}}</a>
+            <span>{{payment.creationDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.payment.stage">Stage</span></dt>
+        <dd>
+            <div *ngIf="payment.stage">
+                <a [routerLink]="['/stage', payment.stage?.id]">{{payment.stage?.id}}</a>
             </div>
         </dd>
     </dl>

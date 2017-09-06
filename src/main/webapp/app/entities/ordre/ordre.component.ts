@@ -14,95 +14,101 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 })
 export class OrdreComponent implements OnInit, OnDestroy {
 
+currentAccount: any;
     ordres: Ordre[];
-    currentAccount: any;
+    error: any;
+    success: any;
     eventSubscriber: Subscription;
-    itemsPerPage: number;
+    currentSearch: string;
+    routeData: any;
     links: any;
+    totalItems: any;
+    queryCount: any;
+    itemsPerPage: any;
     page: any;
     predicate: any;
-    queryCount: any;
+    previousPage: any;
     reverse: any;
-    totalItems: number;
-    currentSearch: string;
 
     constructor(
         private ordreService: OrdreService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
+        private alertService: JhiAlertService,
+        private principal: Principal,
         private activatedRoute: ActivatedRoute,
-        private principal: Principal
+        private router: Router,
+        private eventManager: JhiEventManager,
+        private paginationUtil: JhiPaginationUtil,
+        private paginationConfig: PaginationConfig
     ) {
-        this.ordres = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
+        this.routeData = this.activatedRoute.data.subscribe((data) => {
+            this.page = data['pagingParams'].page;
+            this.previousPage = data['pagingParams'].page;
+            this.reverse = data['pagingParams'].ascending;
+            this.predicate = data['pagingParams'].predicate;
+        });
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
 
     loadAll() {
         if (this.currentSearch) {
             this.ordreService.search({
+                page: this.page - 1,
                 query: this.currentSearch,
-                page: this.page,
                 size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-            );
+                sort: this.sort()}).subscribe(
+                    (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                    (res: ResponseWrapper) => this.onError(res.json)
+                );
             return;
         }
         this.ordreService.query({
-            page: this.page,
+            page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()
-        }).subscribe(
+            sort: this.sort()}).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
         );
     }
-
-    reset() {
-        this.page = 0;
-        this.ordres = [];
-        this.loadAll();
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
     }
-
-    loadPage(page) {
-        this.page = page;
+    transition() {
+        this.router.navigate(['/ordre'], {queryParams:
+            {
+                page: this.page,
+                size: this.itemsPerPage,
+                search: this.currentSearch,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
         this.loadAll();
     }
 
     clear() {
-        this.ordres = [];
-        this.links = {
-            last: 0
-        };
         this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
         this.currentSearch = '';
+        this.router.navigate(['/ordre', {
+            page: this.page,
+            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        }]);
         this.loadAll();
     }
-
     search(query) {
         if (!query) {
             return this.clear();
         }
-        this.ordres = [];
-        this.links = {
-            last: 0
-        };
         this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
         this.currentSearch = query;
+        this.router.navigate(['/ordre', {
+            search: this.currentSearch,
+            page: this.page,
+            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        }]);
         this.loadAll();
     }
     ngOnInit() {
@@ -121,7 +127,7 @@ export class OrdreComponent implements OnInit, OnDestroy {
         return item.id;
     }
     registerChangeInOrdres() {
-        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.reset());
+        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadAll());
     }
 
     sort() {
@@ -135,11 +141,10 @@ export class OrdreComponent implements OnInit, OnDestroy {
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        for (let i = 0; i < data.length; i++) {
-            this.ordres.push(data[i]);
-        }
+        this.queryCount = this.totalItems;
+        // this.page = pagingParams.page;
+        this.ordres = data;
     }
-
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }

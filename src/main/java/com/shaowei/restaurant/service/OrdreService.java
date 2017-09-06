@@ -1,43 +1,13 @@
 package com.shaowei.restaurant.service;
 
-import com.shaowei.restaurant.domain.Desk;
 import com.shaowei.restaurant.domain.Ordre;
-import com.shaowei.restaurant.repository.OrdreRepository;
-import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
-import com.shaowei.restaurant.service.dto.OrderDTO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
-
-import java.math.BigDecimal;
 
 /**
- * Service Implementation for managing Ordre.
+ * Service Interface for managing Ordre.
  */
-@Service
-@Transactional
-public class OrdreService {
-
-    private final Logger log = LoggerFactory.getLogger(OrdreService.class);
-
-    private final OrdreRepository ordreRepository;
-
-    private final OrdreSearchRepository ordreSearchRepository;
-    
-    private final DeskService deskService;
-
-    public OrdreService(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository, DeskService deskService) {
-        this.ordreRepository = ordreRepository;
-        this.ordreSearchRepository = ordreSearchRepository;
-        this.deskService = deskService;
-    }
+public interface OrdreService {
 
     /**
      * Save a ordre.
@@ -45,12 +15,7 @@ public class OrdreService {
      * @param ordre the entity to save
      * @return the persisted entity
      */
-    public Ordre save(Ordre ordre) {
-        log.debug("Request to save Ordre : {}", ordre);
-        Ordre result = ordreRepository.save(ordre);
-        ordreSearchRepository.save(result);
-        return result;
-    }
+    Ordre save(Ordre ordre);
 
     /**
      *  Get all the ordres.
@@ -58,73 +23,30 @@ public class OrdreService {
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true)
-    public Page<Ordre> findAll(Pageable pageable) {
-        log.debug("Request to get all Ordres");
-        return ordreRepository.findAll(pageable);
-    }
+    Page<Ordre> findAll(Pageable pageable);
 
     /**
-     *  Get one ordre by id.
+     *  Get the "id" ordre.
      *
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true)
-    public Ordre findOne(Long id) {
-        log.debug("Request to get Ordre : {}", id);
-        return ordreRepository.findOne(id);
-    }
+    Ordre findOne(Long id);
 
     /**
-     *  Delete the  ordre by id.
+     *  Delete the "id" ordre.
      *
      *  @param id the id of the entity
      */
-    public void delete(Long id) {
-        log.debug("Request to delete Ordre : {}", id);
-        ordreRepository.delete(id);
-        ordreSearchRepository.delete(id);
-    }
-    
-    
-	/**
-	 * Save a ordre array.
-	 *
-	 * @param ordres
-	 *            the entity array to save
-	 * @return the persisted entity array
-	 */
-	public Ordre[] save(OrderDTO[] ordres) {
-		log.debug("Request to save Ordre array: {}", ordres.toString());
-		BigDecimal amount = new BigDecimal(0);
-		Desk desk = deskService.findOne(ordres[0].getDesk());
-		Ordre[] result = new Ordre[ordres.length];
-		for (int i = 0; i < ordres.length; i++) {
-			Ordre ordre = new Ordre();
-			ordre.setDesk(desk);
-			ordre.setName(ordres[i].getName());
-			ordre.setPrice(ordres[i].getPrice());
-			result[i] = ordreRepository.save(ordre);
-			ordreSearchRepository.save(ordre);
-			amount = amount.add(result[i].getPrice());
-		}
-		desk.setAmount(desk.getAmount().add(amount));
-		return result;
-	}    
-    
+    void delete(Long id);
 
     /**
      * Search for the ordre corresponding to the query.
      *
      *  @param query the query of the search
+     *  
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true)
-    public Page<Ordre> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Ordres for query {}", query);
-        Page<Ordre> result = ordreSearchRepository.search(queryStringQuery(query), pageable);
-        return result;
-    }
+    Page<Ordre> search(String query, Pageable pageable);
 }

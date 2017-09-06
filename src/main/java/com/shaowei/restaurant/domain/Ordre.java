@@ -1,23 +1,14 @@
 package com.shaowei.restaurant.domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.Objects;
 
 /**
  * A Ordre.
@@ -26,9 +17,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "ordre")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "ordre")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 public class Ordre implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +34,11 @@ public class Ordre implements Serializable {
     @Column(name = "price", precision=10, scale=2)
     private BigDecimal price;
 
+    @Column(name = "creation_date")
+    private ZonedDateTime creationDate;
+
     @ManyToOne
-    private Desk desk;
+    private Stage stage;
 
     @ManyToOne
     private Payment payment;
@@ -100,17 +91,30 @@ public class Ordre implements Serializable {
         this.price = price;
     }
 
-    public Desk getDesk() {
-        return desk;
+    public ZonedDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public Ordre desk(Desk desk) {
-        this.desk = desk;
+    public Ordre creationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
         return this;
     }
 
-    public void setDesk(Desk desk) {
-        this.desk = desk;
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Ordre stage(Stage stage) {
+        this.stage = stage;
+        return this;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     public Payment getPayment() {
@@ -154,6 +158,7 @@ public class Ordre implements Serializable {
             ", name='" + getName() + "'" +
             ", status='" + getStatus() + "'" +
             ", price='" + getPrice() + "'" +
+            ", creationDate='" + getCreationDate() + "'" +
             "}";
     }
 }

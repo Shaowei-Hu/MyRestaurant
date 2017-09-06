@@ -3,8 +3,8 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "desk",
-            "otherEntityName": "desk",
+            "relationshipName": "stage",
+            "otherEntityName": "stage",
             "otherEntityField": "id"
         },
         {
@@ -26,11 +26,15 @@
         {
             "fieldName": "price",
             "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170224101812",
     "entityTableName": "ordre",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceClass"
+    "pagination": "pagination",
+    "service": "serviceImpl"
 }

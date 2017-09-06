@@ -9,7 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Ordre } from './ordre.model';
 import { OrdrePopupService } from './ordre-popup.service';
 import { OrdreService } from './ordre.service';
-import { Desk, DeskService } from '../desk';
+import { Stage, StageService } from '../stage';
 import { Payment, PaymentService } from '../payment';
 import { ResponseWrapper } from '../../shared';
 
@@ -22,7 +22,7 @@ export class OrdreDialogComponent implements OnInit {
     ordre: Ordre;
     isSaving: boolean;
 
-    desks: Desk[];
+    stages: Stage[];
 
     payments: Payment[];
 
@@ -30,7 +30,7 @@ export class OrdreDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private ordreService: OrdreService,
-        private deskService: DeskService,
+        private stageService: StageService,
         private paymentService: PaymentService,
         private eventManager: JhiEventManager
     ) {
@@ -38,8 +38,8 @@ export class OrdreDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.deskService.query()
-            .subscribe((res: ResponseWrapper) => { this.desks = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.stageService.query()
+            .subscribe((res: ResponseWrapper) => { this.stages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.paymentService.query()
             .subscribe((res: ResponseWrapper) => { this.payments = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -84,7 +84,7 @@ export class OrdreDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackDeskById(index: number, item: Desk) {
+    trackStageById(index: number, item: Stage) {
         return item.id;
     }
 

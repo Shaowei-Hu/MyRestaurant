@@ -14,20 +14,37 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.type" for="field_type">Type</label>
-            <input type="text" class="form-control" name="type" id="field_type"
-                [(ngModel)]="payment.type"  />
+            <select class="form-control" name="type" [(ngModel)]="payment.type" id="field_type" >
+                <option value="CARD">{{'myRestaurantApp.PaymentType.CARD' | translate}}</option>
+                <option value="CASH">{{'myRestaurantApp.PaymentType.CASH' | translate}}</option>
+                <option value="CHECK">{{'myRestaurantApp.PaymentType.CHECK' | translate}}</option>
+                <option value="TICKET">{{'myRestaurantApp.PaymentType.TICKET' | translate}}</option>
+                <option value="OTHER">{{'myRestaurantApp.PaymentType.OTHER' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.info" for="field_info">Info</label>
+            <input type="text" class="form-control" name="info" id="field_info"
+                [(ngModel)]="payment.info"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.amount" for="field_amount">Amount</label>
             <input type="number" class="form-control" name="amount" id="field_amount"
                 [(ngModel)]="payment.amount"  />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.creationDate" for="field_creationDate">Creation Date</label>
+            <div class="d-flex">
+                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="payment.creationDate"
+                  />
+            </div>
+        </div>
 
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.desk" for="field_desk">Desk</label>
-            <select class="form-control" id="field_desk" name="desk" [(ngModel)]="payment.desk" >
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.stage" for="field_stage">Stage</label>
+            <select class="form-control" id="field_stage" name="stage" [(ngModel)]="payment.stage" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="deskOption.id === payment.desk?.id ? payment.desk : deskOption" *ngFor="let deskOption of desks; trackBy: trackDeskById">{{deskOption.id}}</option>
+                <option [ngValue]="stageOption.id === payment.stage?.id ? payment.stage : stageOption" *ngFor="let stageOption of stages; trackBy: trackStageById">{{stageOption.id}}</option>
             </select>
         </div>
     </div>

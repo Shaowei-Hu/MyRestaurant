@@ -3,7 +3,6 @@ package com.shaowei.restaurant.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.shaowei.restaurant.domain.Ordre;
 import com.shaowei.restaurant.service.OrdreService;
-import com.shaowei.restaurant.service.dto.OrderDTO;
 import com.shaowei.restaurant.web.rest.util.HeaderUtil;
 import com.shaowei.restaurant.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -126,24 +125,6 @@ public class OrdreResource {
         log.debug("REST request to delete Ordre : {}", id);
         ordreService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
-    
-    /**
-     * POST  /ordres : Create an array of new ordre.
-     *
-     * @param ordres the ordre arrat to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new ordres, or with status 400 (Bad Request) if the ordre has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PostMapping("/ordreses")
-    @Timed
-    public ResponseEntity<Ordre[]> createOrdre(@RequestBody OrderDTO[] ordres) throws URISyntaxException {
-        log.debug("REST request to save Ordre array : {}", ordres.toString());
-
-        Ordre[] result = ordreService.save(ordres);
-        return ResponseEntity.created(new URI("/api/ordreses/++size" + result.length))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.toString()))
-            .body(result);
     }
 
     /**

@@ -1,26 +1,15 @@
 package com.shaowei.restaurant.domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
 
 /**
  * A Desk.
@@ -29,9 +18,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "desk")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "desk")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 public class Desk implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,17 +35,16 @@ public class Desk implements Serializable {
     @Column(name = "client_number")
     private Integer clientNumber;
 
-    @Column(name = "amount", precision=10, scale=2)
-    private BigDecimal amount;
+    @Column(name = "ranking")
+    private Integer ranking;
 
     @ManyToOne
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "desk")
-    private Set<Ordre> ordres = new HashSet<>();
-
-    @OneToMany(mappedBy = "desk")
-    private Set<Payment> payments = new HashSet<>();
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Stage> stages = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -109,17 +94,17 @@ public class Desk implements Serializable {
         this.clientNumber = clientNumber;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public Integer getRanking() {
+        return ranking;
     }
 
-    public Desk amount(BigDecimal amount) {
-        this.amount = amount;
+    public Desk ranking(Integer ranking) {
+        this.ranking = ranking;
         return this;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
     }
 
     public Restaurant getRestaurant() {
@@ -135,54 +120,29 @@ public class Desk implements Serializable {
         this.restaurant = restaurant;
     }
 
-    public Set<Ordre> getOrdres() {
-        return ordres;
+    public Set<Stage> getStages() {
+        return stages;
     }
 
-    public Desk ordres(Set<Ordre> ordres) {
-        this.ordres = ordres;
+    public Desk stages(Set<Stage> stages) {
+        this.stages = stages;
         return this;
     }
 
-    public Desk addOrdre(Ordre ordre) {
-        this.ordres.add(ordre);
-        ordre.setDesk(this);
+    public Desk addStage(Stage stage) {
+        this.stages.add(stage);
+        stage.setDesk(this);
         return this;
     }
 
-    public Desk removeOrdre(Ordre ordre) {
-        this.ordres.remove(ordre);
-        ordre.setDesk(null);
+    public Desk removeStage(Stage stage) {
+        this.stages.remove(stage);
+        stage.setDesk(null);
         return this;
     }
 
-    public void setOrdres(Set<Ordre> ordres) {
-        this.ordres = ordres;
-    }
-
-    public Set<Payment> getPayments() {
-        return payments;
-    }
-
-    public Desk payments(Set<Payment> payments) {
-        this.payments = payments;
-        return this;
-    }
-
-    public Desk addPayment(Payment payment) {
-        this.payments.add(payment);
-        payment.setDesk(this);
-        return this;
-    }
-
-    public Desk removePayment(Payment payment) {
-        this.payments.remove(payment);
-        payment.setDesk(null);
-        return this;
-    }
-
-    public void setPayments(Set<Payment> payments) {
-        this.payments = payments;
+    public void setStages(Set<Stage> stages) {
+        this.stages = stages;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
@@ -213,7 +173,7 @@ public class Desk implements Serializable {
             ", name='" + getName() + "'" +
             ", status='" + getStatus() + "'" +
             ", clientNumber='" + getClientNumber() + "'" +
-            ", amount='" + getAmount() + "'" +
+            ", ranking='" + getRanking() + "'" +
             "}";
     }
 }

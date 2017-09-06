@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -31,6 +32,9 @@ public class Restaurant implements Serializable {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "creation_date")
+    private ZonedDateTime creationDate;
 
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore
@@ -70,6 +74,19 @@ public class Restaurant implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public ZonedDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public Restaurant creationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
+        return this;
+    }
+
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Set<Desk> getDesks() {
@@ -124,6 +141,7 @@ public class Restaurant implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", content='" + getContent() + "'" +
+            ", creationDate='" + getCreationDate() + "'" +
             "}";
     }
 }

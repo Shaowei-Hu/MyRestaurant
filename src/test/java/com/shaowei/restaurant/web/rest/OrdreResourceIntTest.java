@@ -24,8 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 
+import static com.shaowei.restaurant.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -48,6 +53,9 @@ public class OrdreResourceIntTest {
 
     private static final BigDecimal DEFAULT_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_PRICE = new BigDecimal(2);
+
+    private static final ZonedDateTime DEFAULT_CREATION_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATION_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private OrdreRepository ordreRepository;
@@ -94,7 +102,8 @@ public class OrdreResourceIntTest {
         Ordre ordre = new Ordre()
             .name(DEFAULT_NAME)
             .status(DEFAULT_STATUS)
-            .price(DEFAULT_PRICE);
+            .price(DEFAULT_PRICE)
+            .creationDate(DEFAULT_CREATION_DATE);
         return ordre;
     }
 
@@ -122,6 +131,7 @@ public class OrdreResourceIntTest {
         assertThat(testOrdre.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testOrdre.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testOrdre.getPrice()).isEqualTo(DEFAULT_PRICE);
+        assertThat(testOrdre.getCreationDate()).isEqualTo(DEFAULT_CREATION_DATE);
 
         // Validate the Ordre in Elasticsearch
         Ordre ordreEs = ordreSearchRepository.findOne(testOrdre.getId());
@@ -160,7 +170,8 @@ public class OrdreResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(ordre.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(sameInstant(DEFAULT_CREATION_DATE))));
     }
 
     @Test
@@ -176,7 +187,8 @@ public class OrdreResourceIntTest {
             .andExpect(jsonPath("$.id").value(ordre.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()));
+            .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
+            .andExpect(jsonPath("$.creationDate").value(sameInstant(DEFAULT_CREATION_DATE)));
     }
 
     @Test
@@ -200,7 +212,8 @@ public class OrdreResourceIntTest {
         updatedOrdre
             .name(UPDATED_NAME)
             .status(UPDATED_STATUS)
-            .price(UPDATED_PRICE);
+            .price(UPDATED_PRICE)
+            .creationDate(UPDATED_CREATION_DATE);
 
         restOrdreMockMvc.perform(put("/api/ordres")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -214,6 +227,7 @@ public class OrdreResourceIntTest {
         assertThat(testOrdre.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testOrdre.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testOrdre.getPrice()).isEqualTo(UPDATED_PRICE);
+        assertThat(testOrdre.getCreationDate()).isEqualTo(UPDATED_CREATION_DATE);
 
         // Validate the Ordre in Elasticsearch
         Ordre ordreEs = ordreSearchRepository.findOne(testOrdre.getId());
@@ -273,7 +287,8 @@ public class OrdreResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(ordre.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(sameInstant(DEFAULT_CREATION_DATE))));
     }
 
     @Test

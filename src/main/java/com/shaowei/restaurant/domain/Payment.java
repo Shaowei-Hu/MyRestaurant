@@ -8,9 +8,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import com.shaowei.restaurant.domain.enumeration.PaymentType;
 
 /**
  * A Payment.
@@ -27,11 +30,18 @@ public class Payment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "jhi_type")
+    private PaymentType type;
+
+    @Column(name = "info")
+    private String info;
 
     @Column(name = "amount", precision=10, scale=2)
     private BigDecimal amount;
+
+    @Column(name = "creation_date")
+    private ZonedDateTime creationDate;
 
     @OneToMany(mappedBy = "payment")
     @JsonIgnore
@@ -39,7 +49,7 @@ public class Payment implements Serializable {
     private Set<Ordre> ordres = new HashSet<>();
 
     @ManyToOne
-    private Desk desk;
+    private Stage stage;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -50,17 +60,30 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
+    public PaymentType getType() {
         return type;
     }
 
-    public Payment type(String type) {
+    public Payment type(PaymentType type) {
         this.type = type;
         return this;
     }
 
-    public void setType(String type) {
+    public void setType(PaymentType type) {
         this.type = type;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public Payment info(String info) {
+        this.info = info;
+        return this;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public BigDecimal getAmount() {
@@ -74,6 +97,19 @@ public class Payment implements Serializable {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public ZonedDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public Payment creationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
+        return this;
+    }
+
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Set<Ordre> getOrdres() {
@@ -101,17 +137,17 @@ public class Payment implements Serializable {
         this.ordres = ordres;
     }
 
-    public Desk getDesk() {
-        return desk;
+    public Stage getStage() {
+        return stage;
     }
 
-    public Payment desk(Desk desk) {
-        this.desk = desk;
+    public Payment stage(Stage stage) {
+        this.stage = stage;
         return this;
     }
 
-    public void setDesk(Desk desk) {
-        this.desk = desk;
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
@@ -140,7 +176,9 @@ public class Payment implements Serializable {
         return "Payment{" +
             "id=" + getId() +
             ", type='" + getType() + "'" +
+            ", info='" + getInfo() + "'" +
             ", amount='" + getAmount() + "'" +
+            ", creationDate='" + getCreationDate() + "'" +
             "}";
     }
 }

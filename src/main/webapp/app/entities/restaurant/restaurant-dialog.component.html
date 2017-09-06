@@ -22,6 +22,13 @@
             <input type="text" class="form-control" name="content" id="field_content"
                 [(ngModel)]="restaurant.content"  />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.restaurant.creationDate" for="field_creationDate">Creation Date</label>
+            <div class="d-flex">
+                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="restaurant.creationDate"
+                  />
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">

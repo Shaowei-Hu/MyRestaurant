@@ -26,16 +26,25 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="info" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="amount" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="desk_id" type="bigint">
+            <column name="creation_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="stage_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="payment" columnName="creation_date" columnDataType="datetime"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

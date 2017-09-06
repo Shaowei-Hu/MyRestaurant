@@ -28,23 +28,23 @@
     <div class="table-responsive" *ngIf="desks">
         <table class="table table-striped">
             <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="myRestaurantApp.desk.name">Name</span></th>
-            <th><span jhiTranslate="myRestaurantApp.desk.status">Status</span></th>
-            <th><span jhiTranslate="myRestaurantApp.desk.clientNumber">Client Number</span></th>
-            <th><span jhiTranslate="myRestaurantApp.desk.amount">Amount</span></th>
-            <th><span jhiTranslate="myRestaurantApp.desk.restaurant">Restaurant</span></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="myRestaurantApp.desk.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="status"><span jhiTranslate="myRestaurantApp.desk.status">Status</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="clientNumber"><span jhiTranslate="myRestaurantApp.desk.clientNumber">Client Number</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ranking"><span jhiTranslate="myRestaurantApp.desk.ranking">Ranking</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="restaurant.id"><span jhiTranslate="myRestaurantApp.desk.restaurant">Restaurant</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let desk of desks ;trackBy: trackId">
                 <td><a [routerLink]="['../desk', desk.id ]">{{desk.id}}</a></td>
                 <td>{{desk.name}}</td>
                 <td>{{desk.status}}</td>
                 <td>{{desk.clientNumber}}</td>
-                <td>{{desk.amount}}</td>
+                <td>{{desk.ranking}}</td>
                 <td>
                     <div *ngIf="desk.restaurant">
                         <a [routerLink]="['../restaurant', desk.restaurant?.id ]" >{{desk.restaurant?.id}}</a>

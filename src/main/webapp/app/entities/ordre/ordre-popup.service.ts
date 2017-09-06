@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Ordre } from './ordre.model';
 import { OrdreService } from './ordre.service';
 
@@ -9,6 +10,7 @@ export class OrdrePopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private ordreService: OrdreService
@@ -26,6 +28,8 @@ export class OrdrePopupService {
 
             if (id) {
                 this.ordreService.find(id).subscribe((ordre) => {
+                    ordre.creationDate = this.datePipe
+                        .transform(ordre.creationDate, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.ordreModalRef(component, ordre);
                     resolve(this.ngbModalRef);
                 });

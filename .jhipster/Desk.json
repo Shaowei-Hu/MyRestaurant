@@ -9,14 +9,8 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "ordre",
-            "otherEntityName": "ordre",
-            "otherEntityRelationshipName": "desk"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "payment",
-            "otherEntityName": "payment",
+            "relationshipName": "stage",
+            "otherEntityName": "stage",
             "otherEntityRelationshipName": "desk"
         }
     ],
@@ -34,13 +28,13 @@
             "fieldType": "Integer"
         },
         {
-            "fieldName": "amount",
-            "fieldType": "BigDecimal"
+            "fieldName": "ranking",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20170224101812",
     "entityTableName": "desk",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceClass"
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
 }

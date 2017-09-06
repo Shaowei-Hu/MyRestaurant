@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,8 +48,8 @@ public class DeskResourceIntTest {
     private static final Integer DEFAULT_CLIENT_NUMBER = 1;
     private static final Integer UPDATED_CLIENT_NUMBER = 2;
 
-    private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
-    private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
+    private static final Integer DEFAULT_RANKING = 1;
+    private static final Integer UPDATED_RANKING = 2;
 
     @Autowired
     private DeskRepository deskRepository;
@@ -98,7 +97,7 @@ public class DeskResourceIntTest {
             .name(DEFAULT_NAME)
             .status(DEFAULT_STATUS)
             .clientNumber(DEFAULT_CLIENT_NUMBER)
-            .amount(DEFAULT_AMOUNT);
+            .ranking(DEFAULT_RANKING);
         return desk;
     }
 
@@ -126,7 +125,7 @@ public class DeskResourceIntTest {
         assertThat(testDesk.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testDesk.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testDesk.getClientNumber()).isEqualTo(DEFAULT_CLIENT_NUMBER);
-        assertThat(testDesk.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testDesk.getRanking()).isEqualTo(DEFAULT_RANKING);
 
         // Validate the Desk in Elasticsearch
         Desk deskEs = deskSearchRepository.findOne(testDesk.getId());
@@ -166,7 +165,7 @@ public class DeskResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].clientNumber").value(hasItem(DEFAULT_CLIENT_NUMBER)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
+            .andExpect(jsonPath("$.[*].ranking").value(hasItem(DEFAULT_RANKING)));
     }
 
     @Test
@@ -183,7 +182,7 @@ public class DeskResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.clientNumber").value(DEFAULT_CLIENT_NUMBER))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()));
+            .andExpect(jsonPath("$.ranking").value(DEFAULT_RANKING));
     }
 
     @Test
@@ -208,7 +207,7 @@ public class DeskResourceIntTest {
             .name(UPDATED_NAME)
             .status(UPDATED_STATUS)
             .clientNumber(UPDATED_CLIENT_NUMBER)
-            .amount(UPDATED_AMOUNT);
+            .ranking(UPDATED_RANKING);
 
         restDeskMockMvc.perform(put("/api/desks")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -222,7 +221,7 @@ public class DeskResourceIntTest {
         assertThat(testDesk.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testDesk.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testDesk.getClientNumber()).isEqualTo(UPDATED_CLIENT_NUMBER);
-        assertThat(testDesk.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testDesk.getRanking()).isEqualTo(UPDATED_RANKING);
 
         // Validate the Desk in Elasticsearch
         Desk deskEs = deskSearchRepository.findOne(testDesk.getId());
@@ -283,7 +282,7 @@ public class DeskResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].clientNumber").value(hasItem(DEFAULT_CLIENT_NUMBER)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
+            .andExpect(jsonPath("$.[*].ranking").value(hasItem(DEFAULT_RANKING)));
     }
 
     @Test

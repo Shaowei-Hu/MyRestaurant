@@ -13,6 +13,8 @@
                 "payment": "Payment",
                 "product": "Product",
                 "restaurant": "Restaurant",
+                "stage": "Stage",
+                "category": "Category",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

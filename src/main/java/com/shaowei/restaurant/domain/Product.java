@@ -30,8 +30,17 @@ public class Product implements Serializable {
     @Column(name = "price", precision=10, scale=2)
     private BigDecimal price;
 
+    @Column(name = "tax_type")
+    private String taxType;
+
     @Column(name = "description")
     private String description;
+
+    @Column(name = "ranking")
+    private Integer ranking;
+
+    @ManyToOne
+    private Category category;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -68,6 +77,19 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    public String getTaxType() {
+        return taxType;
+    }
+
+    public Product taxType(String taxType) {
+        this.taxType = taxType;
+        return this;
+    }
+
+    public void setTaxType(String taxType) {
+        this.taxType = taxType;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -79,6 +101,32 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getRanking() {
+        return ranking;
+    }
+
+    public Product ranking(Integer ranking) {
+        this.ranking = ranking;
+        return this;
+    }
+
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Product category(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
@@ -108,7 +156,9 @@ public class Product implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", price='" + getPrice() + "'" +
+            ", taxType='" + getTaxType() + "'" +
             ", description='" + getDescription() + "'" +
+            ", ranking='" + getRanking() + "'" +
             "}";
     }
 }

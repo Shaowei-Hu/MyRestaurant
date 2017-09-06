@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Restaurant } from './restaurant.model';
 import { RestaurantService } from './restaurant.service';
 
@@ -9,6 +10,7 @@ export class RestaurantPopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private restaurantService: RestaurantService
@@ -26,6 +28,8 @@ export class RestaurantPopupService {
 
             if (id) {
                 this.restaurantService.find(id).subscribe((restaurant) => {
+                    restaurant.creationDate = this.datePipe
+                        .transform(restaurant.creationDate, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.restaurantModalRef(component, restaurant);
                     resolve(this.ngbModalRef);
                 });

@@ -19,10 +19,9 @@
             "name": "Name",
             "status": "Status",
             "clientNumber": "Client Number",
-            "amount": "Amount",
+            "ranking": "Ranking",
             "restaurant": "Restaurant",
-            "ordre": "Ordre",
-            "payment": "Payment"
+            "stage": "Stage"
         }
     }
 }

@@ -16,10 +16,14 @@
         <dd>
             <span>{{ordre.price}}</span>
         </dd>
-        <dt><span jhiTranslate="myRestaurantApp.ordre.desk">Desk</span></dt>
+        <dt><span jhiTranslate="myRestaurantApp.ordre.creationDate">Creation Date</span></dt>
         <dd>
-            <div *ngIf="ordre.desk">
-                <a [routerLink]="['/desk', ordre.desk?.id]">{{ordre.desk?.id}}</a>
+            <span>{{ordre.creationDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.ordre.stage">Stage</span></dt>
+        <dd>
+            <div *ngIf="ordre.stage">
+                <a [routerLink]="['/stage', ordre.stage?.id]">{{ordre.stage?.id}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="myRestaurantApp.ordre.payment">Payment</span></dt>

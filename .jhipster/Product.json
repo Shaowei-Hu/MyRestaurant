@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "category",
+            "otherEntityName": "category",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
@@ -11,13 +18,21 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "taxType",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "description",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "ranking",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20170224101812",
     "entityTableName": "product",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceClass"
+    "service": "serviceImpl"
 }

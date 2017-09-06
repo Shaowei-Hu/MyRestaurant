@@ -9,24 +9,33 @@
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "desk",
-            "otherEntityName": "desk",
+            "relationshipName": "stage",
+            "otherEntityName": "stage",
             "otherEntityField": "id"
         }
     ],
     "fields": [
         {
             "fieldName": "type",
+            "fieldType": "PaymentType",
+            "fieldValues": "CARD,CASH,CHECK,TICKET,OTHER"
+        },
+        {
+            "fieldName": "info",
             "fieldType": "String"
         },
         {
             "fieldName": "amount",
             "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170224101812",
     "entityTableName": "payment",
     "dto": "no",
     "pagination": "pagination",
-    "service": "serviceClass"
+    "service": "serviceImpl"
 }

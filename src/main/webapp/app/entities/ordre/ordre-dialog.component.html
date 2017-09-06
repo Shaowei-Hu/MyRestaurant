@@ -27,12 +27,19 @@
             <input type="number" class="form-control" name="price" id="field_price"
                 [(ngModel)]="ordre.price"  />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.ordre.creationDate" for="field_creationDate">Creation Date</label>
+            <div class="d-flex">
+                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="ordre.creationDate"
+                  />
+            </div>
+        </div>
 
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.ordre.desk" for="field_desk">Desk</label>
-            <select class="form-control" id="field_desk" name="desk" [(ngModel)]="ordre.desk" >
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.ordre.stage" for="field_stage">Stage</label>
+            <select class="form-control" id="field_stage" name="stage" [(ngModel)]="ordre.stage" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="deskOption.id === ordre.desk?.id ? ordre.desk : deskOption" *ngFor="let deskOption of desks; trackBy: trackDeskById">{{deskOption.id}}</option>
+                <option [ngValue]="stageOption.id === ordre.stage?.id ? ordre.stage : stageOption" *ngFor="let stageOption of stages; trackBy: trackStageById">{{stageOption.id}}</option>
             </select>
         </div>
         <div class="form-group">

@@ -30,7 +30,19 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="tax_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ranking" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="category_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

@@ -28,25 +28,27 @@
     <div class="table-responsive" *ngIf="ordres">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="name"><span jhiTranslate="myRestaurantApp.ordre.name">Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="status"><span jhiTranslate="myRestaurantApp.ordre.status">Status</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="price"><span jhiTranslate="myRestaurantApp.ordre.price">Price</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="desk.id"><span jhiTranslate="myRestaurantApp.ordre.desk">Desk</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="creationDate"><span jhiTranslate="myRestaurantApp.ordre.creationDate">Creation Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="stage.id"><span jhiTranslate="myRestaurantApp.ordre.stage">Stage</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="payment.id"><span jhiTranslate="myRestaurantApp.ordre.payment">Payment</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let ordre of ordres ;trackBy: trackId">
                 <td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
                 <td>{{ordre.name}}</td>
                 <td>{{ordre.status}}</td>
                 <td>{{ordre.price}}</td>
+                <td>{{ordre.creationDate | date:'medium'}}</td>
                 <td>
-                    <div *ngIf="ordre.desk">
-                        <a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
+                    <div *ngIf="ordre.stage">
+                        <a [routerLink]="['../stage', ordre.stage?.id ]" >{{ordre.stage?.id}}</a>
                     </div>
                 </td>
                 <td>
@@ -82,4 +84,12 @@
             </tbody>
         </table>
     </div>
+        <div *ngIf="ordres && ordres.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
 </div>

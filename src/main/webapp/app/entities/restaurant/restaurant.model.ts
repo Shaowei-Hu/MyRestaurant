@@ -5,6 +5,7 @@ export class Restaurant implements BaseEntity {
         public id?: number,
         public name?: string,
         public content?: string,
+        public creationDate?: any,
         public desks?: BaseEntity[],
     ) {
     }

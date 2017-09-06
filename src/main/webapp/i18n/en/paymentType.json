@@ -1,0 +1,12 @@
+{
+    "myRestaurantApp": {
+        "PaymentType" : {
+            "null": "",
+            "CARD": "CARD",
+            "CASH": "CASH",
+            "CHECK": "CHECK",
+            "TICKET": "TICKET",
+            "OTHER": "OTHER"
+        }
+    }
+}

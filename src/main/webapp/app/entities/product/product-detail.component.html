@@ -12,9 +12,23 @@
         <dd>
             <span>{{product.price}}</span>
         </dd>
+        <dt><span jhiTranslate="myRestaurantApp.product.taxType">Tax Type</span></dt>
+        <dd>
+            <span>{{product.taxType}}</span>
+        </dd>
         <dt><span jhiTranslate="myRestaurantApp.product.description">Description</span></dt>
         <dd>
             <span>{{product.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.product.ranking">Ranking</span></dt>
+        <dd>
+            <span>{{product.ranking}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.product.category">Category</span></dt>
+        <dd>
+            <div *ngIf="product.category">
+                <a [routerLink]="['/category', product.category?.id]">{{product.category?.id}}</a>
+            </div>
         </dd>
     </dl>
 

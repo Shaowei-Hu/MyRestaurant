@@ -1,0 +1,54 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "ordre",
+            "otherEntityName": "ordre",
+            "otherEntityRelationshipName": "stage"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "otherEntityRelationshipName": "stage"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "desk",
+            "otherEntityName": "desk",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "clientNumber",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "amountPaid",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20170906201830",
+    "entityTableName": "stage",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl"
+}

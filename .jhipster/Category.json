@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "category"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ranking",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20170906201835",
+    "entityTableName": "category",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

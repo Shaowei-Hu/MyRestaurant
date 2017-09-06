@@ -24,13 +24,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 
+import static com.shaowei.restaurant.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.shaowei.restaurant.domain.enumeration.PaymentType;
 /**
  * Test class for the PaymentResource REST controller.
  *
@@ -40,11 +46,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MyRestaurantApp.class)
 public class PaymentResourceIntTest {
 
-    private static final String DEFAULT_TYPE = "AAAAAAAAAA";
-    private static final String UPDATED_TYPE = "BBBBBBBBBB";
+    private static final PaymentType DEFAULT_TYPE = PaymentType.CARD;
+    private static final PaymentType UPDATED_TYPE = PaymentType.CASH;
+
+    private static final String DEFAULT_INFO = "AAAAAAAAAA";
+    private static final String UPDATED_INFO = "BBBBBBBBBB";
 
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
+
+    private static final ZonedDateTime DEFAULT_CREATION_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATION_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -90,7 +102,9 @@ public class PaymentResourceIntTest {
     public static Payment createEntity(EntityManager em) {
         Payment payment = new Payment()
             .type(DEFAULT_TYPE)
-            .amount(DEFAULT_AMOUNT);
+            .info(DEFAULT_INFO)
+            .amount(DEFAULT_AMOUNT)
+            .creationDate(DEFAULT_CREATION_DATE);
         return payment;
     }
 
@@ -116,7 +130,9 @@ public class PaymentResourceIntTest {
         assertThat(paymentList).hasSize(databaseSizeBeforeCreate + 1);
         Payment testPayment = paymentList.get(paymentList.size() - 1);
         assertThat(testPayment.getType()).isEqualTo(DEFAULT_TYPE);
+        assertThat(testPayment.getInfo()).isEqualTo(DEFAULT_INFO);
         assertThat(testPayment.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testPayment.getCreationDate()).isEqualTo(DEFAULT_CREATION_DATE);
 
         // Validate the Payment in Elasticsearch
         Payment paymentEs = paymentSearchRepository.findOne(testPayment.getId());
@@ -154,7 +170,9 @@ public class PaymentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(payment.getId().intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
+            .andExpect(jsonPath("$.[*].info").value(hasItem(DEFAULT_INFO.toString())))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(sameInstant(DEFAULT_CREATION_DATE))));
     }
 
     @Test
@@ -169,7 +187,9 @@ public class PaymentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(payment.getId().intValue()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()));
+            .andExpect(jsonPath("$.info").value(DEFAULT_INFO.toString()))
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.creationDate").value(sameInstant(DEFAULT_CREATION_DATE)));
     }
 
     @Test
@@ -192,7 +212,9 @@ public class PaymentResourceIntTest {
         Payment updatedPayment = paymentRepository.findOne(payment.getId());
         updatedPayment
             .type(UPDATED_TYPE)
-            .amount(UPDATED_AMOUNT);
+            .info(UPDATED_INFO)
+            .amount(UPDATED_AMOUNT)
+            .creationDate(UPDATED_CREATION_DATE);
 
         restPaymentMockMvc.perform(put("/api/payments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -204,7 +226,9 @@ public class PaymentResourceIntTest {
         assertThat(paymentList).hasSize(databaseSizeBeforeUpdate);
         Payment testPayment = paymentList.get(paymentList.size() - 1);
         assertThat(testPayment.getType()).isEqualTo(UPDATED_TYPE);
+        assertThat(testPayment.getInfo()).isEqualTo(UPDATED_INFO);
         assertThat(testPayment.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPayment.getCreationDate()).isEqualTo(UPDATED_CREATION_DATE);
 
         // Validate the Payment in Elasticsearch
         Payment paymentEs = paymentSearchRepository.findOne(testPayment.getId());
@@ -263,7 +287,9 @@ public class PaymentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(payment.getId().intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())));
+            .andExpect(jsonPath("$.[*].info").value(hasItem(DEFAULT_INFO.toString())))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(sameInstant(DEFAULT_CREATION_DATE))));
     }
 
     @Test

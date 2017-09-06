@@ -34,7 +34,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="amount" type="decimal(10,2)">
+            <column name="ranking" type="integer">
                 <constraints nullable="true" />
             </column>
 

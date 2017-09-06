@@ -1,13 +1,22 @@
 import { BaseEntity } from './../../shared';
-import { Desk } from './../Desk';
+
+const enum PaymentType {
+    'CARD',
+    'CASH',
+    'CHECK',
+    'TICKET',
+    'OTHER'
+}
 
 export class Payment implements BaseEntity {
     constructor(
         public id?: number,
-        public type?: string,
+        public type?: PaymentType,
+        public info?: string,
         public amount?: number,
+        public creationDate?: any,
         public ordres?: BaseEntity[],
-        public desk?: Desk,
+        public stage?: BaseEntity,
     ) {
     }
 }

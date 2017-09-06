@@ -1,0 +1,30 @@
+{
+    "myRestaurantApp": {
+        "stage" : {
+            "home": {
+                "title": "Stages",
+                "createLabel": "建立一筆新的 Stage",
+                "createOrEditLabel": "建立或編輯 Stage",
+                "search": "搜尋 Stage"
+            },
+            "created": "新的 Stage 建立成功，識別碼為 {{ param }}",
+            "updated": "識別碼為 {{ param }} 的 Stage 更新成功",
+            "deleted": "識別碼為 {{ param }} 的 Stage 刪除成功",
+            "delete": {
+                "question": "您確定要刪除 Stage {{ id }} 嗎?"
+            },
+            "detail": {
+                "title": "Stage"
+            },
+            "name": "Name",
+            "status": "Status",
+            "clientNumber": "Client Number",
+            "amount": "Amount",
+            "amountPaid": "Amount Paid",
+            "creationDate": "Creation Date",
+            "ordre": "Ordre",
+            "payment": "Payment",
+            "desk": "Desk"
+        }
+    }
+}

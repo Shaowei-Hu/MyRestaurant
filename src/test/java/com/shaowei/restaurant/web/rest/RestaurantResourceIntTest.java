@@ -23,8 +23,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 
+import static com.shaowei.restaurant.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,6 +49,9 @@ public class RestaurantResourceIntTest {
 
     private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT = "BBBBBBBBBB";
+
+    private static final ZonedDateTime DEFAULT_CREATION_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATION_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -89,7 +97,8 @@ public class RestaurantResourceIntTest {
     public static Restaurant createEntity(EntityManager em) {
         Restaurant restaurant = new Restaurant()
             .name(DEFAULT_NAME)
-            .content(DEFAULT_CONTENT);
+            .content(DEFAULT_CONTENT)
+            .creationDate(DEFAULT_CREATION_DATE);
         return restaurant;
     }
 
@@ -116,6 +125,7 @@ public class RestaurantResourceIntTest {
         Restaurant testRestaurant = restaurantList.get(restaurantList.size() - 1);
         assertThat(testRestaurant.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testRestaurant.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testRestaurant.getCreationDate()).isEqualTo(DEFAULT_CREATION_DATE);
 
         // Validate the Restaurant in Elasticsearch
         Restaurant restaurantEs = restaurantSearchRepository.findOne(testRestaurant.getId());
@@ -153,7 +163,8 @@ public class RestaurantResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(restaurant.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(sameInstant(DEFAULT_CREATION_DATE))));
     }
 
     @Test
@@ -168,7 +179,8 @@ public class RestaurantResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(restaurant.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
+            .andExpect(jsonPath("$.creationDate").value(sameInstant(DEFAULT_CREATION_DATE)));
     }
 
     @Test
@@ -191,7 +203,8 @@ public class RestaurantResourceIntTest {
         Restaurant updatedRestaurant = restaurantRepository.findOne(restaurant.getId());
         updatedRestaurant
             .name(UPDATED_NAME)
-            .content(UPDATED_CONTENT);
+            .content(UPDATED_CONTENT)
+            .creationDate(UPDATED_CREATION_DATE);
 
         restRestaurantMockMvc.perform(put("/api/restaurants")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -204,6 +217,7 @@ public class RestaurantResourceIntTest {
         Restaurant testRestaurant = restaurantList.get(restaurantList.size() - 1);
         assertThat(testRestaurant.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testRestaurant.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testRestaurant.getCreationDate()).isEqualTo(UPDATED_CREATION_DATE);
 
         // Validate the Restaurant in Elasticsearch
         Restaurant restaurantEs = restaurantSearchRepository.findOne(testRestaurant.getId());
@@ -262,7 +276,8 @@ public class RestaurantResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(restaurant.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(sameInstant(DEFAULT_CREATION_DATE))));
     }
 
     @Test

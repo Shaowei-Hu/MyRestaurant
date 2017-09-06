@@ -12,6 +12,10 @@
         <dd>
             <span>{{restaurant.content}}</span>
         </dd>
+        <dt><span jhiTranslate="myRestaurantApp.restaurant.creationDate">Creation Date</span></dt>
+        <dd>
+            <span>{{restaurant.creationDate | date:'medium'}}</span>
+        </dd>
     </dl>
 
     <button type="submit"
