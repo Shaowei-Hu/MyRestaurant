@@ -12,7 +12,10 @@ import { Payment, PaymentService } from '../../entities/payment';
 
 @Component({
     selector: 'res-table',
-    templateUrl: './table.component.html'
+    templateUrl: './table.component.html',
+    styleUrls: [
+        'table.component.scss'
+    ]
 })
 export class TableComponent implements OnInit, OnDestroy {
 

@@ -1,5 +1,5 @@
 // The code is a bit of a mess at the moment! Sorry about that.
-
+$blue:    #007bff !default;
 section {
   display: flex;
   flex-flow: row wrap;
@@ -37,12 +37,12 @@ section label {
   position: relative;
 }
 input[type="radio"]:checked + label {
-  background: #337ab7;
+  background: $blue;
   color: #fff;
   &::after {
     color: hsla(215, 5%, 25%, 1);
     font-family: FontAwesome;
-    border: 2px solid #337ab7;
+    border: 2px solid $blue;
     content: "\f00c";
     font-size: 16px;
     position: absolute;

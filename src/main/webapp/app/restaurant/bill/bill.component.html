@@ -14,11 +14,11 @@
 	<div class="row">
 		<div class="col-lg-4">
 			<div class="col-lg-12">
-				<div class="panel panel-default">
-				<div class="panel-heading"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tables Status</div>
-				<div class="panel-body">
+				<div class="card card-default">
+				<div class="card-header"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tables Status</div>
+				<div class="card-block">
 
-
+					<div class="row">
 						<div class="" [hidden]="desk?.id">
 							<label for="id" jhiTranslate="global.field.id">ID</label> <input
 								type="text" class="form-control" id="id" name="id"
@@ -47,17 +47,17 @@
 							<strong><span class="col-sm-6">Status</span></strong>
 							<span class="form-control-static">{{desk?.status}}</span>
 						</div>
-
+					</div>
 				</div>
 				</div>
 			</div>
 
 			<div class="col-lg-12">
-				<div class="panel panel-default" *ngIf="isDetail">
-				<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Validé
+				<div class="card card-default" *ngIf="isDetail">
+				<div class="card-header"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Validé
 					<a (click)="toggleDetail()"><span class="float-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 				</div>
-				<div class="panel-body">
+				<div class="card-block">
 					<div class="table-responsive" *ngIf="ordreInDesk">
 					<table class="table table-striped">
 						<thead>
@@ -84,11 +84,11 @@
 			
 
 				<div *ngIf="!isDetail && ordreInDesk">
-					<div class="panel panel-default">
-					<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
+					<div class="card card-default">
+					<div class="card-header"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
 						<a (click)="toggleDetail()"><span class="float-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 					</div>
-					<div class="panel-body">
+					<div class="card-block">
 						<res-list-merged [list]="ordreInDesk"></res-list-merged>
 					</div>
 					</div>
@@ -98,13 +98,13 @@
 
 		<div class="col-lg-8">
 			
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="card card-default">
+				<div class="card-header">
 					<i class="fa fa-usd" aria-hidden="true"></i>
 					<span> Payment</span>
 					<span class="float-right">Amount to pay:  <strong>{{amountRest}}</strong> </span>
 				</div>
-				<div class="panel-body">
+				<div class="card-block">
 					<ngb-tabset activeId="byAmount">
 						<ngb-tab id="byAmount" title="By Amount">
 							<ng-template ngbTabContent>
@@ -129,13 +129,13 @@
 			</div>
 
 
-			<div class="panel panel-default" *ngIf="desk?.payments">
-				<div class="panel-heading">
+			<div class="card card-default" *ngIf="desk?.payments">
+				<div class="card-header">
 					<i class="fa fa-usd" aria-hidden="true"></i>
 					<span> Paid</span>
 					<span class="float-right">Amount paid:  <strong>{{getAmountPaid()}}</strong></span>
 				</div>
-				<div class="panel-body">
+				<div class="card-block">
 					<table class="table table-striped">
 						<thead>
 						<tr>

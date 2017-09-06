@@ -1,5 +1,31 @@
 @import 'bootstrap-variables';
 
+/* ==========================================================================
+Card margin
+========================================================================== */
+.card {
+  margin-top: 1.0rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-block {
+  padding: 1.5rem;
+}
+
+/* jhipster-needle-scss-add-main JHipster will add new css style */
+
+/* ==========================================================================
+Button hover
+========================================================================== */
+.btn:hover {
+  cursor: pointer;
+}
+
+
+
+/* jhipster-needle-scss-add-main JHipster will add new css style */
+
+
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
@@ -202,7 +228,6 @@ ui bootstrap tweaks
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
-
 
 /* ==========================================================================
 panel

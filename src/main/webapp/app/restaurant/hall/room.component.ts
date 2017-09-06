@@ -98,9 +98,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     getDeskStatus(flag: string) {
       let cssClasses;
       if (flag === 'occupied') {
-        cssClasses = 'panel panel-warning desk-occupied';
+        cssClasses = 'card border-warning text-warning desk-occupied';
       } else {
-        cssClasses = 'panel panel-primary desk';
+        cssClasses = 'card border-primary text-primary desk';
       }
       return cssClasses;
     }

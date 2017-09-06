@@ -6,15 +6,17 @@
     <div class="modal-body">
     <div class="container">
         <div class="row">
-            <div class="form-control">
+            <!-- <div class="form-control"> -->
                 <div class="col-12">
                     <input class="form-control form-control-lg text-right" type="text" disabled [ngModel]="numResult">
                 </div>
-            </div>
+            <!-- </div> -->
 
-            <br><br><br>
+        </div>
+        
 
             <div class="res-keyboard">
+            <div class="row">
                 <div class="col-3">
                     <button type="button" (click)="press(7)" class="btn btn-primary btn-lg">7</button>
                 </div>
@@ -67,8 +69,9 @@
                     <button type="button" (click)="done()" class="btn btn-primary btn-lg"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></button>
                 </div>
             </div>
+            </div>
 
-        </div>
+        
     </div>
     </div>
     <div class="modal-footer">

@@ -18,81 +18,81 @@
 	<jhi-alert></jhi-alert>
 
 	<div>
-		<div class="panel panel-default">
-    	<div class="panel-heading"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tables Status</div>
-    	<div class="panel-body">
-		<form name="editForm" role="form" novalidate (ngSubmit)="save()"
-			#editForm="ngForm">
+		<div class="card card-primary">
+    	<div class="card-header"><i class="fa fa-id-card-o" aria-hidden="true"></i> Tables Status</div>
+    	<div class="card-block">
+			<form name="editForm" role="form" novalidate (ngSubmit)="save()"
+				#editForm="ngForm">
 
-			<div class="">
-				<jhi-alert-error></jhi-alert-error>
+				<div class="row">
+					<jhi-alert-error></jhi-alert-error>
 
-				<div class="form-group" [hidden]="desk?.id">
-					<label for="id" jhiTranslate="global.field.id">ID</label>
-					<input type="text" class="form-control" id="id" name="id"
-						[ngModel]="desk?.id" (ngModelChange)="desk.id=$event" readonly />
-				</div>
-				
-				<div class="form-group col-sm-6">
-					<label class="form-control-label col-sm-4"
-						jhiTranslate="myRestaurantApp.room.name" for="field_name">Name</label>
-						<div class="col-sm-8">
-							<p class="form-control-static">{{desk?.name}}</p>
-						</div>
+					<div class="form-group" [hidden]="desk?.id">
+						<label for="id" jhiTranslate="global.field.id">ID</label>
+						<input type="text" class="form-control" id="id" name="id"
+							[ngModel]="desk?.id" (ngModelChange)="desk.id=$event" readonly />
+					</div>
+					
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4"
+							jhiTranslate="myRestaurantApp.room.name" for="field_name">Name</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{desk?.name}}</p>
+							</div>
 
-				</div>
-				
-				<div class="form-group col-sm-6">
-					<label class="form-control-label col-sm-4"
-						jhiTranslate="myRestaurantApp.room.amount" for="field_amount">Amount</label>
-						<div class="col-sm-8">
-							<p class="form-control-static">{{desk?.amount}}</p>
-						</div>
-				</div>
+					</div>
+					
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4"
+							jhiTranslate="myRestaurantApp.room.amount" for="field_amount">Amount</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{desk?.amount}}</p>
+							</div>
+					</div>
 
 
 
-				
-				<div class="form-group col-sm-6">
-					<label class="form-control-label col-sm-4"
-						jhiTranslate="myRestaurantApp.room.clientNumber"
-						for="field_clientNumber">Client Number</label>
-						<div class="col-sm-8">
-						<input
-						type="number" class="form-control" name="clientNumber"
-						id="field_clientNumber" [ngModel]="desk?.clientNumber"
-						(ngModelChange)="desk.clientNumber=$event" />
-						</div>
-				</div>
-				
-				<div *ngIf="desk">
-					<div class="form-group  col-sm-6">
-						<label class="form-control-label col-sm-4">Unoccupied / Occupied</label>
-						<div class="col-sm-8">
-							<ui-switch (change)="onChange($event)"
-								[checked]="getTableStatus()"></ui-switch>
+					
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4"
+							jhiTranslate="myRestaurantApp.room.clientNumber"
+							for="field_clientNumber">Client Number</label>
+							<div class="col-sm-8">
+							<input
+							type="number" class="form-control" name="clientNumber"
+							id="field_clientNumber" [ngModel]="desk?.clientNumber"
+							(ngModelChange)="desk.clientNumber=$event" />
+							</div>
+					</div>
+					
+
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4" for="">Occupied/Unoccupied</label>
+						<div class="col-sm-8 toggle">
+							<input type="checkbox" id="switch" /><label for="switch">Toggle</label>
 						</div>
 					</div>
+					
 				</div>
 
-
-			</div>
-			<span class="float-right">
-				<button type="submit" [disabled]="editForm.form.invalid || isSaving"
-					class="btn btn-primary">
-					<span class="fa fa-save"></span>&nbsp;<span
-						class="hidden-sm-down" jhiTranslate="entity.action.save">Save</span>
-				</button>
-			</span>
-		</form>
-    	</div>
+				
+				<div class="float-right">
+					<button type="submit" [disabled]="editForm.form.invalid || isSaving"
+						class="btn btn-primary">
+						<span class="fa fa-save"></span>&nbsp;<span
+							class="hidden-sm-down" jhiTranslate="entity.action.save">Save</span>
+					</button>
+				</div>
+			</form>
 		</div>
+    	</div>
+		
 
-		<div class="panel panel-default" *ngIf="isDetail">
-		<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Validé
+		<div class="card" *ngIf="isDetail">
+		<div class="card-header"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Validé
 			<a (click)="toggleDetail()"><span class="float-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 		</div>
-		<div class="panel-body">
+		<div class="card-block">
 			<div class="table-responsive" *ngIf="ordreInDesk">
 			<table class="table table-striped">
 				<thead>
@@ -143,11 +143,11 @@
 	
 
 		<div *ngIf="!isDetail && ordreInDesk">
-		<div class="panel panel-default">
-		<div class="panel-heading"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
+		<div class="card">
+		<div class="card-header"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
 			<a (click)="toggleDetail()"><span class="float-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 		</div>
-		<div class="panel-body">
+		<div class="card-block">
 			<res-list-merged [list]="ordreInDesk"></res-list-merged>
 		</div>
 		</div>
@@ -155,13 +155,13 @@
 
 
 
-		<div class="panel panel-default" *ngIf="desk?.payments?.length>0">
-				<div class="panel-heading">
+		<div class="card" *ngIf="desk?.payments?.length>0">
+				<div class="card-header">
 					<i class="fa fa-usd" aria-hidden="true"></i>
 					<span> Paid</span>
 					<span class="float-right">Amount paid:  <strong>{{getAmountPaid()}}</strong></span>
 				</div>
-				<div class="panel-body">
+				<div class="card-block">
 					<table class="table table-striped">
 						<thead>
 						<tr>
@@ -191,7 +191,7 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
+		</div>
 	</div>
 
 </div>

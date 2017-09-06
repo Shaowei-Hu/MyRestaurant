@@ -5,35 +5,35 @@
 
 			<div class="">
 			<section>
-				<div class="col-lg-2">
+				<div class="col">
 				<input type="radio" id="control_01" name="select" value="card" [(ngModel)]="payment.type">
 				<label for="control_01">
 					<p><i class="fa fa-credit-card" aria-hidden="true"></i> Card</p>
 				</label>
 				</div>
 
-				<div class="col-lg-2">
+				<div class="col">
 				<input type="radio" id="control_02" name="select" value="ticket" [(ngModel)]="payment.type">
 				<label for="control_02">
 					<p><i class="fa fa-glass" aria-hidden="true"></i> Ticket</p>
 				</label>
 				</div>
 
-				<div class="col-lg-2">				
+				<div class="col">				
 				<input type="radio" id="control_03" name="select" value="cash" [(ngModel)]="payment.type">
 				<label for="control_03">
 					<p><i class="fa fa-money" aria-hidden="true"></i> Cash</p>
 				</label>
 				</div>
 
-				<div class="col-lg-2">
+				<div class="col">
 				<input type="radio" id="control_04" name="select" value="check" [(ngModel)]="payment.type">
 				<label for="control_04">
 					<p><i class="fa fa-google-wallet" aria-hidden="true"></i> Check</p>
 				</label>
 				</div>
 
-				<div class="col-lg-2">
+				<div class="col">
 				<input type="radio" id="control_05" name="select" value="other" [(ngModel)]="payment.type">
 				<label for="control_05">
 					<p><i class="fa fa-heart" aria-hidden="true"></i> Other</p>
@@ -42,9 +42,9 @@
 			</section>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group row d-flex justify-content-around">
 				<label for="example-number-input" class="col-lg-2 col-form-label">Amount</label>
-				<div class="col-lg-10">
+				<div class="col-lg-9">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-eur" aria-hidden="true"></i></span>
 						<input type="text" class="form-control" aria-label="Text input with radio button" [(ngModel)]="payment.amount">

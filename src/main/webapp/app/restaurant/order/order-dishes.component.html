@@ -9,9 +9,9 @@
 
 	<jhi-alert></jhi-alert>
     
-    <div class="panel panel-default">
-    <div class="panel-heading"><i class="fa fa-book" aria-hidden="true"></i>  Menu</div>
-    <div class="panel-body">
+    <div class="card card-default">
+    <div class="card-header"><i class="fa fa-book" aria-hidden="true"></i>  Menu</div>
+    <div class="card-block">
 	    <div class="table-responsive" *ngIf="products">
             <table class="table table-striped">
                 <thead>
@@ -68,11 +68,11 @@
     
 
 
-<div class="panel panel-default" *ngIf="isDetail">
-    <div class="panel-heading"><i class="fa fa-pencil-square-o"></i> Temp
+<div class="card card-default" *ngIf="isDetail">
+    <div class="card-header"><i class="fa fa-pencil-square-o"></i> Temp
         <a (click)="toggleDetail()"><span class="float-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
-    <div class="panel-body">
+    <div class="card-block">
         <div class="table-responsive" *ngIf="ordreTemp">
         <table class="table table-striped">
             <thead>
@@ -121,11 +121,11 @@
     </div>
     </div>
 
-<div class="panel panel-default" *ngIf="!isDetail">
-    <div class="panel-heading"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Temp  
+<div class="card card-default" *ngIf="!isDetail">
+    <div class="card-header"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Temp  
         <a (click)="toggleDetail()"><span class="float-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
     </div>
-    <div class="panel-body">
+    <div class="card-block">
     <res-list-merged [list]="ordreTemp"></res-list-merged>
     </div>
 </div>
