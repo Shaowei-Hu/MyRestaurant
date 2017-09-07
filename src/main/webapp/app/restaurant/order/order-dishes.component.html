@@ -1,7 +1,7 @@
 	<h2>
-		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{desk?.name}}</span>
+		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{stage?.desk?.name}}</span>
 		<span class="float-right">
-		<button type="button" class="btn btn-default" [routerLink]="['/table', desk?.id]">
+		<button type="button" class="btn btn-default" [routerLink]="['/table', stage?.id]">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
 		</span>
@@ -93,8 +93,8 @@
                 <td>{{ordre.status}}</td>
                 <td>{{ordre.price}}</td>
                 <td>
-                    <div *ngIf="ordre.desk">
-                        <a [routerLink]="['../desk', ordre.desk?.id ]" >{{ordre.desk?.id}}</a>
+                    <div *ngIf="ordre.stage">
+                        <a [routerLink]="['../stage', ordre.stage?.id ]" >{{ordre.stage?.id}}</a>
                     </div>
                 </td>
                 <td>

@@ -1,5 +1,9 @@
 import { BaseEntity } from './../../shared';
 
+import { Payment } from '../payment/';
+import { Desk } from '../desk/';
+import { Ordre } from '../ordre/';
+
 export class Stage implements BaseEntity {
     constructor(
         public id?: number,
@@ -9,9 +13,9 @@ export class Stage implements BaseEntity {
         public amount?: number,
         public amountPaid?: number,
         public creationDate?: any,
-        public ordres?: BaseEntity[],
-        public payments?: BaseEntity[],
-        public desk?: BaseEntity,
+        public ordres?: Ordre[],
+        public payments?: Payment[],
+        public desk?: Desk,
     ) {
     }
 }

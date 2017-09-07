@@ -82,7 +82,8 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     getRoomAmount() {
         if (this.desks) {
-            return this.desks.reduce((pv, cv) => pv + cv.amount , 0);
+//            return this.desks.reduce((pv, cv) => pv + cv.amount , 0);
+            return 0;
         }
         return 0;
     }

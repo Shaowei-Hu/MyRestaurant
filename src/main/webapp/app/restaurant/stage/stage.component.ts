@@ -3,19 +3,24 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { JhiEventManager, JhiAlertService, JhiLanguageService } from 'ng-jhipster';
-import { Stage, StageService } from '../../entities/stage';
 
 import { Response } from '@angular/http';
 
-import { Ordre, OrdreService } from '../../entities/ordre';
-import { Payment, PaymentService } from '../../entities/payment';
+import { Ordre } from '../../entities/ordre';
+import { Payment } from '../../entities/payment';
+import { Desk, DeskService } from '../../entities/desk';
+import { Stage, StageService } from '../../entities/stage';
 
 @Component({
-    selector: 'res-table',
-    templateUrl: './bill.component.html'
+    selector: 'res-stage',
+    templateUrl: './stage.component.html',
+    styleUrls: [
+        'stage.component.scss'
+    ]
 })
-export class BillComponent implements OnInit, OnDestroy {
+export class StageComponent implements OnInit, OnDestroy {
 
+    desk: Desk;
     stage: Stage;
     authorities: any[];
     isSaving: boolean;
@@ -24,9 +29,7 @@ export class BillComponent implements OnInit, OnDestroy {
     quantity: number;
 
     ordreInStage: Ordre[];
-    paymentTemp: Payment;
-
-    amountRest: number;
+    ordreTemp: Ordre[];
 
     private subscription: any;
     eventSubscriber: Subscription;
@@ -34,20 +37,18 @@ export class BillComponent implements OnInit, OnDestroy {
     constructor(
         private alertService: JhiAlertService,
         private stageService: StageService,
-        private ordreService: OrdreService,
-        private paymentService: PaymentService,
+        private deskService: DeskService,
         private eventManager: JhiEventManager,
         private route: ActivatedRoute
     ) {
+
     }
 
     ngOnInit() {
         this.quantity = 1;
         this.isSaving = false;
         this.isDetail = false;
-        this.paymentTemp = new Payment();
-        this.paymentTemp.amount = 0;
-        this.amountRest = 0;
+        this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.subscription = this.route.params.subscribe((params) => {
           this.load(params['id']);
@@ -63,32 +64,53 @@ export class BillComponent implements OnInit, OnDestroy {
       window.history.back();
     }
 
+    save() {
+        this.isSaving = true;
+        if (this.desk.id !== undefined) {
+            this.deskService.update(this.desk)
+                .subscribe((res: Desk) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+        } else {
+
+        }
+    }
+
     load(id) {
         this.stageService.find(id).subscribe((stage) => {
             if (stage.ordres != null) {
                 this.ordreInStage = stage.ordres;
             }
             this.stage = stage;
+            this.stage.ordres = [];
             this.stage.amount = this.getAmount();
-            this.amountRest = this.stage.amount - this.getAmountPaid();
-            this.paymentTemp.stage = Object.assign({}, this.stage);
-            this.paymentTemp.stage.ordres = [];
         });
     }
 
-    savePayment() {
-        console.log(this.paymentTemp);
-        this.isSaving = true;
-        if (this.paymentTemp.id === undefined) {
-            this.paymentService.create(this.paymentTemp)
-                .subscribe((res: Payment) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
-        } else {
-
-        }
+    loadUpdate(id) {
+        this.stageService.find(id).subscribe((stage) => {
+            if (stage.ordres != null) {
+                this.ordreInStage = stage.ordres;
+            }
+            this.stage = stage;
+            this.stage.ordres = [];
+            this.stage.amount = this.getAmount();
+            this.save();
+        });
     }
 
     toggleDetail() {
         this.isDetail = !this.isDetail;
+    }
+
+    getTableStatus(): boolean {
+      return this.desk.status === 'occupied' ? true : false;
+    }
+
+    onChange(value) {
+      if (value) {
+        this.desk.status = 'occupied';
+      } else {
+        this.desk.status = 'unoccupied';
+      }
     }
 
     getAmount() {
@@ -105,8 +127,8 @@ export class BillComponent implements OnInit, OnDestroy {
         return 0;
     }
 
-    private onSaveSuccess(result: Stage) {
-        this.eventManager.broadcast({ name: 'paymentListModification', content: 'OK'});
+    private onSaveSuccess(result: Desk) {
+        this.eventManager.broadcast({ name: 'stageListModification', content: 'OK'});
         this.isSaving = false;
     }
 
@@ -128,6 +150,6 @@ export class BillComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInStages() {
-        this.eventSubscriber = this.eventManager.subscribe('paymentListModification', (response) => this.load(this.stage.id));
+        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.stage.id));
     }
 }

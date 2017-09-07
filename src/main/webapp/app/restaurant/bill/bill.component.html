@@ -1,7 +1,7 @@
 <div>
 
 	<h2>
-		<span>Bill Table</span><span> {{desk?.name}}</span>
+		<span>Bill Table</span><span> {{stage?.desk?.name}}</span>
 		<span class="float-right">
 		<button type="button" class="btn btn-default" (click)="previousState()">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
@@ -19,33 +19,33 @@
 				<div class="card-block">
 
 					<div class="row">
-						<div class="" [hidden]="desk?.id">
+						<div class="" [hidden]="stage?.id">
 							<label for="id" jhiTranslate="global.field.id">ID</label> <input
 								type="text" class="form-control" id="id" name="id"
-								[ngModel]="desk?.id" (ngModelChange)="desk.id=$event" readonly />
+								[ngModel]="stage?.id" (ngModelChange)="stage.id=$event" readonly />
 						</div>
 						
 						<div class="col-sm-6">
 							<strong><span class="col-sm-6"
 								jhiTranslate="myRestaurantApp.room.name">Name</span></strong>
-							<span class="form-control-static">{{desk?.name}}</span>
+							<span class="form-control-static">{{stage?.desk?.name}}</span>
 						</div>
 						
 						<div class="col-sm-6">
 							<strong><span class="col-sm-6"
 								jhiTranslate="myRestaurantApp.room.amount">Amount</span></strong>
-							<span class="form-control-static">{{desk?.amount}}</span>
+							<span class="form-control-static">{{stage?.amount}}</span>
 						</div>
 
 					
 						<div class="col-sm-6">
 							<strong><span class="col-sm-6">Client N.</span></strong>
-							<span class="form-control-static">{{desk?.clientNumber}}</span>
+							<span class="form-control-static">{{stage?.clientNumber}}</span>
 						</div>
 						
 						<div class="col-sm-6">
 							<strong><span class="col-sm-6">Status</span></strong>
-							<span class="form-control-static">{{desk?.status}}</span>
+							<span class="form-control-static">{{stage?.desk?.status}}</span>
 						</div>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 					<a (click)="toggleDetail()"><span class="float-right">View Summary <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 				</div>
 				<div class="card-block">
-					<div class="table-responsive" *ngIf="ordreInDesk">
+					<div class="table-responsive" *ngIf="ordreInStage">
 					<table class="table table-striped">
 						<thead>
 						<tr>
@@ -69,7 +69,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr *ngFor="let ordre of ordreInDesk ;trackBy: trackOrdreById">
+						<tr *ngFor="let ordre of ordreInStage ;trackBy: trackOrdreById">
 							<td><a [routerLink]="['../ordre', ordre.id ]">{{ordre.id}}</a></td>
 							<td>{{ordre.name}}</td>
 							<td>{{ordre.status}}</td>
@@ -83,13 +83,13 @@
 				</div>
 			
 
-				<div *ngIf="!isDetail && ordreInDesk">
+				<div *ngIf="!isDetail && ordreInStage">
 					<div class="card card-default">
 					<div class="card-header"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Valided 
 						<a (click)="toggleDetail()"><span class="float-right">View Details <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
 					</div>
 					<div class="card-block">
-						<res-list-merged [list]="ordreInDesk"></res-list-merged>
+						<res-list-merged [list]="ordreInStage"></res-list-merged>
 					</div>
 					</div>
 				</div>
@@ -108,12 +108,12 @@
 					<ngb-tabset activeId="byAmount">
 						<ngb-tab id="byAmount" title="By Amount">
 							<ng-template ngbTabContent>
-								<res-by-amount [desk]="desk" [payment]="paymentTemp"></res-by-amount>
+								<res-by-amount [stage]="stage" [payment]="paymentTemp"></res-by-amount>
 							</ng-template>
 						</ngb-tab>
 						<ngb-tab id="byOrder" title="By Order">
 							<ng-template ngbTabContent>
-								<res-by-order [desk]="desk" [payment]="paymentTemp"></res-by-order>
+								<res-by-order [stage]="stage" [payment]="paymentTemp"></res-by-order>
 							</ng-template>
 						</ngb-tab>
 					</ngb-tabset>
@@ -129,7 +129,7 @@
 			</div>
 
 
-			<div class="card card-default" *ngIf="desk?.payments">
+			<div class="card card-default" *ngIf="stage?.payments">
 				<div class="card-header">
 					<i class="fa fa-usd" aria-hidden="true"></i>
 					<span> Paid</span>
@@ -146,7 +146,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr *ngFor="let payment of desk.payments ;trackBy: trackId">
+						<tr *ngFor="let payment of stage.payments ;trackBy: trackId">
 							<td><a [routerLink]="['/payment', payment.id ]">{{payment.id}}</a></td>
 							<td>{{payment.type}}</td>
 							<td>{{payment.amount}}</td>

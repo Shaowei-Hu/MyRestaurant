@@ -3,12 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { JhiEventManager, JhiAlertService, JhiLanguageService } from 'ng-jhipster';
-import { Desk, DeskService } from '../../entities/desk';
 
 import { Response } from '@angular/http';
 
-import { Ordre, OrdreService } from '../../entities/ordre';
-import { Payment, PaymentService } from '../../entities/payment';
+import { Ordre } from '../../entities/ordre';
+import { Payment } from '../../entities/payment';
+import { Stage } from '../../entities/stage';
 
 import { NumpadPopupService } from '../numpad';
 import { CalculatorPopupService } from '../calculator';
@@ -22,7 +22,7 @@ import { CalculatorPopupService } from '../calculator';
 })
 export class ByOrderComponent implements OnInit, OnDestroy {
 
-    @Input() desk: Desk;
+    @Input() stage: Stage;
     @Input() payment: Payment;
     authorities: any[];
     isSaving: boolean;
@@ -36,7 +36,6 @@ export class ByOrderComponent implements OnInit, OnDestroy {
 
     constructor(
         private alertService: JhiAlertService,
-        private paymentService: PaymentService,
         private eventManager: JhiEventManager,
         private route: ActivatedRoute,
         private numpadService: NumpadPopupService,
@@ -48,7 +47,7 @@ export class ByOrderComponent implements OnInit, OnDestroy {
 
         this.isSaving = false;
         this.isDetail = false;
-        this.orderToPay = this.desk.ordres.slice();
+        this.orderToPay = this.stage.ordres.slice();
         this.orderSelected = [];
         this.payment.amount = 0;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
@@ -91,7 +90,7 @@ export class ByOrderComponent implements OnInit, OnDestroy {
     }
 
     openCalculator() {
-        const values = {all: this.desk.amount.toString(), rest: '0', current: this.payment.amount.toString()};
+        const values = {all: this.stage.amount.toString(), rest: '0', current: this.payment.amount.toString()};
         this.calculatorService.open(values).result.then((result) => {
             this.payment.amount = Number(result);
         }, (reason) => {});

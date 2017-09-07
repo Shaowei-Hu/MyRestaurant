@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiAlertService, JhiLanguageService } from 'ng-jhipster';
-import { Desk } from '../../entities/desk';
+import { Stage } from '../../entities/stage';
 
 import { Response } from '@angular/http';
 
@@ -18,7 +18,7 @@ import { ItemWithQuantity } from '../../dto';
 })
 export class OrderDishesComponent implements OnInit, OnDestroy {
 
-    desk: Desk;
+    stage: Stage;
     products: Product[];
     authorities: any[];
     isSaving: boolean;
@@ -49,9 +49,9 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
 
         this.route.params.subscribe((params) => {
-          this.desk = new Desk();
-          this.desk.id = params['id'];
-          this.desk.name = params['name'];
+          this.stage = new Stage();
+          this.stage.id = params['id'];
+          this.stage.name = params['name'];
         });
 
         this.products = JSON.parse(localStorage.getItem('products'));
@@ -97,7 +97,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
 
     addOrdre() {
         this.isSaving = true;
-        if (this.desk.id !== undefined) {
+        if (this.stage.id !== undefined) {
             this.ordreService.createMultipe(this.ordreTemp).subscribe(
                 (res: Ordre[]) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json())
                 );
@@ -110,7 +110,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
       const order: Ordre = new Ordre();
       order.name = product.name;
       order.price = product.price;
-      order.desk = this.desk.id;
+      order.stage.id = this.stage.id;
       return order;
     }
 

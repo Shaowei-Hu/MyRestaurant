@@ -1,5 +1,7 @@
 import { BaseEntity } from './../../shared';
 
+import { Stage } from '../stage/';
+
 export class Ordre implements BaseEntity {
     constructor(
         public id?: number,

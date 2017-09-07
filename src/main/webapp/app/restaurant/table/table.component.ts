@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { JhiEventManager, JhiAlertService, JhiLanguageService } from 'ng-jhipster';
+
 import { Desk, DeskService } from '../../entities/desk';
+import { Stage, StageService } from '../../entities/stage';
 
 import { Response } from '@angular/http';
-
-import { Ordre, OrdreService } from '../../entities/ordre';
-import { Payment, PaymentService } from '../../entities/payment';
 
 @Component({
     selector: 'res-table',
@@ -22,12 +21,6 @@ export class TableComponent implements OnInit, OnDestroy {
     desk: Desk;
     authorities: any[];
     isSaving: boolean;
-    payments: Payment[];
-    isDetail: boolean;
-    quantity: number;
-
-    ordreInDesk: Ordre[];
-    ordreTemp: Ordre[];
 
     private subscription: any;
     eventSubscriber: Subscription;
@@ -35,8 +28,6 @@ export class TableComponent implements OnInit, OnDestroy {
     constructor(
         private alertService: JhiAlertService,
         private deskService: DeskService,
-        private ordreService: OrdreService,
-        private paymentService: PaymentService,
         private eventManager: JhiEventManager,
         private route: ActivatedRoute
     ) {
@@ -44,10 +35,7 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.quantity = 1;
         this.isSaving = false;
-        this.isDetail = false;
-        this.ordreTemp = [];
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.subscription = this.route.params.subscribe((params) => {
           this.load(params['id']);
@@ -75,29 +63,15 @@ export class TableComponent implements OnInit, OnDestroy {
 
     load(id) {
         this.deskService.find(id).subscribe((desk) => {
-            if (desk.ordres != null) {
-                this.ordreInDesk = desk.ordres;
-            }
             this.desk = desk;
-            this.desk.ordres = [];
-            this.desk.amount = this.getAmount();
         });
     }
 
     loadUpdate(id) {
         this.deskService.find(id).subscribe((desk) => {
-            if (desk.ordres != null) {
-                this.ordreInDesk = desk.ordres;
-            }
             this.desk = desk;
-            this.desk.ordres = [];
-            this.desk.amount = this.getAmount();
             this.save();
         });
-    }
-
-    toggleDetail() {
-        this.isDetail = !this.isDetail;
     }
 
     getTableStatus(): boolean {
@@ -110,20 +84,6 @@ export class TableComponent implements OnInit, OnDestroy {
       } else {
         this.desk.status = 'unoccupied';
       }
-    }
-
-    getAmount() {
-        if (this.ordreInDesk) {
-            return this.ordreInDesk.reduce((pv, cv) => pv + cv.price, 0);
-        }
-        return 0;
-    }
-
-    getAmountPaid() {
-        if (this.desk.payments) {
-            return this.desk.payments.reduce((pv, cv) => pv + cv.amount, 0);
-        }
-        return 0;
     }
 
     private onSaveSuccess(result: Desk) {
@@ -140,15 +100,7 @@ export class TableComponent implements OnInit, OnDestroy {
         this.alertService.error(error.message, null, null);
     }
 
-    trackOrdreById(index: number, item: Ordre) {
-        return item.id;
-    }
-
-    trackPaymentById(index: number, item: Payment) {
-        return item.id;
-    }
-
     registerChangeInDesks() {
-        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.desk.id));
+        // this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.desk.id));
     }
 }

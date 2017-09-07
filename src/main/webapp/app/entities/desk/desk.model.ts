@@ -1,6 +1,6 @@
 import { BaseEntity } from './../../shared';
 
-import { Stage } from '../stage/'
+import { Stage } from '../stage/';
 
 export class Desk implements BaseEntity {
     constructor(

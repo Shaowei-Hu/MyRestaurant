@@ -1,5 +1,8 @@
 import { BaseEntity } from './../../shared';
 
+import { Stage } from '../stage/';
+import { Ordre } from '../ordre/';
+
 const enum PaymentType {
     'CARD',
     'CASH',
@@ -15,8 +18,8 @@ export class Payment implements BaseEntity {
         public info?: string,
         public amount?: number,
         public creationDate?: any,
-        public ordres?: BaseEntity[],
-        public stage?: BaseEntity,
+        public ordres?: Ordre[],
+        public stage?: Stage,
     ) {
     }
 }

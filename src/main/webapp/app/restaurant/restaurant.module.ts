@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { MyRestaurantRoomModule } from './hall/room.module';
 import { MyRestaurantTableModule } from './table/table.module';
+import { MyRestaurantStageModule } from './stage/stage.module';
 import { MyRestaurantOrderDishesModule } from './order/order-dishes.module';
 import { MyRestaurantBillModule } from './bill/bill.module';
 import { MyRestaurantNumpadModule } from './numpad/numpad.module';
@@ -13,6 +14,7 @@ import { MyRestaurantListMergedModule } from './summary/list-merged.module';
     imports: [
         MyRestaurantRoomModule,
         MyRestaurantTableModule,
+        MyRestaurantStageModule,
         MyRestaurantOrderDishesModule,
         MyRestaurantListMergedModule,
         MyRestaurantBillModule,
