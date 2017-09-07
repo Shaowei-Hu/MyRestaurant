@@ -8,7 +8,6 @@ import {
     CalculatorComponent,
 } from './';
 
-
 @NgModule({
     imports: [
         MyRestaurantSharedModule

@@ -129,7 +129,6 @@ export class CalculatorComponent implements OnInit {
         this.numResult = (Math.floor(Number(this.numResult) * coe) / coe).toString();
     }
 
-
     negative() {
         if (this.numResult.startsWith('-')) {
             this.numResult = this.numResult.substring(1);
@@ -167,7 +166,7 @@ export class CalculatorComponent implements OnInit {
         this.activeModal.close(this.numResult);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 }

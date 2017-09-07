@@ -47,11 +47,11 @@ export class DeskDialogComponent implements OnInit {
         this.paymentService.query().subscribe(
             (res: Response) => { this.payments = res.json(); }, (res: Response) => this.onError(res.json()));
     }
-    clear () {
+    clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    save () {
+    save() {
         this.isSaving = true;
         if (this.desk.id !== undefined) {
             this.deskService.update(this.desk)
@@ -59,18 +59,18 @@ export class DeskDialogComponent implements OnInit {
         }
     }
 
-    private onSaveSuccess (result: Desk) {
+    private onSaveSuccess(result: Desk) {
         this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError (error) {
+    private onSaveError(error) {
         this.isSaving = false;
         this.onError(error);
     }
 
-    private onError (error) {
+    private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
@@ -96,13 +96,13 @@ export class DeskPopupComponent implements OnInit, OnDestroy {
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private deskPopupService: DeskPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.modalRef = this.deskPopupService
                     .open(DeskDialogComponent as Component, params['id']);

@@ -110,7 +110,7 @@ export class OrderDishesComponent implements OnInit, OnDestroy {
       const order: Ordre = new Ordre();
       order.name = product.name;
       order.price = product.price;
-      order.stage.id = this.stage.id;
+      order.stage = this.stage.id;
       return order;
     }
 

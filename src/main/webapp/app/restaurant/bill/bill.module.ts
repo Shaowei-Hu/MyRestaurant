@@ -12,7 +12,7 @@ import {
     ByOrderComponent
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...billRoute
 ];
 

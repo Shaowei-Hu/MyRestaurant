@@ -1,8 +1,10 @@
 package com.shaowei.restaurant.service;
 
-import com.shaowei.restaurant.domain.Ordre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import com.shaowei.restaurant.domain.Ordre;
+import com.shaowei.restaurant.web.rest.vm.OrdreVM;
 
 /**
  * Service Interface for managing Ordre.
@@ -16,6 +18,14 @@ public interface OrdreService {
      * @return the persisted entity
      */
     Ordre save(Ordre ordre);
+    
+    /**
+     * Save multiple orders.
+     *
+     * @param ordre the entity to save
+     * @return the persisted entity
+     */
+    Ordre[] save(OrdreVM[] ordres);
 
     /**
      *  Get all the ordres.

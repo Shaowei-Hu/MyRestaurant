@@ -12,7 +12,7 @@ import {
     deskPopupRoute
 } from './';
 
-let ENTITY_STATES = [
+const ENTITY_STATES = [
     ...roomRoute,
     ...deskPopupRoute,
 ];

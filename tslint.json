@@ -40,7 +40,7 @@
         "no-debugger": true,
         "no-duplicate-variable": true,
         "no-empty": false,
-        "no-eval": true,
+        "no-eval": false,
         "no-inferrable-types": [true],
         "no-shadowed-variable": true,
         "no-string-literal": false,

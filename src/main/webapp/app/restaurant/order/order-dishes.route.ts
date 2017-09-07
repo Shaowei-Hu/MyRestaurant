@@ -9,7 +9,6 @@ import { OrderPopupComponent } from './order-confirm.component';
 
 import { Principal } from '../../shared';
 
-
 export const orderDishesRoute: Routes = [
   {
     path: 'dishes/desk/:id/:name',

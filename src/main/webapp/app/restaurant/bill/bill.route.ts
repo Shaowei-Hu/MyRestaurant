@@ -8,7 +8,6 @@ import { BillComponent } from './bill.component';
 
 import { Principal } from '../../shared';
 
-
 export const billRoute: Routes = [
 {
     path: 'bill/:id',
@@ -19,4 +18,3 @@ export const billRoute: Routes = [
     }
   }
 ];
-

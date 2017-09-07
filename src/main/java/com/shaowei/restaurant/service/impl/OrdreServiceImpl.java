@@ -1,9 +1,9 @@
 package com.shaowei.restaurant.service.impl;
 
-import com.shaowei.restaurant.service.OrdreService;
-import com.shaowei.restaurant.domain.Ordre;
-import com.shaowei.restaurant.repository.OrdreRepository;
-import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,8 +11,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import com.shaowei.restaurant.domain.Ordre;
+import com.shaowei.restaurant.domain.Stage;
+import com.shaowei.restaurant.repository.OrdreRepository;
+import com.shaowei.restaurant.repository.search.OrdreSearchRepository;
+import com.shaowei.restaurant.service.OrdreService;
+import com.shaowei.restaurant.service.StageService;
+import com.shaowei.restaurant.web.rest.vm.OrdreVM;
 
 /**
  * Service Implementation for managing Ordre.
@@ -24,11 +29,15 @@ public class OrdreServiceImpl implements OrdreService{
     private final Logger log = LoggerFactory.getLogger(OrdreServiceImpl.class);
 
     private final OrdreRepository ordreRepository;
+    
+    private final StageService stageService;
 
     private final OrdreSearchRepository ordreSearchRepository;
-    public OrdreServiceImpl(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository) {
+    public OrdreServiceImpl(OrdreRepository ordreRepository, OrdreSearchRepository ordreSearchRepository,
+    		StageService stageService) {
         this.ordreRepository = ordreRepository;
         this.ordreSearchRepository = ordreSearchRepository;
+        this.stageService = stageService;
     }
 
     /**
@@ -44,6 +53,31 @@ public class OrdreServiceImpl implements OrdreService{
         ordreSearchRepository.save(result);
         return result;
     }
+    
+	/**
+	 * Save a ordre array.
+	 *
+	 * @param ordres
+	 *            the entity array to save
+	 * @return the persisted entity array
+	 */
+	public Ordre[] save(OrdreVM[] ordres) {
+		log.debug("Request to save Ordre array: {}", ordres.toString());
+		BigDecimal amount = new BigDecimal(0);
+		Stage stage = stageService.findOne(ordres[0].getStage());
+		Ordre[] result = new Ordre[ordres.length];
+		for (int i = 0; i < ordres.length; i++) {
+			Ordre ordre = new Ordre();
+			ordre.setStage(stage);
+			ordre.setName(ordres[i].getName());
+			ordre.setPrice(ordres[i].getPrice());
+			result[i] = ordreRepository.save(ordre);
+			ordreSearchRepository.save(ordre);
+			amount = amount.add(result[i].getPrice());
+		}
+		stage.setAmount(stage.getAmount().add(amount));
+		return result;
+	}  
 
     /**
      *  Get all the ordres.

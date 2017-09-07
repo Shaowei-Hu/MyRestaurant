@@ -9,7 +9,7 @@ export class Ordre implements BaseEntity {
         public status?: string,
         public price?: number,
         public creationDate?: any,
-        public stage?: BaseEntity,
+        public stage?: number,
         public payment?: BaseEntity,
     ) {
     }

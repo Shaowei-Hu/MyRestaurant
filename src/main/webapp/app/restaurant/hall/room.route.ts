@@ -7,9 +7,7 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 import { RoomComponent } from './room.component';
 import { DeskPopupComponent } from './desk-dialog.component';
 
-
 import { Principal } from '../../shared';
-
 
 export const roomRoute: Routes = [
   {
