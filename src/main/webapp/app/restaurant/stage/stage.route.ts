@@ -10,7 +10,7 @@ import { Principal } from '../../shared';
 
 export const stageRoute: Routes = [
 {
-    path: 'stage/:id',
+    path: 'stageActive/:id',
     component: StageComponent,
     data: {
         authorities: ['ROLE_USER'],

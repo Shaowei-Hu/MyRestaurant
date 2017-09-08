@@ -39,7 +39,7 @@
                     <div *ngFor="let desk of desks ;trackBy: trackId" class="col-lg-2 col-md-3 col-sm-6">
                 
                             <div [ngClass]="getDeskStatus(desk.status)">
-                                <div class="card-header" [routerLink]="['/table', desk.id]">
+                                <div class="card-header" (click)="goTable(desk)">
                                     <div class="row">
                                         <div class="col-6">
                                             <i *ngIf="desk.clientNumber>=5" class="fa fa-users fa-5x"></i>

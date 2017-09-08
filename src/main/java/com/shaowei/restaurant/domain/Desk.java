@@ -1,15 +1,25 @@
 package com.shaowei.restaurant.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A Desk.
@@ -37,6 +47,10 @@ public class Desk implements Serializable {
 
     @Column(name = "ranking")
     private Integer ranking;
+    
+    @OneToOne
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Stage currentStage;
 
     @ManyToOne
     private Restaurant restaurant;
@@ -144,9 +158,18 @@ public class Desk implements Serializable {
     public void setStages(Set<Stage> stages) {
         this.stages = stages;
     }
+    
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
-    @Override
+    public Stage getCurrentStage() {
+		return currentStage;
+	}
+
+	public void setCurrentStage(Stage currentStage) {
+		this.currentStage = currentStage;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

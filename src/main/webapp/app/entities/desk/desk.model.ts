@@ -11,6 +11,7 @@ export class Desk implements BaseEntity {
         public ranking?: number,
         public restaurant?: BaseEntity,
         public stages?: Stage[],
+        public currentStage?: BaseEntity,
     ) {
     }
 }

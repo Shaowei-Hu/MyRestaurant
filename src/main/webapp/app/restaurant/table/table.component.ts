@@ -21,13 +21,14 @@ export class TableComponent implements OnInit, OnDestroy {
     desk: Desk;
     authorities: any[];
     isSaving: boolean;
+    checkboxValue: boolean;
 
-    private subscription: any;
     eventSubscriber: Subscription;
 
     constructor(
         private alertService: JhiAlertService,
         private deskService: DeskService,
+        private stageService: StageService,
         private eventManager: JhiEventManager,
         private route: ActivatedRoute
     ) {
@@ -37,14 +38,13 @@ export class TableComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.subscription = this.route.params.subscribe((params) => {
+        this.route.params.subscribe((params) => {
           this.load(params['id']);
         });
         this.registerChangeInDesks();
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
         this.eventManager.destroy(this.eventSubscriber);
     }
     previousState() {
@@ -53,41 +53,56 @@ export class TableComponent implements OnInit, OnDestroy {
 
     save() {
         this.isSaving = true;
-        if (this.desk.id !== undefined) {
-            this.deskService.update(this.desk)
-                .subscribe((res: Desk) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+        if (this.desk.id !== undefined && this.desk.status === 'occupied') {
+            const currentStage = new Stage();
+            currentStage.desk = new Desk();
+            currentStage.desk.id = this.desk.id;
+            currentStage.name = this.desk.name;
+            this.stageService.create(currentStage).subscribe((stage) => {
+                this.desk.currentStage = new Stage();
+                this.desk.currentStage.id = stage.id;
+                this.deskService.update(this.desk)
+                .subscribe((res: Desk) => {
+                    this.onSaveSuccess(res)
+                }, (res: Response) => this.onSaveError(res.json));
+            }, (res: Response) => this.onSaveError(res.json));
         } else {
-
+            this.deskService.update(this.desk)
+            .subscribe((res: Desk) => {
+                this.onSaveSuccess(res)
+            }, (res: Response) => this.onSaveError(res.json));
         }
     }
 
     load(id) {
         this.deskService.find(id).subscribe((desk) => {
             this.desk = desk;
+            this.checkboxValue = this.getTableStatus();
         });
     }
 
     loadUpdate(id) {
         this.deskService.find(id).subscribe((desk) => {
             this.desk = desk;
+            this.checkboxValue = this.getTableStatus();
             this.save();
         });
     }
 
     getTableStatus(): boolean {
-      return this.desk.status === 'occupied' ? true : false;
+        return this.desk.status === 'occupied' ? true : false;
     }
 
-    onChange(value) {
-      if (value) {
-        this.desk.status = 'occupied';
-      } else {
-        this.desk.status = 'unoccupied';
-      }
+    reservation() {
+        if (this.checkboxValue) {
+            this.desk.status = 'occupied';
+        } else {
+            this.desk.status = 'unoccupied';
+        }
     }
 
     private onSaveSuccess(result: Desk) {
-        this.eventManager.broadcast({ name: 'deskListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'deskStatusModification', content: 'OK'});
         this.isSaving = false;
     }
 
@@ -101,6 +116,6 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInDesks() {
-        // this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.desk.id));
+        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.desk.id));
     }
 }

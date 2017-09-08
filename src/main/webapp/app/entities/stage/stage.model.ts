@@ -15,7 +15,7 @@ export class Stage implements BaseEntity {
         public creationDate?: any,
         public ordres?: Ordre[],
         public payments?: Payment[],
-        public desk?: Desk,
+        public desk?: BaseEntity,
     ) {
     }
 }

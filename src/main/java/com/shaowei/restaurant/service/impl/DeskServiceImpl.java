@@ -1,18 +1,23 @@
 package com.shaowei.restaurant.service.impl;
 
-import com.shaowei.restaurant.service.DeskService;
-import com.shaowei.restaurant.domain.Desk;
-import com.shaowei.restaurant.repository.DeskRepository;
-import com.shaowei.restaurant.repository.search.DeskSearchRepository;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import com.shaowei.restaurant.domain.Desk;
+import com.shaowei.restaurant.repository.DeskRepository;
+import com.shaowei.restaurant.repository.search.DeskSearchRepository;
+import com.shaowei.restaurant.service.DeskService;
+import com.shaowei.restaurant.web.rest.vm.DeskVM;
 
 /**
  * Service Implementation for managing Desk.
@@ -42,6 +47,7 @@ public class DeskServiceImpl implements DeskService{
         log.debug("Request to save Desk : {}", desk);
         Desk result = deskRepository.save(desk);
         deskSearchRepository.save(result);
+        result.getCurrentStage().setDesk(null);
         return result;
     }
 
@@ -96,5 +102,24 @@ public class DeskServiceImpl implements DeskService{
         log.debug("Request to search for a page of Desks for query {}", query);
         Page<Desk> result = deskSearchRepository.search(queryStringQuery(query), pageable);
         return result;
+    }
+    
+    
+    /**
+     *  Get all the desks.
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DeskVM> findAll(Pageable pageable, String desc) {
+        log.debug("Request to get all Desks");
+        List<DeskVM> desks = new ArrayList<>();
+        deskRepository.findAll(pageable).getContent().forEach(desk -> {
+        	desks.add(new DeskVM(desk));
+        });
+        Page<DeskVM> pageableDeskVM = new PageImpl<>(desks, pageable, desks.size());
+        return pageableDeskVM;
     }
 }

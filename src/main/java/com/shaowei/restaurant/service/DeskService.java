@@ -1,6 +1,8 @@
 package com.shaowei.restaurant.service;
 
 import com.shaowei.restaurant.domain.Desk;
+import com.shaowei.restaurant.web.rest.vm.DeskVM;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -49,4 +51,6 @@ public interface DeskService {
      *  @return the list of entities
      */
     Page<Desk> search(String query, Pageable pageable);
+
+	Page<DeskVM> findAll(Pageable pageable, String desc);
 }

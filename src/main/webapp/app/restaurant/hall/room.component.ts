@@ -27,6 +27,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         private alertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private activatedRoute: ActivatedRoute,
+        private router: Router,
         private deskService: DeskService,
         private principal: Principal
     ) {
@@ -86,6 +87,15 @@ export class RoomComponent implements OnInit, OnDestroy {
             return 0;
         }
         return 0;
+    }
+
+    goTable(table: Desk) {
+        console.log(table.status);
+        if (table.status === 'occupied') {
+            this.router.navigate(['/stageActive', table.currentStage.id]);
+        } else {
+            this.router.navigate(['/table', table.id]);
+        }
     }
 
     registerChangeInDesks() {
