@@ -1,9 +1,9 @@
 package com.shaowei.restaurant.service.impl;
 
-import com.shaowei.restaurant.service.PaymentService;
-import com.shaowei.restaurant.domain.Payment;
-import com.shaowei.restaurant.repository.PaymentRepository;
-import com.shaowei.restaurant.repository.search.PaymentSearchRepository;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.time.ZonedDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,8 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import com.shaowei.restaurant.domain.Payment;
+import com.shaowei.restaurant.domain.Stage;
+import com.shaowei.restaurant.repository.PaymentRepository;
+import com.shaowei.restaurant.repository.search.PaymentSearchRepository;
+import com.shaowei.restaurant.service.PaymentService;
+import com.shaowei.restaurant.service.StageService;
 
 /**
  * Service Implementation for managing Payment.
@@ -24,11 +28,15 @@ public class PaymentServiceImpl implements PaymentService{
     private final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     private final PaymentRepository paymentRepository;
+    
+    private final StageService stageService;
 
     private final PaymentSearchRepository paymentSearchRepository;
-    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentSearchRepository paymentSearchRepository) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentSearchRepository paymentSearchRepository,
+    		StageService stageService) {
         this.paymentRepository = paymentRepository;
         this.paymentSearchRepository = paymentSearchRepository;
+        this.stageService = stageService;
     }
 
     /**
@@ -40,7 +48,15 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public Payment save(Payment payment) {
         log.debug("Request to save Payment : {}", payment);
+        payment.setCreationDate(ZonedDateTime.now());
         Payment result = paymentRepository.save(payment);
+        Stage stage = stageService.findOne(result.getStage().getId());
+        stage.addPayment(result);
+        if(stage.getAmountPaid() != null) {
+        	stage.setAmountPaid(stage.getAmountPaid().add(result.getAmount()));
+        } else {
+        	stage.setAmountPaid(result.getAmount());
+        }
         paymentSearchRepository.save(result);
         return result;
     }

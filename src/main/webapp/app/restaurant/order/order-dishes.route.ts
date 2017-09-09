@@ -11,7 +11,7 @@ import { Principal } from '../../shared';
 
 export const orderDishesRoute: Routes = [
   {
-    path: 'dishes/desk/:id/:name',
+    path: 'dishes/stage/:id/:name',
     component: OrderDishesComponent,
     data: {
         authorities: ['ROLE_USER'],

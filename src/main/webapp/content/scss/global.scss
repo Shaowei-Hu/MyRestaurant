@@ -17,10 +17,13 @@ Card margin
 /* ==========================================================================
 Button hover
 ========================================================================== */
-.btn:hover {
+.btn:hover:enabled {
   cursor: pointer;
 }
 
+.btn[disabled]:hover {
+  cursor: not-allowed;
+}
 
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */

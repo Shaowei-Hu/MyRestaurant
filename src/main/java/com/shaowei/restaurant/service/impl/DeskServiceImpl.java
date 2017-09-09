@@ -47,7 +47,6 @@ public class DeskServiceImpl implements DeskService{
         log.debug("Request to save Desk : {}", desk);
         Desk result = deskRepository.save(desk);
         deskSearchRepository.save(result);
-        result.getCurrentStage().setDesk(null);
         return result;
     }
 

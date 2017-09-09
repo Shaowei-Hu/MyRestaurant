@@ -1,7 +1,7 @@
 <div>
 
 	<h2>
-		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{stage.desk?.name}}</span>
+		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{stage?.desk?.name}}</span>
 		<span class="float-right">
 		<button type="button" class="btn btn-default" [routerLink]="['/room']">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
@@ -32,26 +32,32 @@
 						<input type="text" class="form-control" id="id" name="id"
 							[ngModel]="stage?.id" (ngModelChange)="stage.id=$event" readonly />
 					</div>
+
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4"
+							for="field_name">Table</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{stage?.desk?.name}}</p>
+							</div>
+					</div>
+
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4"
+							for="field_name">Capacity</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{stage?.desk?.clientNumber}}</p>
+							</div>
+					</div>
+
 					
 					<div class="form-group row col-sm-6">
 						<label class="col-form-label col-sm-4"
 							jhiTranslate="myRestaurantApp.room.name" for="field_name">Name</label>
 							<div class="col-sm-8">
-								<p class="form-control-static">{{stage.desk?.name}}</p>
+								<p class="form-control-static">{{stage?.name}}</p>
 							</div>
-
 					</div>
 					
-					<div class="form-group row col-sm-6">
-						<label class="col-form-label col-sm-4"
-							jhiTranslate="myRestaurantApp.room.amount" for="field_amount">Amount</label>
-							<div class="col-sm-8">
-								<p class="form-control-static">{{stage?.amount}}</p>
-							</div>
-					</div>
-
-
-
 					
 					<div class="form-group row col-sm-6">
 						<label class="col-form-label col-sm-4"
@@ -64,14 +70,23 @@
 							(ngModelChange)="stage.clientNumber=$event" />
 							</div>
 					</div>
-					
 
 					<div class="form-group row col-sm-6">
-						<label class="col-form-label col-sm-4" for="">Occupied/Unoccupied</label>
-						<div class="col-sm-8 toggle">
-							<input type="checkbox" id="switch" /><label for="switch">Toggle</label>
-						</div>
+						<label class="col-form-label col-sm-4"
+							jhiTranslate="myRestaurantApp.room.amount" for="field_amount">Amount</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{stage?.amount}}</p>
+							</div>
 					</div>
+
+					<div class="form-group row col-sm-6">
+						<label class="col-form-label col-sm-4"
+							for="field_amount">Amount Paid</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{stage?.amountPaid}}</p>
+							</div>
+					</div>
+					
 					
 				</div>
 

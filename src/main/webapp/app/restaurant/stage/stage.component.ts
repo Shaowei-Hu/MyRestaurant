@@ -8,7 +8,7 @@ import { Response } from '@angular/http';
 
 import { Ordre } from '../../entities/ordre';
 import { Payment } from '../../entities/payment';
-import { Desk, DeskService } from '../../entities/desk';
+import { Desk } from '../../entities/desk';
 import { Stage, StageService } from '../../entities/stage';
 
 @Component({
@@ -37,7 +37,6 @@ export class StageComponent implements OnInit, OnDestroy {
     constructor(
         private alertService: JhiAlertService,
         private stageService: StageService,
-        private deskService: DeskService,
         private eventManager: JhiEventManager,
         private route: ActivatedRoute
     ) {
@@ -66,9 +65,9 @@ export class StageComponent implements OnInit, OnDestroy {
 
     save() {
         this.isSaving = true;
-        if (this.desk.id !== undefined) {
-            this.deskService.update(this.desk)
-                .subscribe((res: Desk) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
+        if (this.stage.id !== undefined) {
+            this.stageService.update(this.stage)
+                .subscribe((res: Stage) => this.onSaveSuccess(res), (res: Response) => this.onSaveError(res.json()));
         } else {
 
         }
@@ -105,14 +104,6 @@ export class StageComponent implements OnInit, OnDestroy {
       return this.desk.status === 'occupied' ? true : false;
     }
 
-    onChange(value) {
-      if (value) {
-        this.desk.status = 'occupied';
-      } else {
-        this.desk.status = 'unoccupied';
-      }
-    }
-
     getAmount() {
         if (this.ordreInStage) {
             return this.ordreInStage.reduce((pv, cv) => pv + cv.price, 0);
@@ -128,7 +119,7 @@ export class StageComponent implements OnInit, OnDestroy {
     }
 
     private onSaveSuccess(result: Desk) {
-        this.eventManager.broadcast({ name: 'stageListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'stageModification', content: 'OK'});
         this.isSaving = false;
     }
 

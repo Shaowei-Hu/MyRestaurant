@@ -1,9 +1,9 @@
 package com.shaowei.restaurant.service.impl;
 
-import com.shaowei.restaurant.service.StageService;
-import com.shaowei.restaurant.domain.Stage;
-import com.shaowei.restaurant.repository.StageRepository;
-import com.shaowei.restaurant.repository.search.StageSearchRepository;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.time.ZonedDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import com.shaowei.restaurant.domain.Stage;
+import com.shaowei.restaurant.repository.StageRepository;
+import com.shaowei.restaurant.repository.search.StageSearchRepository;
+import com.shaowei.restaurant.service.StageService;
 
 /**
  * Service Implementation for managing Stage.
@@ -40,6 +42,9 @@ public class StageServiceImpl implements StageService{
     @Override
     public Stage save(Stage stage) {
         log.debug("Request to save Stage : {}", stage);
+        if (stage.getCreationDate() == null) {
+        	stage.setCreationDate(ZonedDateTime.now());
+        }
         Stage result = stageRepository.save(stage);
         stageSearchRepository.save(result);
         return result;
@@ -69,6 +74,29 @@ public class StageServiceImpl implements StageService{
     public Stage findOne(Long id) {
         log.debug("Request to get Stage : {}", id);
         return stageRepository.findOne(id);
+    }
+    
+    /**
+     *  Get one stage by id.
+     *
+     *  @param id the id of the entity
+     *  @return the entity
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Stage findOneEager(Long id) {
+        log.debug("Request to get Stage : {}", id);
+        Stage stage = stageRepository.findOne(id);
+        if(stage.getDesk() != null) {
+        	stage.getDesk().getName();
+        }
+        if(stage.getOrdres() != null) {
+        	stage.getOrdres().size();
+        }
+        if(stage.getPayments() != null) {
+        	stage.getPayments().size();
+        }
+        return stage;
     }
 
     /**

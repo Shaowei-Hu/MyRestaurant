@@ -3,6 +3,7 @@ package com.shaowei.restaurant.service.impl;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,11 +72,18 @@ public class OrdreServiceImpl implements OrdreService{
 			ordre.setStage(stage);
 			ordre.setName(ordres[i].getName());
 			ordre.setPrice(ordres[i].getPrice());
+			ordre.setCreationDate(ZonedDateTime.now());
+			stage.addOrdre(ordre);
 			result[i] = ordreRepository.save(ordre);
 			ordreSearchRepository.save(ordre);
-			amount = amount.add(result[i].getPrice());
+			amount = amount.add(ordre.getPrice());
 		}
-		stage.setAmount(stage.getAmount().add(amount));
+		if (stage.getAmount() != null){
+			stage.setAmount(stage.getAmount().add(amount));
+		} else {
+			stage.setAmount(amount);
+		}
+		stageService.save(stage);
 		return result;
 	}  
 
@@ -113,8 +121,12 @@ public class OrdreServiceImpl implements OrdreService{
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Ordre : {}", id);
+        Ordre ordre = ordreRepository.findOne(id);
+        Stage stage = ordre.getStage();
+        stage.getOrdres().remove(ordre);
         ordreRepository.delete(id);
         ordreSearchRepository.delete(id);
+        stageService.save(stage);
     }
 
     /**

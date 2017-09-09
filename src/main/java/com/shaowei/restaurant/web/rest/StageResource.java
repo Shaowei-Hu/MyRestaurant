@@ -109,7 +109,7 @@ public class StageResource {
     @Timed
     public ResponseEntity<Stage> getStage(@PathVariable Long id) {
         log.debug("REST request to get Stage : {}", id);
-        Stage stage = stageService.findOne(id);
+        Stage stage = stageService.findOneEager(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(stage));
     }
 

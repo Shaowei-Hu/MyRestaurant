@@ -58,6 +58,8 @@ export class TableComponent implements OnInit, OnDestroy {
             currentStage.desk = new Desk();
             currentStage.desk.id = this.desk.id;
             currentStage.name = this.desk.name;
+            currentStage.amount = 0;
+            currentStage.amountPaid = 0;
             this.stageService.create(currentStage).subscribe((stage) => {
                 this.desk.currentStage = new Stage();
                 this.desk.currentStage.id = stage.id;

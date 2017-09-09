@@ -49,4 +49,12 @@ public interface StageService {
      *  @return the list of entities
      */
     Page<Stage> search(String query, Pageable pageable);
+    
+    /**
+     *  Get the "id" stage with desk orders and payments.
+     *
+     *  @param id the id of the entity
+     *  @return the entity
+     */
+	Stage findOneEager(Long id);
 }

@@ -20,7 +20,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * A Stage.
@@ -29,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "stage")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "stage")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Stage implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,12 +59,10 @@ public class Stage implements Serializable {
     private ZonedDateTime creationDate;
 
     @OneToMany(mappedBy = "stage")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Ordre> ordres = new HashSet<>();
 
     @OneToMany(mappedBy = "stage")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Payment> payments = new HashSet<>();
 

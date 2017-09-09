@@ -35,6 +35,7 @@ entity Payment {
 }
 
 entity Product {
+	code String,
 	name String,
     price BigDecimal,
     taxType String,
@@ -53,6 +54,7 @@ enum PaymentType {
 
 relationship OneToMany {
 	Restaurant{desk} to Desk,
+	Restaurant{category} to Category,
     Desk{stage} to Stage{desk},
     Stage{ordre} to Ordre{stage},
     Stage{payment} to Payment{stage},

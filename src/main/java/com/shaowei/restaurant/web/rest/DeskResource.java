@@ -99,9 +99,9 @@ public class DeskResource {
      */
     @GetMapping("/desks")
     @Timed
-    public ResponseEntity<List<DeskVM>> getAllDesks(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Desk>> getAllDesks(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Desks");
-        Page<DeskVM> page = deskService.findAll(pageable, "");
+        Page<Desk> page = deskService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/desks");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

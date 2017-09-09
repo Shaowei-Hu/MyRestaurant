@@ -71,8 +71,8 @@ export class BillComponent implements OnInit, OnDestroy {
             this.stage = stage;
             this.stage.amount = this.getAmount();
             this.amountRest = this.stage.amount - this.getAmountPaid();
-            this.paymentTemp.stage = Object.assign({}, this.stage);
-            this.paymentTemp.stage.ordres = [];
+            this.paymentTemp.stage = new Stage();
+            this.paymentTemp.stage.id = this.stage.id;
         });
     }
 
