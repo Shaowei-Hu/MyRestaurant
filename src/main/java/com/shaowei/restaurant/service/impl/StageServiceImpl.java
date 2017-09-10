@@ -42,9 +42,9 @@ public class StageServiceImpl implements StageService{
     @Override
     public Stage save(Stage stage) {
         log.debug("Request to save Stage : {}", stage);
-        if (stage.getCreationDate() == null) {
-        	stage.setCreationDate(ZonedDateTime.now());
-        }
+//        if (stage.getCreationDate() == null) {
+//        	stage.setCreationDate(ZonedDateTime.now());
+//        }
         Stage result = stageRepository.save(stage);
         stageSearchRepository.save(result);
         return result;

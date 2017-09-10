@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { JhiEventManager, JhiAlertService, JhiLanguageService } from 'ng-jhipster';
@@ -9,6 +9,7 @@ import { Response } from '@angular/http';
 
 import { Ordre, OrdreService } from '../../entities/ordre';
 import { Payment, PaymentService } from '../../entities/payment';
+import { Desk, DeskService } from '../../entities/desk';
 
 @Component({
     selector: 'res-table',
@@ -35,8 +36,10 @@ export class BillComponent implements OnInit, OnDestroy {
         private alertService: JhiAlertService,
         private stageService: StageService,
         private ordreService: OrdreService,
+        private deskService: DeskService,
         private paymentService: PaymentService,
         private eventManager: JhiEventManager,
+        private router: Router,
         private route: ActivatedRoute
     ) {
     }
@@ -103,6 +106,16 @@ export class BillComponent implements OnInit, OnDestroy {
             return this.stage.payments.reduce((pv, cv) => pv + cv.amount, 0);
         }
         return 0;
+    }
+
+    change() {
+        this.isSaving = true;
+        const desk: Desk = this.stage.desk;
+        desk.status = 'unoccupied';
+        desk.currentStage = null;
+        this.deskService.update(desk).subscribe((desk) => {
+            this.router.navigate(['/room']);
+        }, (res: Response)=> this.onSaveError(res.json()));
     }
 
     private onSaveSuccess(result: Stage) {

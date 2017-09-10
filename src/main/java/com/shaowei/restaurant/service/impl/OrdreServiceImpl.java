@@ -72,7 +72,7 @@ public class OrdreServiceImpl implements OrdreService{
 			ordre.setStage(stage);
 			ordre.setName(ordres[i].getName());
 			ordre.setPrice(ordres[i].getPrice());
-			ordre.setCreationDate(ZonedDateTime.now());
+//			ordre.setCreationDate(ZonedDateTime.now());
 			stage.addOrdre(ordre);
 			result[i] = ordreRepository.save(ordre);
 			ordreSearchRepository.save(ordre);

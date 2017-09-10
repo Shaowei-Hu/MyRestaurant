@@ -6,12 +6,12 @@ import { MyRestaurantSharedModule } from '../../shared';
 import { MyRestaurantListMergedModule } from '../summary/list-merged.module';
 
 import {
-    StageComponent,
-    stageRoute,
+    StageActiveComponent,
+    stageActiveRoute,
 } from './';
 
 const ENTITY_STATES = [
-    ...stageRoute
+    ...stageActiveRoute
 ];
 
 @NgModule({
@@ -21,11 +21,11 @@ const ENTITY_STATES = [
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
-        StageComponent,
+        StageActiveComponent,
     ],
     entryComponents: [
-        StageComponent,
+        StageActiveComponent,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class MyRestaurantStageModule {}
+export class MyRestaurantStageActiveModule {}

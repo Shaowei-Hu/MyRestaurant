@@ -48,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public Payment save(Payment payment) {
         log.debug("Request to save Payment : {}", payment);
-        payment.setCreationDate(ZonedDateTime.now());
+//        payment.setCreationDate(ZonedDateTime.now());
         Payment result = paymentRepository.save(payment);
         Stage stage = stageService.findOne(result.getStage().getId());
         stage.addPayment(result);

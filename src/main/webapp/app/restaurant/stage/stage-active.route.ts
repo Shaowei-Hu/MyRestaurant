@@ -4,14 +4,14 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActiva
 import { UserRouteAccessService } from '../../shared';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { StageComponent } from './stage.component';
+import { StageActiveComponent } from './stage-active.component';
 
 import { Principal } from '../../shared';
 
-export const stageRoute: Routes = [
+export const stageActiveRoute: Routes = [
 {
     path: 'stageActive/:id',
-    component: StageComponent,
+    component: StageActiveComponent,
     data: {
         authorities: ['ROLE_USER'],
         pageTitle: 'myRestaurantApp.room.home.title'

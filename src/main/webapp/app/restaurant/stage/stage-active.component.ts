@@ -12,13 +12,13 @@ import { Desk } from '../../entities/desk';
 import { Stage, StageService } from '../../entities/stage';
 
 @Component({
-    selector: 'res-stage',
-    templateUrl: './stage.component.html',
+    selector: 'res-stage-active',
+    templateUrl: './stage-active.component.html',
     styleUrls: [
-        'stage.component.scss'
+        'stage-active.component.scss'
     ]
 })
-export class StageComponent implements OnInit, OnDestroy {
+export class StageActiveComponent implements OnInit, OnDestroy {
 
     desk: Desk;
     stage: Stage;

@@ -53,7 +53,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
     save() {
         this.isSaving = true;
-        if (this.desk.id !== undefined && this.desk.status === 'occupied') {
+        if (this.desk.id !== undefined && this.desk.status === 'occupied' && this.desk.currentStage == null) {
             const currentStage = new Stage();
             currentStage.desk = new Desk();
             currentStage.desk.id = this.desk.id;
