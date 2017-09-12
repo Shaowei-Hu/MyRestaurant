@@ -113,9 +113,9 @@ export class BillComponent implements OnInit, OnDestroy {
         const desk: Desk = this.stage.desk;
         desk.status = 'unoccupied';
         desk.currentStage = null;
-        this.deskService.update(desk).subscribe((desk) => {
+        this.deskService.update(desk).subscribe((res: Desk) => {
             this.router.navigate(['/room']);
-        }, (res: Response)=> this.onSaveError(res.json()));
+        }, (res: Response) => this.onSaveError(res.json()));
     }
 
     private onSaveSuccess(result: Stage) {

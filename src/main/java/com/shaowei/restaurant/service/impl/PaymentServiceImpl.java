@@ -2,8 +2,6 @@ package com.shaowei.restaurant.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
-import java.time.ZonedDateTime;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -38,17 +36,16 @@ public class PaymentServiceImpl implements PaymentService{
         this.paymentSearchRepository = paymentSearchRepository;
         this.stageService = stageService;
     }
-
+    
     /**
-     * Save a payment.
+     * Create a payment.
      *
      * @param payment the entity to save
      * @return the persisted entity
      */
     @Override
-    public Payment save(Payment payment) {
+    public Payment create(Payment payment) {
         log.debug("Request to save Payment : {}", payment);
-//        payment.setCreationDate(ZonedDateTime.now());
         Payment result = paymentRepository.save(payment);
         Stage stage = stageService.findOne(result.getStage().getId());
         stage.addPayment(result);
@@ -57,6 +54,25 @@ public class PaymentServiceImpl implements PaymentService{
         } else {
         	stage.setAmountPaid(result.getAmount());
         }
+        paymentSearchRepository.save(result);
+        return result;
+    }
+
+    /**
+     * Save(update) a payment.
+     *
+     * @param payment the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public Payment save(Payment payment) {
+        log.debug("Request to save Payment : {}", payment);
+        Stage stage = stageService.findOne(payment.getStage().getId());
+        stage.setAmountPaid(stage.getAmountPaid().subtract(payment.getAmount()));
+        Payment result = paymentRepository.save(payment);
+        stage.addPayment(result);
+        stage.setAmountPaid(stage.getAmountPaid().add(result.getAmount()));
+
         paymentSearchRepository.save(result);
         return result;
     }

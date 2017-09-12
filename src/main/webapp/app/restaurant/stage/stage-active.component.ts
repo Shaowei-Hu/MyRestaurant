@@ -80,21 +80,20 @@ export class StageActiveComponent implements OnInit, OnDestroy {
             }
             this.stage = stage;
             this.stage.ordres = [];
-            this.stage.amount = this.getAmount();
         });
     }
 
-    loadUpdate(id) {
-        this.stageService.find(id).subscribe((stage) => {
-            if (stage.ordres != null) {
-                this.ordreInStage = stage.ordres;
-            }
-            this.stage = stage;
-            this.stage.ordres = [];
-            this.stage.amount = this.getAmount();
-            this.save();
-        });
-    }
+    // loadUpdate(id) {
+    //     this.stageService.find(id).subscribe((stage) => {
+    //         if (stage.ordres != null) {
+    //             this.ordreInStage = stage.ordres;
+    //         }
+    //         this.stage = stage;
+    //         this.stage.ordres = [];
+    //         this.stage.amount = this.getAmount();
+    //         this.save();
+    //     });
+    // }
 
     toggleDetail() {
         this.isDetail = !this.isDetail;
@@ -141,6 +140,6 @@ export class StageActiveComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInStages() {
-        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.loadUpdate (this.stage.id));
+        this.eventSubscriber = this.eventManager.subscribe('ordreListModification', (response) => this.load(this.stage.id));
     }
 }

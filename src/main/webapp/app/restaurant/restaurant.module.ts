@@ -4,6 +4,7 @@ import { MyRestaurantRoomModule } from './hall/room.module';
 import { MyRestaurantTableModule } from './table/table.module';
 import { MyRestaurantStageActiveModule } from './stage/stage-active.module';
 import { MyRestaurantOrderDishesModule } from './order/order-dishes.module';
+import { MyRestaurantMenuModule } from './menu/order-dishes.module';
 import { MyRestaurantBillModule } from './bill/bill.module';
 import { MyRestaurantNumpadModule } from './numpad/numpad.module';
 import { MyRestaurantCalculatorModule } from './calculator/calculator.module';
@@ -16,6 +17,7 @@ import { MyRestaurantListMergedModule } from './summary/list-merged.module';
         MyRestaurantTableModule,
         MyRestaurantStageActiveModule,
         MyRestaurantOrderDishesModule,
+        MyRestaurantMenuModule,
         MyRestaurantListMergedModule,
         MyRestaurantBillModule,
         MyRestaurantNumpadModule,

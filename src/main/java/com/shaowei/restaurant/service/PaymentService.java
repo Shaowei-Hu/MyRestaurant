@@ -49,4 +49,12 @@ public interface PaymentService {
      *  @return the list of entities
      */
     Page<Payment> search(String query, Pageable pageable);
+
+    /**
+     * Create a payment.
+     *
+     * @param payment the entity to save
+     * @return the persisted entity
+     */
+	Payment create(Payment payment);
 }

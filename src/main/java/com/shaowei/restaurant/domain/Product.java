@@ -4,6 +4,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +19,7 @@ import java.util.Objects;
 @Table(name = "product")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "product")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,6 +45,8 @@ public class Product implements Serializable {
 
     @ManyToOne
     private Category category;
+    //(fetch=FetchType.LAZY) can be added but can not prevent the initialization of this variable, because category has already been
+    //fetched from the database, LAZY only prevent search from data base but not to prevent initialize 
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {

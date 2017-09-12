@@ -6,7 +6,7 @@
 		<button type="button" class="btn btn-default" (click)="previousState()">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
-		<button type="button" class="btn btn-primary" (click)="change()">
+		<button type="button" class="btn btn-warning" (click)="change()">
 			<i class="fa fa-share" aria-hidden="true"></i>&nbsp;<span class="hidden-sm-down"> Change</span>
 		</button>
 		</span>
@@ -47,8 +47,8 @@
 						</div>
 						
 						<div class="col-sm-6">
-							<strong><span class="col-sm-6">Status</span></strong>
-							<span class="form-control-static">{{stage?.desk?.status}}</span>
+							<strong><span class="col-sm-6">Paid</span></strong>
+							<span class="form-control-static">{{stage?.amountPaid}}</span>
 						</div>
 					</div>
 				</div>

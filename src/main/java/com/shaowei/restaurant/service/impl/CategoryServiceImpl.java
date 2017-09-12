@@ -55,7 +55,11 @@ public class CategoryServiceImpl implements CategoryService{
     @Transactional(readOnly = true)
     public List<Category> findAll() {
         log.debug("Request to get all Categories");
-        return categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll();
+        categories.forEach((category) -> {
+        	category.getProducts().size();
+        });
+        return categories;
     }
 
     /**
