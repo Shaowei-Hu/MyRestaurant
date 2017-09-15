@@ -1,0 +1,59 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPaymentLabel" jhiTranslate="myRestaurantApp.payment.home.createOrEditLabel">Create or edit a Payment</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!payment.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="payment.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.type" for="field_type">Type</label>
+            <select class="form-control" name="type" [(ngModel)]="payment.type" id="field_type" >
+                <option value="CARD">{{'myRestaurantApp.PaymentType.CARD' | translate}}</option>
+                <option value="CASH">{{'myRestaurantApp.PaymentType.CASH' | translate}}</option>
+                <option value="CHECK">{{'myRestaurantApp.PaymentType.CHECK' | translate}}</option>
+                <option value="TICKET">{{'myRestaurantApp.PaymentType.TICKET' | translate}}</option>
+                <option value="OTHER">{{'myRestaurantApp.PaymentType.OTHER' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.info" for="field_info">Info</label>
+            <input type="text" class="form-control" name="info" id="field_info"
+                [(ngModel)]="payment.info"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.amount" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                [(ngModel)]="payment.amount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.creationDate" for="field_creationDate">Creation Date</label>
+            <div class="d-flex">
+                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="payment.creationDate"
+                  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.payment.stage" for="field_stage">Stage</label>
+            <select class="form-control" id="field_stage" name="stage" [(ngModel)]="payment.stage" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="stageOption.id === payment.stage?.id ? payment.stage : stageOption" *ngFor="let stageOption of stages; trackBy: trackStageById">{{stageOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

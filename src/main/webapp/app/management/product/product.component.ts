@@ -1,34 +1,31 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
 
-import { Room } from './room.model';
-import { Desk, DeskService } from '../../entities/desk';
+import { Product } from './product.model';
+import { ProductService } from './product.service';
+import { Category } from '../category/category.model';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
-    selector: 'res-room',
-    templateUrl: './room.component.html',
-    styleUrls: [
-        'room.component.scss'
-    ]
+    selector: 'jhi-product',
+    templateUrl: './product.component.html'
 })
-export class RoomComponent implements OnInit, OnDestroy {
-    desks: Desk[];
+export class ProductComponent implements OnInit, OnDestroy {
+products: Product[];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
 
+    categories: Category[];
+
     constructor(
-        private jhiLanguageService: JhiLanguageService,
+        private productService: ProductService,
         private alertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private activatedRoute: ActivatedRoute,
-        private router: Router,
-        private deskService: DeskService,
         private principal: Principal
     ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
@@ -36,18 +33,19 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     loadAll() {
         if (this.currentSearch) {
-            this.deskService.search({
+            this.productService.search({
                 query: this.currentSearch,
                 }).subscribe(
-                    (res: ResponseWrapper) => this.desks = res.json,
+                    (res: ResponseWrapper) => this.products = res.json,
                     (res: ResponseWrapper) => this.onError(res.json)
                 );
             return;
        }
-        this.deskService.query().subscribe(
+        this.productService.query().subscribe(
             (res: ResponseWrapper) => {
-                this.desks = res.json;
+                this.products = res.json;
                 this.currentSearch = '';
+                this.getCategories();
             },
             (res: ResponseWrapper) => this.onError(res.json)
         );
@@ -65,54 +63,55 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.currentSearch = '';
         this.loadAll();
     }
+
+    getCategories() {
+        for (const product of this.products) {
+            if (product.category.id != null) {
+                this.categories.push(product.category);
+            }
+        }
+    }
+
+    getCategoryId(category: any): number {
+        if (category.id != null) {
+            return category.id;
+        }
+        return category;
+    }
+
+    getCategoryNameById(id) {
+        const category = this.categories.filter((cat) => {
+           return cat.id === id;
+        });
+
+        if (category[0] !== null) {
+            return category[0].name;
+        } else {
+            return 'null';
+        }
+    }
+
     ngOnInit() {
+        this.categories = [];
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
-        this.registerChangeInDesks();
+        this.registerChangeInProducts();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: Desk) {
+    trackId(index: number, item: Product) {
         return item.id;
     }
-
-    getRoomAmount() {
-        if (this.desks) {
-//            return this.desks.reduce((pv, cv) => pv + cv.amount , 0);
-            return 0;
-        }
-        return 0;
-    }
-
-    goTable(table: Desk) {
-        console.log(table.status);
-        if (table.status === 'occupied') {
-            this.router.navigate(['/stage-active', table.currentStage.id]);
-        } else {
-            this.router.navigate(['/table', table.id]);
-        }
-    }
-
-    registerChangeInDesks() {
-        this.eventSubscriber = this.eventManager.subscribe('deskListModification', (response) => this.loadAll());
+    registerChangeInProducts() {
+        this.eventSubscriber = this.eventManager.subscribe('productListModification', (response) => this.loadAll());
     }
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    getDeskStatus(flag: string) {
-      let cssClasses;
-      if (flag === 'occupied') {
-        cssClasses = 'card border-warning text-warning desk-occupied';
-      } else {
-        cssClasses = 'card border-primary text-primary desk';
-      }
-      return cssClasses;
     }
 }

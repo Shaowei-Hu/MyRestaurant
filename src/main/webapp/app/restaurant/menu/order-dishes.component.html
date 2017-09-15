@@ -1,7 +1,7 @@
 	<h2>
 		<span jhiTranslate="myRestaurantApp.room.home.title">Table</span><span> {{stage?.desk?.name}}</span>
 		<span class="float-right">
-		<button type="button" class="btn btn-default" [routerLink]="['/stageActive', stage?.id]">
+		<button type="button" class="btn btn-default" [routerLink]="['/stage-active', stage?.id]">
 			<span class="fa fa-arrow-left"></span>&nbsp;<span class="hidden-sm-down" jhiTranslate="entity.action.back"> Back</span>
 		</button>
 		</span>
@@ -41,10 +41,10 @@
                                                 <span class="input-group-btn">
                                                 <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(productsWithQuantity,1)"><span> 1 </span></button>
                                                 <button type="button" class="btn btn-info btn-primary" (click)="setQuantity(productsWithQuantity,2)"><span> 2 </span></button>
-                                                <button type="button" class="btn btn-info btn-primary hidden-xs-down" (click)="setQuantity(productsWithQuantity,3)"><span> 3 </span></button>
-                                                <button type="button" class="btn btn-info btn-primary hidden-xs-down" (click)="setQuantity(productsWithQuantity,4)"><span> 4 </span></button>
-                                                <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(productsWithQuantity,5)"><span> 5 </span></button>
-                                                <button type="button" class="btn btn-info btn-primary hidden-sm-down" (click)="setQuantity(productsWithQuantity,6)"><span> 6 </span></button>
+                                                <button type="button" class="btn btn-info btn-primary d-none d-sm-none d-md-block d-lg-block" (click)="setQuantity(productsWithQuantity,3)"><span> 3 </span></button>
+                                                <button type="button" class="btn btn-info btn-primary d-none d-sm-none d-md-block d-lg-block" (click)="setQuantity(productsWithQuantity,4)"><span> 4 </span></button>
+                                                <button type="button" class="btn btn-info btn-primary d-none d-sm-none d-md-none d-lg-block" (click)="setQuantity(productsWithQuantity,5)"><span> 5 </span></button>
+                                                <button type="button" class="btn btn-info btn-primary d-none d-sm-none d-md-none d-lg-block" (click)="setQuantity(productsWithQuantity,6)"><span> 6 </span></button>
                                                 </span>
                                                 <input type="number" class="form-control" [(ngModel)]="productsWithQuantity.quantity">
                                                 </div>
