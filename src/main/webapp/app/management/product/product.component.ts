@@ -14,7 +14,7 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
     templateUrl: './product.component.html'
 })
 export class ProductComponent implements OnInit, OnDestroy {
-products: Product[];
+    products: Product[];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;

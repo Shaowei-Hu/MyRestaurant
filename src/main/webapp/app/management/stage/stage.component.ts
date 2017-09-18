@@ -78,7 +78,7 @@ currentAccount: any;
         }
     }
     transition() {
-        this.router.navigate(['/stage'], {queryParams:
+        this.router.navigate(['/stage-management'], {queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -92,7 +92,7 @@ currentAccount: any;
     clear() {
         this.page = 0;
         this.currentSearch = '';
-        this.router.navigate(['/stage', {
+        this.router.navigate(['/stage-management', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
@@ -104,7 +104,7 @@ currentAccount: any;
         }
         this.page = 0;
         this.currentSearch = query;
-        this.router.navigate(['/stage', {
+        this.router.navigate(['/stage-management', {
             search: this.currentSearch,
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')

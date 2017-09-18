@@ -34,7 +34,7 @@
             <th jhiSortBy="status"><span jhiTranslate="myRestaurantApp.ordre.status">Status</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="price"><span jhiTranslate="myRestaurantApp.ordre.price">Price</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="creationDate"><span jhiTranslate="myRestaurantApp.ordre.creationDate">Creation Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="stage.id"><span jhiTranslate="myRestaurantApp.ordre.stage">Stage</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="stage.name"><span jhiTranslate="myRestaurantApp.ordre.stage">Stage</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="payment.id"><span jhiTranslate="myRestaurantApp.ordre.payment">Payment</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -48,7 +48,7 @@
                 <td>{{ordre.creationDate | date:'medium'}}</td>
                 <td>
                     <div *ngIf="ordre.stage">
-                        <a [routerLink]="['../stage', ordre.stage?.id ]" >{{ordre.stage?.id}}</a>
+                        <a [routerLink]="['../stage', ordre.stage?.id ]" >{{ordre.stage?.name}}</a>
                     </div>
                 </td>
                 <td>

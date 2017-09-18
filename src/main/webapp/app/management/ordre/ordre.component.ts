@@ -5,7 +5,7 @@ import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, 
 
 import { Ordre } from './ordre.model';
 import { OrdreService } from './ordre.service';
- //import { JsogService } from 'jsog-typescript';
+import { Stage } from '../stage/stage.model';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
@@ -79,7 +79,7 @@ currentAccount: any;
         }
     }
     transition() {
-        this.router.navigate(['/ordre'], {queryParams:
+        this.router.navigate(['/ordre-management'], {queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -93,7 +93,7 @@ currentAccount: any;
     clear() {
         this.page = 0;
         this.currentSearch = '';
-        this.router.navigate(['/ordre', {
+        this.router.navigate(['/ordre-management', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
@@ -105,13 +105,31 @@ currentAccount: any;
         }
         this.page = 0;
         this.currentSearch = query;
-        this.router.navigate(['/ordre', {
+        this.router.navigate(['/ordre-management', {
             search: this.currentSearch,
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
         this.loadAll();
     }
+
+    restoreData(data) {
+        const stages: Stage[] = [];
+        for (const item of data) {
+            if (item.stage.id != null) {
+                stages.push(item.stage);
+            }
+        }
+        for (const item of data) {
+            if (item.stage.id == null) {
+                item.stage = stages.filter((it) => {
+                    return it.id === item.stage;
+                 })[0];
+            }
+        }
+        return data;
+    }
+
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -144,8 +162,7 @@ currentAccount: any;
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
-        // const jsogService = new JsogService();
-        // this.ordres = jsogService.deserializeArray(data, Ordre);
+        this.ordres = this.restoreData(data);
     }
     private onError(error) {
         this.alertService.error(error.message, null, null);

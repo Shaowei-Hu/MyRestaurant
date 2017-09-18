@@ -5,6 +5,7 @@ import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, 
 
 import { Payment } from './payment.model';
 import { PaymentService } from './payment.service';
+import { Stage } from '../stage/stage.model';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
@@ -78,7 +79,7 @@ currentAccount: any;
         }
     }
     transition() {
-        this.router.navigate(['/payment'], {queryParams:
+        this.router.navigate(['/payment-management'], {queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -92,7 +93,7 @@ currentAccount: any;
     clear() {
         this.page = 0;
         this.currentSearch = '';
-        this.router.navigate(['/payment', {
+        this.router.navigate(['/payment-management', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
@@ -104,13 +105,31 @@ currentAccount: any;
         }
         this.page = 0;
         this.currentSearch = query;
-        this.router.navigate(['/payment', {
+        this.router.navigate(['/payment-management', {
             search: this.currentSearch,
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
         this.loadAll();
     }
+
+    restoreData(data) {
+        const stages: Stage[] = [];
+        for (const item of data) {
+            if (item.stage.id != null) {
+                stages.push(item.stage);
+            }
+        }
+        for (const item of data) {
+            if (item.stage.id == null) {
+                item.stage = stages.filter((it) => {
+                    return it.id === item.stage;
+                 })[0];
+            }
+        }
+        return data;
+    }
+
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -143,7 +162,7 @@ currentAccount: any;
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
-        this.payments = data;
+        this.payments = this.restoreData(data);
     }
     private onError(error) {
         this.alertService.error(error.message, null, null);
