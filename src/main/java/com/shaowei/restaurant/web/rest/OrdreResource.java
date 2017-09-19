@@ -2,6 +2,7 @@ package com.shaowei.restaurant.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -167,6 +169,16 @@ public class OrdreResource {
         Page<Ordre> page = ordreService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/ordres");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @GetMapping("/_search/filter/ordres")
+    @Timed
+    public ResponseEntity<List<Ordre>> filterOrdres(
+    		@RequestParam(value = "fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate,
+    		@RequestParam(value = "toDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate) {
+        log.debug("REST request to search for all of Ordres for filter {}", fromDate + "--" + toDate);
+        List<Ordre> page = ordreService.filter(fromDate, toDate);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 }

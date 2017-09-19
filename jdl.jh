@@ -48,8 +48,27 @@ entity Category {
     ranking Integer
 }
 
+entity accounting {
+	name String,
+	type accountingType,
+	info String,
+	startTime ZonedDateTime,
+	endTime ZonedDateTime,
+	card BigDecimal,
+	cash BigDecimal,
+	check BigDecimal,
+	ticket BigDecimal,
+	other BigDecimal,
+	total BigDecimal,
+	creationDate ZonedDateTime
+}
+
 enum PaymentType {
     CARD, CASH, CHECK, TICKET, OTHER
+}
+
+enum accountingType {
+    HALF, DIARY, WEEKLY, TRIMESTER, SEMESTER, YEARLY
 }
 
 relationship OneToMany {

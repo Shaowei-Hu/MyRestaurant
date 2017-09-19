@@ -11,6 +11,7 @@ import { MyRestaurantAccountModule } from './account/account.module';
 import { MyRestaurantEntityModule } from './entities/entity.module';
 import { MyRestaurantRestaurantModule } from './restaurant/restaurant.module';
 import { MyRestaurantManagementModule } from './management/management.module';
+import { MyRestaurantStatisticsModule } from './statistics/statistics.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
@@ -39,7 +40,8 @@ import {
         MyRestaurantAccountModule,
         MyRestaurantEntityModule,
         MyRestaurantRestaurantModule,
-        MyRestaurantManagementModule
+        MyRestaurantManagementModule,
+        MyRestaurantStatisticsModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

@@ -3,6 +3,8 @@ package com.shaowei.restaurant.service.impl;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,4 +144,11 @@ public class OrdreServiceImpl implements OrdreService{
         Page<Ordre> result = ordreSearchRepository.search(queryStringQuery(query), pageable);
         return result;
     }
+
+	@Override
+	public List<Ordre> filter(Date from, Date to) {
+        log.debug("Request to search for all of Ordres for filter", from + "--" + to);
+        List<Ordre> result = ordreSearchRepository.findByCreationDateBetweenOrderByCreationDateAsc(from, to);
+        return result;
+	}
 }

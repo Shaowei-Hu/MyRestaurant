@@ -1,5 +1,8 @@
 package com.shaowei.restaurant.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -59,4 +62,6 @@ public interface OrdreService {
      *  @return the list of entities
      */
     Page<Ordre> search(String query, Pageable pageable);
+    
+    List<Ordre> filter(Date from, Date to);
 }
