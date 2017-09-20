@@ -48,9 +48,9 @@ entity Category {
     ranking Integer
 }
 
-entity accounting {
+entity Accounting {
 	name String,
-	type accountingType,
+	type AccountingType,
 	info String,
 	startTime ZonedDateTime,
 	endTime ZonedDateTime,
@@ -67,7 +67,7 @@ enum PaymentType {
     CARD, CASH, CHECK, TICKET, OTHER
 }
 
-enum accountingType {
+enum AccountingType {
     HALF, DIARY, WEEKLY, TRIMESTER, SEMESTER, YEARLY
 }
 
