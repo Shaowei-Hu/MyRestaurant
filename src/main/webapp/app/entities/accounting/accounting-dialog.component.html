@@ -1,0 +1,104 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myAccountingLabel" jhiTranslate="myRestaurantApp.accounting.home.createOrEditLabel">Create or edit a Accounting</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!accounting.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="accounting.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="accounting.name"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.type" for="field_type">Type</label>
+            <select class="form-control" name="type" [(ngModel)]="accounting.type" id="field_type" >
+                <option value="HALF">{{'myRestaurantApp.AccountingType.HALF' | translate}}</option>
+                <option value="DIARY">{{'myRestaurantApp.AccountingType.DIARY' | translate}}</option>
+                <option value="WEEKLY">{{'myRestaurantApp.AccountingType.WEEKLY' | translate}}</option>
+                <option value="TRIMESTER">{{'myRestaurantApp.AccountingType.TRIMESTER' | translate}}</option>
+                <option value="SEMESTER">{{'myRestaurantApp.AccountingType.SEMESTER' | translate}}</option>
+                <option value="YEARLY">{{'myRestaurantApp.AccountingType.YEARLY' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.info" for="field_info">Info</label>
+            <input type="text" class="form-control" name="info" id="field_info"
+                [(ngModel)]="accounting.info"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.startTime" for="field_startTime">Start Time</label>
+            <div class="d-flex">
+                <input id="field_startTime" type="datetime-local" class="form-control" name="startTime" [(ngModel)]="accounting.startTime"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.endTime" for="field_endTime">End Time</label>
+            <div class="d-flex">
+                <input id="field_endTime" type="datetime-local" class="form-control" name="endTime" [(ngModel)]="accounting.endTime"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.card" for="field_card">Card</label>
+            <input type="number" class="form-control" name="card" id="field_card"
+                [(ngModel)]="accounting.card"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.cash" for="field_cash">Cash</label>
+            <input type="number" class="form-control" name="cash" id="field_cash"
+                [(ngModel)]="accounting.cash"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.check" for="field_check">Check</label>
+            <input type="number" class="form-control" name="check" id="field_check"
+                [(ngModel)]="accounting.check"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.ticket" for="field_ticket">Ticket</label>
+            <input type="number" class="form-control" name="ticket" id="field_ticket"
+                [(ngModel)]="accounting.ticket"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.other" for="field_other">Other</label>
+            <input type="number" class="form-control" name="other" id="field_other"
+                [(ngModel)]="accounting.other"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.total" for="field_total">Total</label>
+            <input type="number" class="form-control" name="total" id="field_total"
+                [(ngModel)]="accounting.total"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.creationDate" for="field_creationDate">Creation Date</label>
+            <div class="d-flex">
+                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="accounting.creationDate"
+                  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.restaurant" for="field_restaurant">Restaurant</label>
+            <select class="form-control" id="field_restaurant" name="restaurant" [(ngModel)]="accounting.restaurant" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="restaurantOption.id === accounting.restaurant?.id ? accounting.restaurant : restaurantOption" *ngFor="let restaurantOption of restaurants; trackBy: trackRestaurantById">{{restaurantOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

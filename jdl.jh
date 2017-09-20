@@ -74,6 +74,7 @@ enum AccountingType {
 relationship OneToMany {
 	Restaurant{desk} to Desk,
 	Restaurant{category} to Category,
+	Restaurant{accounting} to Accounting,
     Desk{stage} to Stage{desk},
     Stage{ordre} to Ordre{stage},
     Stage{payment} to Payment{stage},

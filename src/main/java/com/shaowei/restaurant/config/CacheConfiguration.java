@@ -58,6 +58,9 @@ public class CacheConfiguration {
             cm.createCache(com.shaowei.restaurant.domain.Stage.class.getName() + ".payments", jcacheConfiguration);
             cm.createCache(com.shaowei.restaurant.domain.Category.class.getName(), jcacheConfiguration);
             cm.createCache(com.shaowei.restaurant.domain.Category.class.getName() + ".products", jcacheConfiguration);
+            cm.createCache(com.shaowei.restaurant.domain.Restaurant.class.getName() + ".categories", jcacheConfiguration);
+            cm.createCache(com.shaowei.restaurant.domain.Restaurant.class.getName() + ".accountings", jcacheConfiguration);
+            cm.createCache(com.shaowei.restaurant.domain.Accounting.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

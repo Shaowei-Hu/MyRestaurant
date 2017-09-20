@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "restaurant",
+            "otherEntityName": "restaurant",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "AccountingType",
+            "fieldValues": "HALF,DIARY,WEEKLY,TRIMESTER,SEMESTER,YEARLY"
+        },
+        {
+            "fieldName": "info",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "startTime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "endTime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "card",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "cash",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "check",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "ticket",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "total",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20170920090521",
+    "entityTableName": "accounting",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

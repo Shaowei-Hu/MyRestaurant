@@ -6,6 +6,18 @@
             "relationshipName": "desk",
             "otherEntityName": "desk",
             "otherEntityRelationshipName": "restaurant"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "category",
+            "otherEntityName": "category",
+            "otherEntityRelationshipName": "restaurant"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "accounting",
+            "otherEntityName": "accounting",
+            "otherEntityRelationshipName": "restaurant"
         }
     ],
     "fields": [

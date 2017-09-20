@@ -19,7 +19,9 @@
             "name": "Name",
             "content": "Content",
             "creationDate": "Creation Date",
-            "desk": "Desk"
+            "desk": "Desk",
+            "category": "Category",
+            "accounting": "Accounting"
         }
     }
 }

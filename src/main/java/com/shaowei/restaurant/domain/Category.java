@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -42,6 +43,9 @@ public class Category implements Serializable {
 
     @Column(name = "ranking")
     private Integer ranking;
+    
+    @ManyToOne
+    private Restaurant restaurant;
 
     @OneToMany(mappedBy = "category", fetch=FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

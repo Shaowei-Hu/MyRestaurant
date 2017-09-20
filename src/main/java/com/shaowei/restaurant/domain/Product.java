@@ -19,7 +19,7 @@ import java.util.Objects;
 @Table(name = "product")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "product")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=Product.class)
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;

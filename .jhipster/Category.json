@@ -2,6 +2,12 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipName": "restaurant",
+            "otherEntityName": "restaurant",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "one-to-many",
             "relationshipName": "product",
             "otherEntityName": "product",

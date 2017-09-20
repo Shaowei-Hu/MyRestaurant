@@ -7,6 +7,8 @@ export class Restaurant implements BaseEntity {
         public content?: string,
         public creationDate?: any,
         public desks?: BaseEntity[],
+        public categories?: BaseEntity[],
+        public accountings?: BaseEntity[],
     ) {
     }
 }

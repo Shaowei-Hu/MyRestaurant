@@ -41,6 +41,16 @@ public class Restaurant implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Desk> desks = new HashSet<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Accounting> accountings = new HashSet<>();
+
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -112,6 +122,54 @@ public class Restaurant implements Serializable {
 
     public void setDesks(Set<Desk> desks) {
         this.desks = desks;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public Restaurant categories(Set<Category> categories) {
+        this.categories = categories;
+        return this;
+    }
+
+    public Restaurant addCategory(Category category) {
+        this.categories.add(category);
+        return this;
+    }
+
+    public Restaurant removeCategory(Category category) {
+        this.categories.remove(category);
+        return this;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Set<Accounting> getAccountings() {
+        return accountings;
+    }
+
+    public Restaurant accountings(Set<Accounting> accountings) {
+        this.accountings = accountings;
+        return this;
+    }
+
+    public Restaurant addAccounting(Accounting accounting) {
+        this.accountings.add(accounting);
+        accounting.setRestaurant(this);
+        return this;
+    }
+
+    public Restaurant removeAccounting(Accounting accounting) {
+        this.accountings.remove(accounting);
+        accounting.setRestaurant(null);
+        return this;
+    }
+
+    public void setAccountings(Set<Accounting> accountings) {
+        this.accountings = accountings;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

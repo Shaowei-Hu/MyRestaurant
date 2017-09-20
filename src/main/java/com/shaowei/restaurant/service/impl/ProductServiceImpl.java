@@ -48,10 +48,14 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product save(Product product) {
         log.debug("Request to save Product : {}", product);
-        if(product.getCategory() != null) {
-        	Category category = categoryService.findOne(product.getCategory().getId());
-        	category.addProduct(product);
-        	categoryService.save(category);
+        if(product.getId() == null){ // create product
+            if(product.getCategory() != null) {
+            	Category category = categoryService.findOne(product.getCategory().getId());
+            	category.addProduct(product);
+            	categoryService.save(category);
+            }
+        } else {
+        	
         }
         Product result = productRepository.save(product);
         productSearchRepository.save(result);

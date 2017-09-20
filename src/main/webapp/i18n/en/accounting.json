@@ -1,0 +1,34 @@
+{
+    "myRestaurantApp": {
+        "accounting" : {
+            "home": {
+                "title": "Accountings",
+                "createLabel": "Create a new Accounting",
+                "createOrEditLabel": "Create or edit a Accounting",
+                "search": "Search for Accounting"
+            },
+            "created": "A new Accounting is created with identifier {{ param }}",
+            "updated": "A Accounting is updated with identifier {{ param }}",
+            "deleted": "A Accounting is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Accounting {{ id }}?"
+            },
+            "detail": {
+                "title": "Accounting"
+            },
+            "name": "Name",
+            "type": "Type",
+            "info": "Info",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "card": "Card",
+            "cash": "Cash",
+            "check": "Check",
+            "ticket": "Ticket",
+            "other": "Other",
+            "total": "Total",
+            "creationDate": "Creation Date",
+            "restaurant": "Restaurant"
+        }
+    }
+}

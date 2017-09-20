@@ -49,7 +49,7 @@
                 <td>{{product.ranking}}</td>
                 <td>
                     <div *ngIf="product.category">
-                        <a [routerLink]="['../category-management', getCategoryId(product.category) ]" >{{getCategoryNameById(getCategoryId(product.category))}}</a>
+                        <a [routerLink]="['../category-management', product.category.id ]" >{{product.category.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">

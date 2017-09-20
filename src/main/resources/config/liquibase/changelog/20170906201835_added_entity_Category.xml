@@ -29,6 +29,10 @@
             <column name="ranking" type="integer">
                 <constraints nullable="true" />
             </column>
+            
+            <column name="restaurant_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>

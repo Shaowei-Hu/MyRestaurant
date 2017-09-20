@@ -1,0 +1,13 @@
+{
+    "myRestaurantApp": {
+        "AccountingType" : {
+            "null": "",
+            "HALF": "HALF",
+            "DIARY": "DIARY",
+            "WEEKLY": "WEEKLY",
+            "TRIMESTER": "TRIMESTER",
+            "SEMESTER": "SEMESTER",
+            "YEARLY": "YEARLY"
+        }
+    }
+}
