@@ -3,7 +3,7 @@ import { BaseEntity } from './../../shared';
 import { Stage } from '../stage/';
 import { Ordre } from '../ordre/';
 
-const enum PaymentType {
+export const enum PaymentType {
     'CARD',
     'CASH',
     'CHECK',

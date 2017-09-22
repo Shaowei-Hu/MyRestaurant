@@ -1,6 +1,6 @@
 package com.shaowei.restaurant.repository.search;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -12,5 +12,5 @@ import com.shaowei.restaurant.domain.Payment;
  */
 public interface PaymentSearchRepository extends ElasticsearchRepository<Payment, Long> {
 	
-	List<Payment> findByCreationDateBetween(Instant from, Instant to);
+	List<Payment> findByCreationDateBetweenOrderByCreationDateAsc(Date from, Date to);
 }

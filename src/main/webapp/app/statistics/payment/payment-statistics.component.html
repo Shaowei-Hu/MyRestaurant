@@ -1,0 +1,75 @@
+<div *ngIf="payments">
+    <h2>Statistics</h2>
+
+    <div class="row">
+        <div class="col-md-5">
+            <h4 jhiTranslate="audits.filter.title">Filter by date</h4>
+            <p class="d-flex">
+                <span jhiTranslate="audits.filter.from" class="input-group-addon">from</span>
+                <input type="datetime-local" class="form-control" name="start" [(ngModel)]="fromDate" (ngModelChange)="onChangeDate($event)" required/>
+                <span jhiTranslate="audits.filter.to" class="input-group-addon">to</span>
+                <input type="datetime-local" class="form-control" name="end" [(ngModel)]="toDate" (ngModelChange)="onChangeDate($event)" required/>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+                <div class="card border-dark">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                    <h4 class="card-title">Light card title</h4>
+                    <chart [chartLabels]="labels" [chartData]="data" [chartType]="'bar'"></chart>
+                    </div>
+                </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-dark">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                <h4 class="card-title">Light card title</h4>
+                <chart [chartLabels]="labels" [chartData]="data" [chartType]="'doughnut'"></chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+                <div class="card border-dark">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                    <h4 class="card-title">Light card title</h4>
+                    <chart [chartLabels]="timeLabels" [chartData]="timeCountData" [chartType]="'bar'"></chart>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-condensed table-striped table-bordered">
+            <thead>
+            <tr>
+                <th><span jhiTranslate="audits.table.header.date">Date</span></th>
+                <th><span>Type</span></th>
+                <th><span>Amount</span></th>
+                <th><span>Stage</span></th>
+            </tr>
+            </thead>
+            <tr *ngFor="let payment of getPayments()">
+                <td><span>{{payment.creationDate| date:'dd/MM/yyyy   HH:mm:ss'}}</span></td>
+                <td><small>{{payment.type}}</small></td>
+                <td>{{payment.amount}}</td>
+                <td>{{payment.stage?.name}}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- <div *ngIf="audits">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div> -->
+</div>

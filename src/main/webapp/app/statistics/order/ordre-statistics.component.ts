@@ -9,18 +9,19 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
   selector: 'ordre-statistics',
-  templateUrl: './ordre-statistics.component.html'
+  templateUrl: './ordre-statistics.component.html',
+  styleUrls: [
+        'ordre-statistics.component.scss'
+    ]
 })
 export class OrdreStatisticsComponent implements OnInit {
     ordres: Ordre[];
     fromDate: string;
     itemsPerPage: any;
-    links: any;
     page: number;
     orderProp: string;
     reverse: boolean;
     toDate: string;
-    totalItems: number;
 
     constructor(
         private ordreStatisticsService: OrdreStatisticsService,
@@ -55,8 +56,6 @@ export class OrdreStatisticsComponent implements OnInit {
             fromDate: this.fromDate, toDate: this.toDate}).subscribe((res) => {
 
             this.ordres = res.json();
-            this.links = this.parseLinks.parse(res.headers.get('link'));
-            this.totalItems = + res.headers.get('X-Total-Count');
         });
     }
 

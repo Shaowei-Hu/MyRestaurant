@@ -13,4 +13,5 @@ import com.shaowei.restaurant.domain.Ordre;
 public interface OrdreSearchRepository extends ElasticsearchRepository<Ordre, Long> {
 	
 	List<Ordre> findByCreationDateBetweenOrderByCreationDateAsc(Date from, Date to);
+	
 }

@@ -1,6 +1,11 @@
 package com.shaowei.restaurant.service;
 
+import com.shaowei.restaurant.domain.Ordre;
 import com.shaowei.restaurant.domain.Payment;
+
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -57,4 +62,14 @@ public interface PaymentService {
      * @return the persisted entity
      */
 	Payment create(Payment payment);
+	
+    /**
+     * Search for the payment corresponding to the filter.
+     *
+     *  @param from beginning date
+     *  
+     *  @param to end date
+     *  @return the list of entities
+     */
+	List<Payment> filter(Date from, Date to);
 }
