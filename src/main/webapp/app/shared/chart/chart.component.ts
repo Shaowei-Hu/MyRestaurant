@@ -4,7 +4,7 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts'
 
 @Component({
   selector: 'chart',
-  templateUrl: './chart.html'
+  templateUrl: './chart.component.html'
 })
 export class ChartComponent implements OnChanges {
 

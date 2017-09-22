@@ -6,6 +6,8 @@ import { Payment, PaymentType } from '../../entities/payment/payment.model';
 import { PaymentStatisticsService } from './payment-statistics.service';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
+import { ChartComponent} from '../../shared/chart/chart.component'
+
 @Component({
   selector: 'payment-statistics',
   templateUrl: './payment-statistics.component.html',
@@ -126,7 +128,5 @@ export class PaymentStatisticsComponent implements OnInit {
         data.shift();
         this.timeLabels = labels;
         this.timeCountData = data;
-        console.log(this.timeLabels);
-        console.log(this.timeCountData);
     }
 }

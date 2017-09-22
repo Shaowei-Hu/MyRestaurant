@@ -7,6 +7,8 @@ import { OrdreStatisticsService } from './ordre-statistics.service';
 import { ITEMS_PER_PAGE } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
+import { ChartComponent} from '../../shared/chart/chart.component';
+
 @Component({
   selector: 'ordre-statistics',
   templateUrl: './ordre-statistics.component.html',
@@ -22,6 +24,12 @@ export class OrdreStatisticsComponent implements OnInit {
     orderProp: string;
     reverse: boolean;
     toDate: string;
+
+    ordreLabels: string[];
+    ordreCountData: number[];
+    ordreCumulateData: number[];
+    timeLabels: string[];
+    timeCountData: number[];
 
     constructor(
         private ordreStatisticsService: OrdreStatisticsService,
@@ -40,9 +48,13 @@ export class OrdreStatisticsComponent implements OnInit {
         return this.ordres;
     }
 
-    loadPage(page: number) {
-        this.page = page;
-        this.onChangeDate();
+    loadPage() {
+        this.ordreStatisticsService.query({page: this.page - 1, size: this.itemsPerPage,
+            fromDate: this.fromDate, toDate: this.toDate}).subscribe((res) => {
+            this.ordres = res.json();
+            this.countByTime(this.ordres);
+            this.statistic(this.ordres);
+        });
     }
 
     ngOnInit() {
@@ -52,11 +64,7 @@ export class OrdreStatisticsComponent implements OnInit {
     }
 
     onChangeDate() {
-        this.ordreStatisticsService.query({page: this.page - 1, size: this.itemsPerPage,
-            fromDate: this.fromDate, toDate: this.toDate}).subscribe((res) => {
-
-            this.ordres = res.json();
-        });
+        this.loadPage();
     }
 
     previousMonth() {
@@ -81,17 +89,53 @@ export class OrdreStatisticsComponent implements OnInit {
         this.toDate = this.datePipe.transform(date, dateFormat);
     }
 
-    // private sortAudits(audits: Audit[]) {
-    //     audits = audits.slice(0).sort((a, b) => {
-    //         if (a[this.orderProp] < b[this.orderProp]) {
-    //             return -1;
-    //         } else if ([b[this.orderProp] < a[this.orderProp]]) {
-    //             return 1;
-    //         } else {
-    //             return 0;
-    //         }
-    //     });
+    countByTime(ordres: Ordre[]) {
+        let index = 0;
+        let count = 0;
+        const labels = ['0'];
+        const data = [];
+        for (const ordre of ordres) {
+            // 2017-09-21T14:29:05.073Z
+            const time = ordre.creationDate;
+            const pos = time.toString().indexOf(':');
+            if (index === time.substring(0, pos + 2)) {
+                count++;
+            } else {
+                index = time.substring(0, pos + 2);
+                const d = new Date(time);
+                let datestring = ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' +
+                d.getFullYear() + ' ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+                datestring = datestring.substring(0, datestring.length - 1) + '0';
+                labels.push(datestring);
+                data.push(++count);
+                count = 0;
+            }
+        }
+        data.push(++count);
+        labels.shift();
+        data.shift();
+        this.timeLabels = labels;
+        this.timeCountData = data;
+    }
 
-    //     return this.reverse ? audits.reverse() : audits;
-    // }
+    private statistic(arr: Ordre[]) {
+        this.ordreLabels = [];
+        this.ordreCountData = [];
+        this.ordreCumulateData = [];
+        const seen = {};
+        arr.forEach((item) => {
+            if (seen.hasOwnProperty(item.name)) {
+                seen[item.name].len++;
+            } else {
+                seen[item.name] = {price: item.price, len: 1};
+            }
+        });
+
+        const uniqueOrderName = Object.keys(seen);
+        uniqueOrderName.forEach((item) => {
+            this.ordreLabels.push(item);
+            this.ordreCountData.push(seen[item].len);
+            this.ordreCumulateData.push(seen[item].len * seen[item].price);
+        });
+    }
 }

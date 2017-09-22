@@ -17,10 +17,14 @@ import {
     JhiLoginModalComponent
 } from './';
 
+import { MyRestaurantChartModule } from './chart/chart.module';
+import { ChartComponent } from './chart/chart.component';
+
 @NgModule({
     imports: [
         MyRestaurantSharedLibsModule,
-        MyRestaurantSharedCommonModule
+        MyRestaurantSharedCommonModule,
+        MyRestaurantChartModule
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -43,7 +47,8 @@ import {
         MyRestaurantSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
-        DatePipe
+        DatePipe,
+        ChartComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

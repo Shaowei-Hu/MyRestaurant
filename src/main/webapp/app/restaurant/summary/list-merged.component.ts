@@ -59,6 +59,7 @@ export class ListMergedComponent implements OnInit, OnDestroy, OnChanges, DoChec
 
     }
 
+    // get name price and repeat times e.g. seen:{name1: {price: 10, len: 5}, name2: {price: 6, len: 3}}
     private statistic(arr: Ordre[]): any {
         const seen = {};
         arr.forEach((item) => {

@@ -13,6 +13,48 @@
         </div>
     </div>
 
+    <div class="row">
+            <div class="col-md-6">
+                    <div class="card border-dark">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                        <h4 class="card-title">Count per product</h4>
+                        <chart [chartLabels]="ordreLabels" [chartData]="ordreCountData" [chartType]="'bar'"></chart>
+                        </div>
+                    </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="card border-dark">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                    <h4 class="card-title">Amount cumulate per product</h4>
+                    <chart [chartLabels]="ordreLabels" [chartData]="ordreCumulateData" [chartType]="'bar'"></chart>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                    <div class="card border-dark">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                        <h4 class="card-title">Light card title</h4>
+                        <chart [chartLabels]="timeLabels" [chartData]="timeCountData" [chartType]="'bar'"></chart>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                    <div class="card border-dark">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                        <h4 class="card-title">Amount cumulate per product</h4>
+                        <chart [chartLabels]="ordreLabels" [chartData]="ordreCumulateData" [chartType]="'pie'"></chart>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
     <div class="table-responsive">
         <table class="table table-condensed table-striped table-bordered">
             <thead>
