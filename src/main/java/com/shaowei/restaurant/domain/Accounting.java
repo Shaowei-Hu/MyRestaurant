@@ -2,6 +2,7 @@ package com.shaowei.restaurant.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -62,6 +63,7 @@ public class Accounting implements Serializable {
     private BigDecimal total;
 
     @Column(name = "creation_date")
+    @CreationTimestamp
     private ZonedDateTime creationDate;
 
     @ManyToOne

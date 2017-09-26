@@ -1,13 +1,13 @@
 package com.shaowei.restaurant.service;
 
-import com.shaowei.restaurant.domain.Ordre;
-import com.shaowei.restaurant.domain.Payment;
-
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import com.shaowei.restaurant.domain.Payment;
 
 /**
  * Service Interface for managing Payment.
@@ -71,5 +71,7 @@ public interface PaymentService {
      *  @param to end date
      *  @return the list of entities
      */
-	List<Payment> filter(Date from, Date to);
+	List<Payment> filter(ZonedDateTime from, ZonedDateTime to);
+
+	List<Payment> filterSearch(Date from, Date to);
 }

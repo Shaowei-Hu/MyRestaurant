@@ -1,0 +1,75 @@
+
+<div *ngIf="accounting">
+    <h2><span jhiTranslate="myRestaurantApp.accounting.detail.title">Accounting</span> {{accounting.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="myRestaurantApp.accounting.name">Name</span></dt>
+        <dd>
+            <span>{{accounting.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'myRestaurantApp.AccountingType.' + accounting.type}}">{{accounting.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.info">Info</span></dt>
+        <dd>
+            <span>{{accounting.info}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.startTime">Start Time</span></dt>
+        <dd>
+            <span>{{accounting.startTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.endTime">End Time</span></dt>
+        <dd>
+            <span>{{accounting.endTime | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.card">Card</span></dt>
+        <dd>
+            <span>{{accounting.card}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.cash">Cash</span></dt>
+        <dd>
+            <span>{{accounting.cash}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.check">Check</span></dt>
+        <dd>
+            <span>{{accounting.check}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.ticket">Ticket</span></dt>
+        <dd>
+            <span>{{accounting.ticket}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.other">Other</span></dt>
+        <dd>
+            <span>{{accounting.other}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.total">Total</span></dt>
+        <dd>
+            <span>{{accounting.total}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.creationDate">Creation Date</span></dt>
+        <dd>
+            <span>{{accounting.creationDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="myRestaurantApp.accounting.restaurant">Restaurant</span></dt>
+        <dd>
+            <div *ngIf="accounting.restaurant">
+                <a [routerLink]="['/restaurant', accounting.restaurant?.id]">{{accounting.restaurant?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'accounting/'+ accounting.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

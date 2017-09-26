@@ -13,4 +13,5 @@ import com.shaowei.restaurant.domain.Payment;
 public interface PaymentSearchRepository extends ElasticsearchRepository<Payment, Long> {
 	
 	List<Payment> findByCreationDateBetweenOrderByCreationDateAsc(Date from, Date to);
+	
 }

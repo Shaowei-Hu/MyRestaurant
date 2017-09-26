@@ -48,51 +48,6 @@
                   />
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.card" for="field_card">Card</label>
-            <input type="number" class="form-control" name="card" id="field_card"
-                [(ngModel)]="accounting.card"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.cash" for="field_cash">Cash</label>
-            <input type="number" class="form-control" name="cash" id="field_cash"
-                [(ngModel)]="accounting.cash"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.check" for="field_check">Check</label>
-            <input type="number" class="form-control" name="check" id="field_check"
-                [(ngModel)]="accounting.check"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.ticket" for="field_ticket">Ticket</label>
-            <input type="number" class="form-control" name="ticket" id="field_ticket"
-                [(ngModel)]="accounting.ticket"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.other" for="field_other">Other</label>
-            <input type="number" class="form-control" name="other" id="field_other"
-                [(ngModel)]="accounting.other"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.total" for="field_total">Total</label>
-            <input type="number" class="form-control" name="total" id="field_total"
-                [(ngModel)]="accounting.total"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.creationDate" for="field_creationDate">Creation Date</label>
-            <div class="d-flex">
-                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="accounting.creationDate"
-                  />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="myRestaurantApp.accounting.restaurant" for="field_restaurant">Restaurant</label>
-            <select class="form-control" id="field_restaurant" name="restaurant" [(ngModel)]="accounting.restaurant" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="restaurantOption.id === accounting.restaurant?.id ? accounting.restaurant : restaurantOption" *ngFor="let restaurantOption of restaurants; trackBy: trackRestaurantById">{{restaurantOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

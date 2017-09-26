@@ -158,7 +158,7 @@ public class PaymentResource {
     		@RequestParam(value = "fromDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date fromDate,
     		@RequestParam(value = "toDate") @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm") Date toDate) {
         log.debug("REST request to search for all of Ordres for filter {}", fromDate + "--" + toDate);
-        List<Payment> page = paymentService.filter(fromDate, toDate);
+        List<Payment> page = paymentService.filterSearch(fromDate, toDate);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

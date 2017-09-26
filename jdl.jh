@@ -68,7 +68,7 @@ enum PaymentType {
 }
 
 enum AccountingType {
-    HALF, DIARY, WEEKLY, TRIMESTER, SEMESTER, YEARLY
+    HALF, DIARY, WEEKLY, MONTHLY, TRIMESTER, SEMESTER, YEARLY
 }
 
 relationship OneToMany {

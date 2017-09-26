@@ -78,16 +78,16 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         }]
     },
     plugins: [
-        new BrowserSyncPlugin({
-            host: 'localhost',
-            port: 9000,
-            proxy: {
-                target: 'http://localhost:9060',
-                ws: true
-            }
-        }, {
-            reload: false
-        }),
+//        new BrowserSyncPlugin({
+//            host: 'localhost',
+//            port: 9000,
+//            proxy: {
+//                target: 'http://localhost:9060',
+//                ws: true
+//            }
+//        }, {
+//            reload: false
+//        }),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.NamedModulesPlugin(),
         new writeFilePlugin(),

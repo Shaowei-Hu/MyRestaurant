@@ -1,19 +1,24 @@
 package com.shaowei.restaurant.service.impl;
 
-import com.shaowei.restaurant.service.AccountingService;
-import com.shaowei.restaurant.domain.Accounting;
-import com.shaowei.restaurant.repository.AccountingRepository;
-import com.shaowei.restaurant.repository.search.AccountingSearchRepository;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import com.shaowei.restaurant.domain.Accounting;
+import com.shaowei.restaurant.domain.Payment;
+import com.shaowei.restaurant.domain.enumeration.PaymentType;
+import com.shaowei.restaurant.repository.AccountingRepository;
+import com.shaowei.restaurant.repository.search.AccountingSearchRepository;
+import com.shaowei.restaurant.service.AccountingService;
+import com.shaowei.restaurant.service.PaymentService;
 
 /**
  * Service Implementation for managing Accounting.
@@ -27,9 +32,13 @@ public class AccountingServiceImpl implements AccountingService{
     private final AccountingRepository accountingRepository;
 
     private final AccountingSearchRepository accountingSearchRepository;
-    public AccountingServiceImpl(AccountingRepository accountingRepository, AccountingSearchRepository accountingSearchRepository) {
+    
+    private final PaymentService paymentService;
+    public AccountingServiceImpl(AccountingRepository accountingRepository, AccountingSearchRepository accountingSearchRepository,
+    		PaymentService paymentService) {
         this.accountingRepository = accountingRepository;
         this.accountingSearchRepository = accountingSearchRepository;
+        this.paymentService = paymentService;
     }
 
     /**
@@ -38,9 +47,37 @@ public class AccountingServiceImpl implements AccountingService{
      * @param accounting the entity to save
      * @return the persisted entity
      */
-    @Override
+	@Override
     public Accounting save(Accounting accounting) {
         log.debug("Request to save Accounting : {}", accounting);
+        if(accounting.getCard()==null && accounting.getCash()==null && accounting.getCheck()==null && accounting.getOther()==null
+        		&& accounting.getTotal()==null){
+        	accounting.setCard(new BigDecimal(0.00));
+        	accounting.setCash(new BigDecimal(0.00));
+        	accounting.setCheck(new BigDecimal(0.00));
+        	accounting.setTicket(new BigDecimal(0.00));
+        	accounting.setOther(new BigDecimal(0.00));
+        	accounting.setTotal(new BigDecimal(0.00));
+        	List<Payment> payments = paymentService.filter(accounting.getStartTime(), accounting.getEndTime());
+        	payments.forEach(payment -> {
+        		if(payment.getType() == PaymentType.CARD){
+        			accounting.setCard(accounting.getCard().add(payment.getAmount()));
+        		}
+        		if(payment.getType() == PaymentType.CASH){
+        			accounting.setCash(accounting.getCash().add(payment.getAmount()));
+        		}
+        		if(payment.getType() == PaymentType.CHECK){
+        			accounting.setCheck(accounting.getCheck().add(payment.getAmount()));
+        		}
+        		if(payment.getType() == PaymentType.TICKET){
+        			accounting.setTicket(accounting.getTicket().add(payment.getAmount()));
+        		}
+        		if(payment.getType() == PaymentType.OTHER){
+        			accounting.setOther(accounting.getOther().add(payment.getAmount()));
+        		}
+        		accounting.setTotal(accounting.getTotal().add(payment.getAmount()));
+        	});
+        }
         Accounting result = accountingRepository.save(accounting);
         accountingSearchRepository.save(result);
         return result;

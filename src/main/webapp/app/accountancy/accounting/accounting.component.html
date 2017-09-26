@@ -1,0 +1,97 @@
+<div>
+    <h2>
+        <span jhiTranslate="myRestaurantApp.accounting.home.title">Accountings</span>
+        <button class="btn btn-primary float-right jh-create-entity create-accounting" [routerLink]="['/', { outlets: { popup: ['accountancy-accounting-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="myRestaurantApp.accounting.home.createLabel">
+            Create new Accounting
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'myRestaurantApp.accounting.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="accountings">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.name">Name</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.type">Type</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.info">Info</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.startTime">Start Time</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.endTime">End Time</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.card">Card</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.cash">Cash</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.check">Check</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.ticket">Ticket</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.other">Other</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.total">Total</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.creationDate">Creation Date</span></th>
+            <th><span jhiTranslate="myRestaurantApp.accounting.restaurant">Restaurant</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let accounting of accountings ;trackBy: trackId">
+                <td><a [routerLink]="['../accounting', accounting.id ]">{{accounting.id}}</a></td>
+                <td>{{accounting.name}}</td>
+                <td jhiTranslate="{{'myRestaurantApp.AccountingType.' + accounting.type}}">{{accounting.type}}</td>
+                <td>{{accounting.info}}</td>
+                <td>{{accounting.startTime | date:'medium'}}</td>
+                <td>{{accounting.endTime | date:'medium'}}</td>
+                <td>{{accounting.card}}</td>
+                <td>{{accounting.cash}}</td>
+                <td>{{accounting.check}}</td>
+                <td>{{accounting.ticket}}</td>
+                <td>{{accounting.other}}</td>
+                <td>{{accounting.total}}</td>
+                <td>{{accounting.creationDate | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="accounting.restaurant">
+                        <a [routerLink]="['../restaurant', accounting.restaurant?.id ]" >{{accounting.restaurant?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../accounting', accounting.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'accounting/'+ accounting.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'accounting/'+ accounting.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

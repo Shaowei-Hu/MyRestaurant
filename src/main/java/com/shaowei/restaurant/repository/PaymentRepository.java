@@ -1,9 +1,12 @@
 package com.shaowei.restaurant.repository;
 
-import com.shaowei.restaurant.domain.Payment;
+import java.time.ZonedDateTime;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.data.jpa.repository.*;
+import com.shaowei.restaurant.domain.Payment;
 
 
 /**
@@ -13,4 +16,6 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
+	List<Payment> findByCreationDateBetweenOrderByCreationDateAsc(ZonedDateTime from, ZonedDateTime to);
+	
 }

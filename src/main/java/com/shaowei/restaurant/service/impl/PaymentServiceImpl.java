@@ -2,6 +2,7 @@ package com.shaowei.restaurant.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shaowei.restaurant.domain.Ordre;
 import com.shaowei.restaurant.domain.Payment;
 import com.shaowei.restaurant.domain.Stage;
 import com.shaowei.restaurant.repository.PaymentRepository;
@@ -118,6 +118,12 @@ public class PaymentServiceImpl implements PaymentService{
         paymentRepository.delete(id);
         paymentSearchRepository.delete(id);
     }
+    
+	public List<Payment> filter(ZonedDateTime from, ZonedDateTime to) {
+        log.debug("Request to get all of Ordres for filter", from + "--" + to);
+        List<Payment> result = paymentRepository.findByCreationDateBetweenOrderByCreationDateAsc(from, to);
+        return result;
+	}
 
     /**
      * Search for the payment corresponding to the query.
@@ -135,7 +141,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
     
 	@Override
-	public List<Payment> filter(Date from, Date to) {
+	public List<Payment> filterSearch(Date from, Date to) {
         log.debug("Request to search for all of Ordres for filter", from + "--" + to);
         List<Payment> result = paymentSearchRepository.findByCreationDateBetweenOrderByCreationDateAsc(from, to);
         return result;
