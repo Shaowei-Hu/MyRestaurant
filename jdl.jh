@@ -1,37 +1,36 @@
 entity Restaurant {
 	name String,
     content String,
-    creationDate ZonedDateTime
+    creationDate DateTime
 }
 
 entity Stage {
 	name String,
     status String,
-    clientNumber Integer,
+    clientAmount Integer,
 	amount BigDecimal,
     amountPaid BigDecimal,
-    creationDate ZonedDateTime
+    creationDate DateTime
 }
 
 entity Desk {
 	name String,
     status String,
-    clientNumber Integer,
+    clientCapability Integer,
     ranking Integer
 }
-  
+
 entity Ordre {
 	name String,
     status String,
     price BigDecimal,
-    creationDate ZonedDateTime
+    creationDate DateTime
 }
 
 entity Payment {
 	type PaymentType,
-    info String,
     amount BigDecimal,
-    creationDate ZonedDateTime
+    creationDate DateTime
 }
 
 entity Product {
@@ -51,24 +50,33 @@ entity Category {
 entity Accounting {
 	name String,
 	type AccountingType,
+	paymentType PaymentType,
 	info String,
-	startTime ZonedDateTime,
-	endTime ZonedDateTime,
-	card BigDecimal,
-	cash BigDecimal,
-	check BigDecimal,
-	ticket BigDecimal,
-	other BigDecimal,
-	total BigDecimal,
+	date DateTime,
+	amount BigDecimal,
 	creationDate ZonedDateTime
 }
 
-enum PaymentType {
-    CARD, CASH, CHECK, TICKET, OTHER
+entity PaymentType{
+	type String
 }
 
 enum AccountingType {
     HALF, DIARY, WEEKLY, MONTHLY, TRIMESTER, SEMESTER, YEARLY
+}
+
+entity Client {
+    name String,
+    ordreJson String
+}
+
+entity GlobalConfig {
+    tax1 BigDecimal,
+    tax2 BigDecimal
+}
+
+entity Config {
+
 }
 
 relationship OneToMany {
@@ -77,8 +85,8 @@ relationship OneToMany {
 	Restaurant{accounting} to Accounting,
     Desk{stage} to Stage{desk},
     Stage{ordre} to Ordre{stage},
-    Stage{payment} to Payment{stage},
-    Payment{ordre} to Ordre,
+    Stage{client} to Client,
+    Client{payment} to Payment,
     Category{product} to Product
 }
 
@@ -89,5 +97,5 @@ paginate Desk with infinite-scroll
 paginate Payment, Ordre, Stage with pagination
 
 // Set service options to all except few
-service all with serviceImpl 
+service all with serviceImpl
 // Set an angular suffix
